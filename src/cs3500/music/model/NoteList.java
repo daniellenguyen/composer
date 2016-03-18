@@ -102,14 +102,13 @@ public class NoteList implements SoundUnitList<Note> {
     Note highestNote = set.last();
     Note lowestNote = set.first();
     SoundUnitList on = new NoteList();
-    SoundUnitList off = new NoteList();
     String finalString = "";
-    for(int i = 0; i <= map.lastKey(); i++) {
+    for(int i = 0; i <= map.lastKey(); i++) { // for every timestamp starting at 0
       String thisRow = "";
       Iterator iterator = map.get(i).iterator();
       while(iterator.hasNext()) {
         Note n = (Note) iterator.next();
-        
+        if
       }
     }
 

@@ -4,9 +4,9 @@ package cs3500.music.model;
  * Created by daniellenguyen on 2/28/16.
  */
 public final class Note implements SoundUnit, Comparable {
-  public final Pitch pitch;   // these fields are all public and it is okay because
-  public final Octave octave; // their values cannot be manipulated in a way that
-  public int start;           // will break other code.
+  public final Pitch pitch;   // start and end are dangerous because
+  public final Octave octave; // anyone can get their values and
+  private int start;           // manipulate them.
   public int end;
 
   public enum Pitch {
@@ -108,6 +108,11 @@ public final class Note implements SoundUnit, Comparable {
     else {
       return this.octave.compareTo(((Note) o).octave);
     }
+  }
+
+
+  public int getStart() {
+    return start;
   }
 
 }
