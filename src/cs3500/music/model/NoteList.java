@@ -21,20 +21,20 @@ public class NoteList implements SoundUnitList<Note> {
 
   @Override
   public void add(Note note) {
-    for (int i = note.start; i <= note.end; i++) {
+    for (int i = note.getStart(); i <= note.getEnd(); i++) {
       if (map.containsKey(i)) {
         Iterator iterator = map.get(i).iterator();
         while (iterator.hasNext()) {
           Note n = (Note) iterator.next();
-          if (n.pitch.toString() == note.pitch.toString() &&
-                  n.octave.toString() == note.octave.toString()) {
+          if (n.getPitch().toString() == note.getPitch().toString() &&
+                  n.getOctave().toString() == note.getOctave().toString()) {
             throw new IllegalArgumentException("Note with same pitch and octave " +
                     "already exists at this time interval.");
           }
         }
       }
     }
-    for (int i = note.start; i <= note.end; i++) {
+    for (int i = note.getStart(); i <= note.getEnd(); i++) {
       if (!map.containsKey(i)) {
         map.put(i, new HashSet());
         map.get(i).add(note);
@@ -48,7 +48,7 @@ public class NoteList implements SoundUnitList<Note> {
 
   @Override
   public void delete(Note note) {
-    for (int i = note.start; i <= note.end; i++) {
+    for (int i = note.getStart(); i <= note.getEnd(); i++) {
       if (map.containsKey(i) && !map.get(i).contains(note) && !set.contains(note)
               || !map.containsKey(i) && !set.contains(note)) {
         throw new IllegalArgumentException("The given note is not in this list");
@@ -61,7 +61,7 @@ public class NoteList implements SoundUnitList<Note> {
 
   @Override
   public boolean contains(Note note) {
-    for (int i = note.start; i <= note.end; i++) {
+    for (int i = note.getStart(); i <= note.getEnd(); i++) {
       if (map.containsKey(i) && !map.get(i).contains(note) && !set.contains(note)
               || !map.containsKey(i) && !set.contains(note)) {
         return false;
@@ -108,9 +108,6 @@ public class NoteList implements SoundUnitList<Note> {
       Iterator iterator = map.get(i).iterator();
       while(iterator.hasNext()) {
         Note n = (Note) iterator.next();
-        if(!(on.contains(n))) {
-
-        }
       }
     }
 

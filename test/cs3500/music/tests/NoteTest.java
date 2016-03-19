@@ -17,10 +17,10 @@ public class NoteTest {
   @Test
   public void noteConstructorWorks() {
     Note n = new Note(Note.Pitch.C, Note.Octave.FIVE, 5, 7);
-    assertEquals(n.pitch, Note.Pitch.C);
-    assertEquals(n.octave, Note.Octave.FIVE);
-    assertEquals(n.start, 5);
-    assertEquals(n.end, 7);
+    assertEquals(n.getPitch(), Note.Pitch.C);
+    assertEquals(n.getOctave(), Note.Octave.FIVE);
+    assertEquals(n.getStart(), 5);
+    assertEquals(n.getEnd(), 7);
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -168,7 +168,6 @@ public class NoteTest {
   /**
    * Tests for the toString method
    */
-
   @Test
   public void toStringWorks() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
@@ -179,72 +178,110 @@ public class NoteTest {
   }
 
   /**
-   * Tests for the method changeStartTime
+   * Tests for the set/get Start Time
    */
-
   @Test
   public void changeStartTimeWorks() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.start, 2);
-    n1.changeStartTime(1);
-    assertEquals(n1.start, 1);
+    assertEquals(n1.getStart(), 2);
+    n1.setStart(1);
+    assertEquals(n1.getStart(), 1);
   }
 
   @Test
   public void changeStartTimeToSameNumber() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.start, 2);
-    n1.changeStartTime(2);
-    assertEquals(n1.start, 2);
+    assertEquals(n1.getStart(), 2);
+    n1.setStart(2);
+    assertEquals(n1.getStart(), 2);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void illegalStartTime() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.start, 2);
-    n1.changeStartTime(4);
+    assertEquals(n1.getStart(), 2);
+    n1.setStart(4);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void illegalStartTimeSameNumber() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.start, 2);
-    n1.changeStartTime(3);
+    assertEquals(n1.getStart(), 2);
+    n1.setStart(3);
   }
 
+
   /**
-   * Tests for the method changeEndTime
+   * Tests for the set/get end time
    */
-
-
   @Test
   public void changeEndTimeWorks() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.end, 3);
-    n1.changeEndTime(5);
-    assertEquals(n1.end, 5);
+    assertEquals(n1.getEnd(), 3);
+    n1.setEnd(5);
+    assertEquals(n1.getEnd(), 5);
   }
 
   @Test
   public void changeEndTimeToSameNumber() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.end, 3);
-    n1.changeEndTime(3);
-    assertEquals(n1.end, 3);
+    assertEquals(n1.getEnd(), 3);
+    n1.setEnd(3);
+    assertEquals(n1.getEnd(), 3);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void illegalEndTime() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.end, 3);
-    n1.changeEndTime(1);
+    assertEquals(n1.getEnd(), 3);
+    n1.setEnd(1);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void illegalEndTimeSameNumber() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
-    assertEquals(n1.end, 3);
-    n1.changeEndTime(2);
+    assertEquals(n1.getEnd(), 3);
+    n1.setEnd(2);
+  }
+
+  /**
+   * Tests for the set/get Pitch
+   * Please note that it is impossible to give an invalid value without a compiler error
+  */
+  @Test
+  public void setPitchWorks() {
+    Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
+    assertEquals(n1.getPitch(), Note.Pitch.C);
+    n1.setPitch(Note.Pitch.D2);
+    assertEquals(n1.getPitch(), Note.Pitch.D2);
+  }
+
+  @Test
+  public void setPitchToSameNumber() {
+    Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
+    assertEquals(n1.getPitch(), Note.Pitch.C);
+    n1.setPitch(Note.Pitch.C);
+    assertEquals(n1.getPitch(), Note.Pitch.C);
+  }
+
+  /**
+   * Tests for the set/get Octave
+   * Please note that it is impossible to give an invalid value without a compiler error
+   */
+  @Test
+  public void setOctaveWorks() {
+    Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
+    assertEquals(n1.getOctave(), Note.Octave.SIX);
+    n1.setOctave(Note.Octave.ELEVEN);
+    assertEquals(n1.getOctave(),  Note.Octave.ELEVEN);
+  }
+
+  @Test
+  public void setOctaveToSameNumber() {
+    Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
+    assertEquals(n1.getOctave(), Note.Octave.SIX);
+    n1.setOctave(Note.Octave.SIX);
+    assertEquals(n1.getOctave(),  Note.Octave.SIX);
   }
 
 }
