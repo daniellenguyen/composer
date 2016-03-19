@@ -108,7 +108,9 @@ public class NoteList implements SoundUnitList<Note> {
       Iterator iterator = map.get(i).iterator();
       while(iterator.hasNext()) {
         Note n = (Note) iterator.next();
-        if
+        if(!(on.contains(n))) {
+          
+        }
       }
     }
 
