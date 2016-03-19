@@ -109,7 +109,7 @@ public class NoteList implements SoundUnitList<Note> {
       while(iterator.hasNext()) {
         Note n = (Note) iterator.next();
         if(!(on.contains(n))) {
-          
+
         }
       }
     }
