@@ -111,7 +111,9 @@ public class NoteList implements SoundUnitList<Note> {
             currentPitch.compareTo(highestPitch) < 0) {
       Note n = new Note(currentPitch, currentOctave, 0, 1);
       pitchRow.add(n);
-      if()
+      if(currentPitch.equals((Note.Pitch.B)) {
+        currentOctave = Note.Octave.values().
+      }
     }
     SoundUnitList on = new NoteList(); // stores all notes currently playing
     String finalConsoleRender = "";    // final return value
