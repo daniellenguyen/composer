@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * To sort individual notes by time.
@@ -108,59 +109,56 @@ public class NoteList implements SoundUnitList<Note> {
     Note.Octave highestOctave = highestNote.getOctave();
 
     ArrayList<Note.Octave> allOctaves = new ArrayList<>();
-    for(Note.Octave octave : Note.Octave.values()) {
-      if(octave.compareTo(lowestNote.getOctave()) >= 0)
+    for (Note.Octave octave : Note.Octave.values()) {
+      if (octave.compareTo(lowestNote.getOctave()) >= 0)
         allOctaves.add(octave);
     }
 
     ArrayList<Note.Pitch> allPitches = new ArrayList<>();
-    for(Note.Pitch pitch : Note.Pitch.values()) {
+    for (Note.Pitch pitch : Note.Pitch.values()) {
       allPitches.add(pitch);
     }
 
     ArrayList<Note> pitchRow = new ArrayList<>();
-    while(currentOctave.compareTo(highestOctave) < 0 &&
+    while (currentOctave.compareTo(highestOctave) < 0 &&
             currentPitch.compareTo(highestPitch) < 0) {
       Note n = new Note(currentPitch, currentOctave, 0, 1);
       pitchRow.add(n);
       // advance current octave and set pitch back to C
-      if(currentPitch.equals((Note.Pitch.B))) {
+      if (currentPitch.equals((Note.Pitch.B))) {
         currentOctave = allOctaves.get(allOctaves.indexOf(currentOctave) + 1);
         currentPitch = Note.Pitch.C;
-      }
-      else {
+      } else {
         currentPitch = allPitches.get(allPitches.indexOf(currentPitch) + 1);
       }
     }
-    HashSet<Note.Pitch> pitchesOnRightNow = new HashSet<>();
-    HashSet<Note.Octave> octavesOnRightNow = new HashSet<>();
-    SoundUnitList on = new NoteList(); // stores all notes currently playing
+    HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = "";    // final return value
-    for(int i = 0; i <= map.lastKey(); i++) {
+    for (int i = 0; i <= map.lastKey(); i++) {
       Iterator iterator = map.get(i).iterator();
       String finalRow = "";                          // TODO: reorganize. "______" should be first
-      for(int j = 0; j < pitchRow.size(); j++) {
-        while(iterator.hasNext()) {
+      for (int j = 0; j < pitchRow.size(); j++) {
+        while (iterator.hasNext()) {
           Note n = (Note) iterator.next();
           Note.Pitch nPitch = pitchRow.get(j).getPitch();
           Note.Octave nOctave = pitchRow.get(j).getOctave();
-          // TODO: "___X___"
-          if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave()) && // in the timestamp
-                  !(pitchesOnRightNow.contains(nPitch)) && // not in the ON list
-                  !(octavesOnRightNow.contains(nOctave))) {
-            pitchesOnRightNow.add(nPitch);
-            octavesOnRightNow.add(nOctave);
-            finalRow = finalRow + "   X   ";
-          }
-          // TODO: "___|___"
-          else if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave()) && // in the timestamp
-                  pitchesOnRightNow.contains(nPitch) && // in the ON list
-                  octavesOnRightNow.contains(nOctave)) {
-            if (n.getEnd() < i) {
-              finalRow = finalRow + "   |   ";
+          if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave())) {
+            // "___X___"
+            if (!(onRightNow.containsKey(nOctave))) {
+              HashSet<Note.Pitch> p = new HashSet<>();
+              p.add(nPitch);
+              onRightNow.put(nOctave, p);
+              finalRow = finalRow + "   X   ";
+            } else if (!(onRightNow.get(nOctave).contains(nPitch))) {
+              onRightNow.get(nOctave).add(nPitch);
+              finalRow = finalRow + "   X   ";
             }
-            if (n.getEnd() == i) {
-              pitch
+            // "___|___"
+            else if (onRightNow.get(nOctave).contains(nPitch)) {
+              finalRow = finalRow + "   |   ";
+              if (n.getEnd() == i) {
+                onRightNow.get(nOctave).remove(nPitch);
+              }
             }
           }
         }
