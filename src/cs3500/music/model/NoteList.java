@@ -102,23 +102,45 @@ public class NoteList implements SoundUnitList<Note> {
   public void consoleRender() {
     Note highestNote = set.last();
     Note lowestNote = set.first();
-    ArrayList<Note> pitchRow = new ArrayList<>(); // represents the entire range of notes in the piece
     Note.Pitch currentPitch = lowestNote.getPitch();
     Note.Octave currentOctave = lowestNote.getOctave();
     Note.Pitch highestPitch = highestNote.getPitch();
     Note.Octave highestOctave = highestNote.getOctave();
+
+    ArrayList<Note.Octave> allOctaves = new ArrayList<>();
+    for(Note.Octave octave : Note.Octave.values()) {
+      if(octave.compareTo(lowestNote.getOctave()) >= 0)
+        allOctaves.add(octave);
+    }
+
+    ArrayList<Note.Pitch> allPitches = new ArrayList<>();
+    for(Note.Pitch pitch : Note.Pitch.values()) {
+      allPitches.add(pitch);
+    }
+
+    ArrayList<Note> pitchRow = new ArrayList<>();
     while(currentOctave.compareTo(highestOctave) < 0 &&
             currentPitch.compareTo(highestPitch) < 0) {
       Note n = new Note(currentPitch, currentOctave, 0, 1);
       pitchRow.add(n);
-      if(currentPitch.equals((Note.Pitch.B)) {
-        currentOctave = Note.Octave.values().
+      // advance current octave and set pitch back to C
+      if(currentPitch.equals((Note.Pitch.B))) {
+        currentOctave = allOctaves.get(allOctaves.indexOf(currentOctave) + 1);
+        currentPitch = Note.Pitch.C;
+      }
+      else {
+        currentPitch = allPitches.get(allPitches.indexOf(currentPitch) + 1);
       }
     }
+
     SoundUnitList on = new NoteList(); // stores all notes currently playing
     String finalConsoleRender = "";    // final return value
     for(int i = 0; i <= map.lastKey(); i++) {
-      for()
+      Iterator iterator = map.get(i).iterator();
+      for(int j = 0; j < pitchRow.size(); j++) {
+        pitchRow.get(j).getPitch()
+                pitchRow.get(j).getOctave()
+      }
     }
   }
 }
