@@ -132,14 +132,38 @@ public class NoteList implements SoundUnitList<Note> {
         currentPitch = allPitches.get(allPitches.indexOf(currentPitch) + 1);
       }
     }
-
+    HashSet<Note.Pitch> pitchesOnRightNow = new HashSet<>();
+    HashSet<Note.Octave> octavesOnRightNow = new HashSet<>();
     SoundUnitList on = new NoteList(); // stores all notes currently playing
     String finalConsoleRender = "";    // final return value
     for(int i = 0; i <= map.lastKey(); i++) {
       Iterator iterator = map.get(i).iterator();
+      String finalRow = "";                          // TODO: reorganize. "______" should be first
       for(int j = 0; j < pitchRow.size(); j++) {
-        pitchRow.get(j).getPitch()
-                pitchRow.get(j).getOctave()
+        while(iterator.hasNext()) {
+          Note n = (Note) iterator.next();
+          Note.Pitch nPitch = pitchRow.get(j).getPitch();
+          Note.Octave nOctave = pitchRow.get(j).getOctave();
+          // TODO: "___X___"
+          if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave()) && // in the timestamp
+                  !(pitchesOnRightNow.contains(nPitch)) && // not in the ON list
+                  !(octavesOnRightNow.contains(nOctave))) {
+            pitchesOnRightNow.add(nPitch);
+            octavesOnRightNow.add(nOctave);
+            finalRow = finalRow + "   X   ";
+          }
+          // TODO: "___|___"
+          else if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave()) && // in the timestamp
+                  pitchesOnRightNow.contains(nPitch) && // in the ON list
+                  octavesOnRightNow.contains(nOctave)) {
+            if (n.getEnd() < i) {
+              finalRow = finalRow + "   |   ";
+            }
+            if (n.getEnd() == i) {
+              pitch
+            }
+          }
+        }
       }
     }
   }
