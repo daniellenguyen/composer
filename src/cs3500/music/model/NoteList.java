@@ -15,10 +15,20 @@ import java.util.HashMap;
 public class NoteList implements SoundUnitList<Note> {
   private TreeMap<Integer, HashSet<Note>> map;
   private TreeSet<Note> set;
+  private int tempo;
 
   public NoteList() {
     this.map = new TreeMap<>();
     this.set = new TreeSet<>();
+    this.tempo = 0;
+  }
+
+  public void setTempo(int tempo){
+    this.tempo = tempo;
+  }
+
+  public int getTempo(){
+    return tempo;
   }
 
   @Override
