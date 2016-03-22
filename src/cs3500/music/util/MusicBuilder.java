@@ -1,6 +1,6 @@
 package cs3500.music.util;
 
-import cs3500.music.model.MIDINote;
+
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 
@@ -31,7 +31,7 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
   //TODO SAME PROBLEM AS ABOVE???
   @Override
   public CompositionBuilder<NoteList> addNote(int start, int end, int instrument, int pitch, int volume) {
-    MIDINote newNote = new MIDINote(Note.Pitch.C, Note.Octave.ONE, start, end);
+    Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, start, end);
     newNote.setPitchAndOctaveFromMIDI(pitch);
     newNote.setVolume(volume);
     newNote.setInstrument(instrument);

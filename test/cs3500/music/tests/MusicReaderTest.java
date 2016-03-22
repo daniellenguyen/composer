@@ -2,17 +2,12 @@ package cs3500.music.tests;
 
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.nio.CharBuffer;
 import java.util.Iterator;
-import java.util.Scanner;
 import java.util.Set;
 
-import cs3500.music.model.MIDINote;
+
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 import cs3500.music.util.MusicBuilder;
@@ -62,7 +57,7 @@ public class MusicReaderTest {
     Iterator<Note> i = Notes.iterator();
 
     while (i.hasNext()){
-      MIDINote n = (MIDINote) i.next();
+      Note n = (Note) i.next();
       assertEquals(n.getStart(), 26);
       assertEquals(n.getPitch(), Note.Pitch.G);
       assertEquals(n.getOctave(), Note.Octave.FOUR);

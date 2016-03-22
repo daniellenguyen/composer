@@ -86,15 +86,14 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
         ShortMessage myMsg = new ShortMessage();
         // Start playing the note Middle C (60),
         // moderately loud (velocity = 93).
-        myMsg.setMessage(ShortMessage.NOTE_ON, 0, 60, 93);
-        long timeStamp = -1;
+        myMsg.setMessage(ShortMessage.NOTE_ON, 0, n.getMIDIPitch(), 70);
         Receiver rcvr = null;
         try {
           rcvr = MidiSystem.getReceiver();
         } catch (MidiUnavailableException e) {
           e.printStackTrace();
         }
-        rcvr.send(myMsg, timeStamp);
+        rcvr.send(myMsg, -1);
       }
       //Find Notes to Continue
       //else if(n.getStart() < BeatNumber && n.getStart()+n.getEnd() >= BeatNumber){

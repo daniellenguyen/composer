@@ -168,7 +168,7 @@ public class Note implements SoundUnit, Comparable {
   }
 
 
-  /*
+
   //THINGS ADDED TO ALLOW FOR MIDI FUNCTIONALITY
   private int instrument;
   private int volume;
@@ -297,5 +297,5 @@ public class Note implements SoundUnit, Comparable {
 
   public int getMIDIPitch(){
     return MIDIPitch;
-  }*/
+  }
 }
