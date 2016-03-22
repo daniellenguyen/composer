@@ -23,7 +23,6 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
       this.synth.open();
-      this.instr = synth.getDefaultSoundbank().getInstruments();
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
@@ -66,11 +65,13 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
       //this.synth.loadInstrument(this.synth.getAvailableInstruments()[n.getInstrument()]);
       //this.synth.loadInstrument(instr[n.getInstrument()]);
 
+      //MidiEvent instrumentChange = new MidiEvent(ShortMessage.PROGRAM_CHANGE,drumPatch.getBank(),drumPatch.getProgram());
+
 
       //Determine if note has already been played at this beat
       boolean dontStopNote = false;
-      for(int j = 0; j < alreadyPlayed.size(); j++){
-        if(alreadyPlayed.get(j).getMIDIPitch() == n.getMIDIPitch()){
+      for (int j = 0; j < alreadyPlayed.size(); j++) {
+        if (alreadyPlayed.get(j).getMIDIPitch() == n.getMIDIPitch()) {
           dontStopNote = true;
         }
       }
@@ -88,6 +89,13 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
           e.printStackTrace();
         }
         rcvr.send(myMsg, -1);
+
+        //ChangeInstrument
+        ShortMessage instrumentChange = new ShortMessage();
+        instrumentChange.setMessage(ShortMessage.PROGRAM_CHANGE, 0, n.getInstrument(),0);
+
+        rcvr.send(instrumentChange, -1);
+
       }
       //Find Notes to End
       else if (n.getEnd() == BeatNumber && !dontStopNote) {
