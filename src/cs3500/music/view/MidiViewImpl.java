@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,11 +11,13 @@ import javax.sound.midi.*;
 
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
+import cs3500.music.util.MusicBuilder;
+import cs3500.music.util.MusicReader;
 
 /**
  * A skeleton for MIDI playback
  */
-public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
+public class MidiViewImpl implements View {
   private Synthesizer synth;
   private Receiver receiver;
   Instrument[] instr;
@@ -90,10 +94,9 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
         }
         rcvr.send(myMsg, -1);
 
-        //ChangeInstrument
+        //Change Instrument To Suit Note
         ShortMessage instrumentChange = new ShortMessage();
         instrumentChange.setMessage(ShortMessage.PROGRAM_CHANGE, 0, n.getInstrument(),0);
-
         rcvr.send(instrumentChange, -1);
 
       }
@@ -114,8 +117,36 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
   }
   //this.receiver.close(); // Only call this once you're done playing *all* notes
 
-  public void playSong(NoteList noteList) throws InvalidMidiDataException {
+  public void playSong(String songName) throws InvalidMidiDataException {
 
+    MidiViewImpl midiView = new MidiViewImpl();
+    //midiView.playNote();
+
+    MusicReader ReaderOfText = new MusicReader();
+
+    MusicBuilder Builder = new MusicBuilder();
+    try {
+      //ReaderOfText.parseFile(new FileReader("mary-little-lamb.txt"), Builder);
+      ReaderOfText.parseFile(new FileReader(songName), Builder);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    NoteList MarysLamb = Builder.build();
+
+    for (int i = 0; i < MarysLamb.songLength(); i++) {
+
+      try {
+        midiView.playBeat(MarysLamb, i);
+      } catch (IllegalArgumentException e) {
+        continue;
+      }
+
+      try {
+        Thread.sleep(MarysLamb.getTempo()/1000);
+      } catch (InterruptedException ex) {
+        Thread.currentThread().interrupt();
+      }
+    }
   }
 
 }
