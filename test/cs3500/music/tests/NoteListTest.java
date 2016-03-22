@@ -353,14 +353,14 @@ public class NoteListTest {
     l.getAllAtTime(-1);
   }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void noNotesAtGivenTime() {
-    Note n1 = new Note(Note.Pitch.B, Note.Octave.TWO, 2, 4);
-    SoundUnitList l = new NoteList();
-    l.add(n1);
-    assertEquals(l.contains(n1), true);
-    l.getAllAtTime(0);
-  }
+//  @Test (expected = IllegalArgumentException.class)
+//  public void noNotesAtGivenTime() {
+//    Note n1 = new Note(Note.Pitch.B, Note.Octave.TWO, 2, 4);
+//    SoundUnitList l = new NoteList();
+//    l.add(n1);
+//    assertEquals(l.contains(n1), true);
+//    l.getAllAtTime(0);
+//  }
 
   /**
    * Tests for the method size
@@ -381,6 +381,18 @@ public class NoteListTest {
     l1.add(n2);
     assertEquals(l1.size(), 2);
   }
+
+  @Test
+  public void testNonEmpty1() {
+    Note n1 = new Note(Note.Pitch.B, Note.Octave.TWO, 2, 4);
+    Note n2 = new Note(Note.Pitch.C, Note.Octave.TWO, 3, 5);
+    NoteList l1 = new NoteList();
+    l1.add(n1);
+    l1.add(n2);
+    assertEquals(l1.consoleRender(l1), "");
+  }
+
+
 //
 //  /**
 //   * Test calls to the method consoleRender

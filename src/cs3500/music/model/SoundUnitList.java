@@ -53,6 +53,7 @@ public interface SoundUnitList<T> {
    */
   int size();
 
+  String consoleRender(NoteList list);
 //  void consoleRender(NoteList list);
 
 }

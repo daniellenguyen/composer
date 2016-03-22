@@ -14,8 +14,13 @@ import java.util.Iterator;
  */
 public class ConsoleViewImpl implements View {
 
-
-  public void consoleRender(NoteList list) {
+  /**
+   * Returns a list containing the range of notes to be played, including gaps
+   * where there is no note in the song itself.
+   * @param list the list of notes to be played
+   * @return a list representing the range of notes to be played.
+   */
+  public ArrayList<Note> makeTopRow(NoteList list) {
     Note highestNote = list.getHighestNote();
     Note lowestNote = list.getLowestNote();
     Note.Pitch currentPitch = lowestNote.getPitch();
@@ -47,12 +52,35 @@ public class ConsoleViewImpl implements View {
         currentPitch = allPitches.get(allPitches.indexOf(currentPitch) + 1);
       }
     }
+    return pitchRow;
+  }
+
+  /**
+   * 
+   * @param list
+   * @return
+   */
+  public String renderTopRow(ArrayList<Note> list) {
+
+  }
+
+  /**
+   * Renders the console view of the given list of notes
+   * @param list the list of notes to be rendered
+   * @return a string representing the list of notes as a timestamp grid
+   */
+  public String consoleRender(NoteList list) {
+    ArrayList<Note> pitchRow = this.makeTopRow(list);
+    String header = "";
+    for(int i = 0; i < pitchRow.size(); i++) {
+      header = header + pitchRow.get(i).toString();
+    }
     HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = "";    // final return value
     for (int i = 0; i <= list.songLength(); i++) {
       if (list.hasNotesAtTime(i)) {
         Iterator iterator = list.getAllAtTime(i).iterator();
-        String finalRow = "";
+        String finalRow = header;
         for (int j = 0; j < pitchRow.size(); j++) {
           int wasAnythingAdded = 0;
           while (iterator.hasNext()) {
@@ -90,6 +118,6 @@ public class ConsoleViewImpl implements View {
       }
 
     }
-    System.out.println(finalConsoleRender);
+    return finalConsoleRender;
   }
 }
