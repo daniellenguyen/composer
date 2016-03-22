@@ -47,4 +47,12 @@ public class MIDINoteTest {
     assertEquals(n.getOctave(), Note.Octave.TWO);
   }
 
+  @Test
+  public void UseNormalConstructorToSetMIDI() {
+    Note n = new Note(Note.Pitch.C, Note.Octave.FOUR, 5, 7);
+    assertEquals(60, n.getMIDIPitch());
+    Note n2 = new Note(Note.Pitch.C2, Note.Octave.FOUR, 5, 7);
+    assertEquals(61, n2.getMIDIPitch());
+  }
+
 }

@@ -31,6 +31,10 @@ public class NoteList implements SoundUnitList<Note> {
     return tempo;
   }
 
+  public int songLength(){
+    return map.lastKey();
+  }
+
   @Override
   public void add(Note note) {
     for (int i = note.getStart(); i <= note.getEnd(); i++) {

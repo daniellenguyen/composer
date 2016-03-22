@@ -29,7 +29,7 @@ public class GuiViewFrame extends javax.swing.JFrame /*implements YourViewInterf
 
   @Override
   public Dimension getPreferredSize(){
-    return new Dimension(1000, 400);
+    return new Dimension(1500, 600);
   }
 
 }

@@ -63,6 +63,7 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
+  //TODO This needs a ton of work
   public void playBeat(NoteList noteList, int BeatNumber) throws InvalidMidiDataException {
 
     Set<Note> Notes = noteList.getAllAtTime(BeatNumber);
@@ -80,13 +81,8 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
          * void setMessage(int command, int channel, int data1, int data2)
          * Data1 is the pitch/octave represented 60=Middle C = C4
          */
-        //int MidiPitch = Integer.parseInt(n.getOctave().toString()) * 15 + n.getPitchInt();
-        //this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), -1);
-        //this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), this.synth.getMicrosecondPosition() + 200000);
         ShortMessage myMsg = new ShortMessage();
-        // Start playing the note Middle C (60),
-        // moderately loud (velocity = 93).
-        myMsg.setMessage(ShortMessage.NOTE_ON, 0, n.getMIDIPitch(), 70);
+        myMsg.setMessage(ShortMessage.NOTE_ON, 0, n.getMIDIPitch(), n.getVolume());
         Receiver rcvr = null;
         try {
           rcvr = MidiSystem.getReceiver();
@@ -94,17 +90,14 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
           e.printStackTrace();
         }
         rcvr.send(myMsg, -1);
+        this.receiver.send(new ShortMessage(ShortMessage.NOTE_OFF, 0, n.getMIDIPitch(), n.getVolume()), this.synth.getMicrosecondPosition() + 200000);
       }
-      //Find Notes to Continue
-      //else if(n.getStart() < BeatNumber && n.getStart()+n.getEnd() >= BeatNumber){
-        //this.receiver.send(new ShortMessage(ShortMessage.CONTINUE, 0, 60, 40), -1);
-      //}
     }
-
-
-    //End all notes from before
-    //this.receiver.send(new ShortMessage(0xFC), -1);
-    //this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
-    this.receiver.close(); // Only call this once you're done playing *all* notes
+  //this.receiver.close(); // Only call this once you're done playing *all* notes
   }
+
+  public void playSong(NoteList noteList) throws InvalidMidiDataException {
+
+  }
+
 }

@@ -60,14 +60,17 @@ public class Note implements SoundUnit, Comparable {
    * @param end
    */
   public Note(Pitch pitch, Octave octave, int start, int end) {
+    if (start < 0 || end < 1 || start >= end) {
+      throw new IllegalArgumentException("Start and/or end time is invalid!");
+    }
+
     this.pitch = pitch;
     this.octave = octave;
     this.start = start;
     this.end = end;
+    this.volume = 80;
 
-    if (this.start < 0 || this.end < 1 || this.start >= this.end) {
-      throw new IllegalArgumentException("Start and/or end time is invalid!");
-    }
+    setMIDIFromPitchAndOctave(pitch, octave);
   }
 
   /**
@@ -188,6 +191,87 @@ public class Note implements SoundUnit, Comparable {
     this.instrument = instrument;
     this.volume = volume;
     setPitchAndOctaveFromMIDI(MIDIPitch);
+  }
+
+  public void setMIDIFromPitchAndOctave(Pitch newPitch, Octave newOctave){
+    int newMIDIPitch = 0;
+    switch (newOctave) {
+      case ONE:
+        newMIDIPitch = 1;
+        break;
+      case TWO:
+        newMIDIPitch = 2;
+        break;
+      case THREE:
+        newMIDIPitch = 3;
+        break;
+      case FOUR:
+        newMIDIPitch = 4;
+        break;
+      case FIVE:
+        newMIDIPitch = 5;
+        break;
+      case SIX:
+        newMIDIPitch = 6;
+        break;
+      case SEVEN:
+        newMIDIPitch = 7;
+        break;
+      case EIGHT:
+        newMIDIPitch = 8;
+        break;
+      case NINE:
+        newMIDIPitch = 9;
+        break;
+      case TEN:
+        newMIDIPitch = 10;
+        break;
+      case ELEVEN:
+        newMIDIPitch = 11;
+        break;
+    }
+
+    newMIDIPitch = (newMIDIPitch* 12)+12;
+
+    switch (newPitch) {
+      case C:
+        newMIDIPitch += 0;
+        break;
+      case C2:
+        newMIDIPitch += 1;
+        break;
+      case D:
+        newMIDIPitch += 2;
+        break;
+      case D2:
+        newMIDIPitch += 3;
+        break;
+      case E:
+        newMIDIPitch += 4;
+        break;
+      case F:
+        newMIDIPitch += 5;
+        break;
+      case F2:
+        newMIDIPitch += 6;
+        break;
+      case G:
+        newMIDIPitch += 7;
+        break;
+      case G2:
+        newMIDIPitch += 8;
+        break;
+      case A:
+        newMIDIPitch += 9;
+        break;
+      case A2:
+        newMIDIPitch += 10;
+        break;
+      case B:
+        newMIDIPitch += 11;
+        break;
+    }
+    this.MIDIPitch = newMIDIPitch;
   }
 
   //Edits note's pitch and octave to match MIDI pith
