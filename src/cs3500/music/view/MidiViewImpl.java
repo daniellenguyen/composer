@@ -83,12 +83,23 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
         //int MidiPitch = Integer.parseInt(n.getOctave().toString()) * 15 + n.getPitchInt();
         //this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), -1);
         //this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), this.synth.getMicrosecondPosition() + 200000);
+        ShortMessage myMsg = new ShortMessage();
+        // Start playing the note Middle C (60),
+        // moderately loud (velocity = 93).
+        myMsg.setMessage(ShortMessage.NOTE_ON, 0, 60, 93);
+        long timeStamp = -1;
+        Receiver rcvr = null;
+        try {
+          rcvr = MidiSystem.getReceiver();
+        } catch (MidiUnavailableException e) {
+          e.printStackTrace();
+        }
+        rcvr.send(myMsg, timeStamp);
       }
-
       //Find Notes to Continue
-      else if(n.getStart() < BeatNumber && n.getStart()+n.getEnd() >= BeatNumber){
+      //else if(n.getStart() < BeatNumber && n.getStart()+n.getEnd() >= BeatNumber){
         //this.receiver.send(new ShortMessage(ShortMessage.CONTINUE, 0, 60, 40), -1);
-      }
+      //}
     }
 
 
