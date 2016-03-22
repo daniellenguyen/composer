@@ -50,6 +50,7 @@ public class MusicEditor {
       }
     }
 
+    
 
     Thread.sleep(3000);
     // You probably need to connect these views to your model, too...

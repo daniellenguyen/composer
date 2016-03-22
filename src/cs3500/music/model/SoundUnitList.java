@@ -53,8 +53,6 @@ public interface SoundUnitList<T> {
    */
   int size();
 
-  /**
-   * Renders this list in the console.
-   */
-  void consoleRender();
+//  void consoleRender(NoteList list);
+
 }
