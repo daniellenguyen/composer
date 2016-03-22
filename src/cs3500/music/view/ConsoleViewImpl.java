@@ -2,7 +2,6 @@ package cs3500.music.view;
 
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
-import cs3500.music.model.SoundUnitList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,12 +55,17 @@ public class ConsoleViewImpl implements View {
   }
 
   /**
-   * 
+   * Renders the top row of the console output so that it lists
+   * the entire range of pitches.
    * @param list
-   * @return
+   * @return a string representing the range of pitches to be played
    */
   public String renderTopRow(ArrayList<Note> list) {
-
+    String header = "";
+    for(int i = 0; i < list.size(); i++) {
+      header = header + list.get(i).toString();
+    }
+    return header;
   }
 
   /**
@@ -71,16 +75,12 @@ public class ConsoleViewImpl implements View {
    */
   public String consoleRender(NoteList list) {
     ArrayList<Note> pitchRow = this.makeTopRow(list);
-    String header = "";
-    for(int i = 0; i < pitchRow.size(); i++) {
-      header = header + pitchRow.get(i).toString();
-    }
     HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = "";    // final return value
     for (int i = 0; i <= list.songLength(); i++) {
       if (list.hasNotesAtTime(i)) {
         Iterator iterator = list.getAllAtTime(i).iterator();
-        String finalRow = header;
+        String finalRow = this.renderTopRow(pitchRow);
         for (int j = 0; j < pitchRow.size(); j++) {
           int wasAnythingAdded = 0;
           while (iterator.hasNext()) {
