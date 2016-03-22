@@ -26,10 +26,10 @@ public class MusicEditor {
     MusicReader ReaderOfText = new MusicReader();
     MusicBuilder Builder = new MusicBuilder();
     try {
-      //ReaderOfText.parseFile(new FileReader("mary-little-lamb.txt"), Builder);
+      ReaderOfText.parseFile(new FileReader("mary-little-lamb.txt"), Builder);
       //ReaderOfText.parseFile(new FileReader("mystery-1.txt"), Builder);
       //ReaderOfText.parseFile(new FileReader("mystery-2.txt"), Builder);
-      ReaderOfText.parseFile(new FileReader("mystery-3.txt"), Builder);
+      //ReaderOfText.parseFile(new FileReader("mystery-3.txt"), Builder);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }

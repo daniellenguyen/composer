@@ -1,6 +1,8 @@
 package cs3500.music.view;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.sound.midi.*;
@@ -14,12 +16,14 @@ import cs3500.music.model.NoteList;
 public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
   private Synthesizer synth;
   private Receiver receiver;
+  Instrument[] instr;
 
   public MidiViewImpl() {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
       this.synth.open();
+      this.instr = synth.getDefaultSoundbank().getInstruments();
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
@@ -47,16 +51,31 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
-  //TODO This needs a ton of work
   public void playBeat(NoteList noteList, int BeatNumber) throws InvalidMidiDataException {
 
     Set<Note> Notes = noteList.getAllAtTime(BeatNumber);
 
     Iterator<Note> i = Notes.iterator();
 
+    List<Note> alreadyPlayed = new ArrayList<>();
+
     while (i.hasNext()) {
       //Get the Note from the set
       Note n = (Note) i.next();
+
+      //this.synth.loadInstrument(this.synth.getAvailableInstruments()[n.getInstrument()]);
+      //this.synth.loadInstrument(instr[n.getInstrument()]);
+
+
+      //Determine if note has already been played at this beat
+      boolean dontStopNote = false;
+      for(int j = 0; j < alreadyPlayed.size(); j++){
+        if(alreadyPlayed.get(j).getMIDIPitch() == n.getMIDIPitch()){
+          dontStopNote = true;
+        }
+      }
+      alreadyPlayed.add(n);
+
 
       //Find notes to Start
       if (n.getStart() == BeatNumber) {
@@ -69,7 +88,9 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
           e.printStackTrace();
         }
         rcvr.send(myMsg, -1);
-      } else if (n.getEnd() == BeatNumber) {
+      }
+      //Find Notes to End
+      else if (n.getEnd() == BeatNumber && !dontStopNote) {
 
         ShortMessage myMsg = new ShortMessage();
         myMsg.setMessage(ShortMessage.NOTE_OFF, 0, n.getMIDIPitch(), n.getVolume());
