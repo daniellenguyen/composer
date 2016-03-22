@@ -166,4 +166,136 @@ public class Note implements SoundUnit, Comparable {
       return this.octave.compareTo(((Note) o).octave);
     }
   }
+
+
+  /*
+  //THINGS ADDED TO ALLOW FOR MIDI FUNCTIONALITY
+  private int instrument;
+  private int volume;
+  private int MIDIPitch;
+
+  public Note(int MIDIPitch, int start, int end, int instrument, int volume) {
+    if(MIDIPitch < 24){
+      throw new IllegalArgumentException("Note is Too Low: " + MIDIPitch + " MIDI Value");
+    }
+    if(MIDIPitch > 108){
+      throw new IllegalArgumentException("Note is Too High: " + MIDIPitch + " MIDI Value");
+    }
+
+    this.MIDIPitch = MIDIPitch;
+    this.start = start;
+    this.end = end;
+    this.instrument = instrument;
+    this.volume = volume;
+    setPitchAndOctaveFromMIDI(MIDIPitch);
+  }
+
+  //Edits note's pitch and octave to match MIDI pith
+  public void setPitchAndOctaveFromMIDI(int MIDIPitch){
+    if(MIDIPitch < 24){
+      throw new IllegalArgumentException("Note is Too Low: " + MIDIPitch + " MIDI Value");
+    }
+    if(MIDIPitch > 108){
+      throw new IllegalArgumentException("Note is Too High: " + MIDIPitch + " MIDI Value");
+    }
+
+    //Determine ENUM for Pitch
+    switch ((MIDIPitch-24)%12) {
+      case 0:
+        this.pitch = Pitch.C;
+        break;
+      case 1:
+        this.pitch = Pitch.C2;
+        break;
+      case 2:
+        this.pitch = Pitch.D;
+        break;
+      case 3:
+        this.pitch = Pitch.D2;
+        break;
+      case 4:
+        this.pitch = Pitch.E;
+        break;
+      case 5:
+        this.pitch = Pitch.F;
+        break;
+      case 6:
+        this.pitch = Pitch.F2;
+        break;
+      case 7:
+        this.pitch = Pitch.G;
+        break;
+      case 8:
+        this.pitch = Pitch.G2;
+        break;
+      case 9:
+        this.pitch = Pitch.A;
+        break;
+      case 10:
+        this.pitch = Pitch.A2;
+        break;
+      case 11:
+        this.pitch = Pitch.B;
+        break;
+    }
+
+    //Determine ENUM for Octave
+    switch ((MIDIPitch-12)/12) {
+      case 1:
+        this.octave = Octave.ONE;
+        break;
+      case 2:
+        this.octave = Octave.TWO;
+        break;
+      case 3:
+        this.octave = Octave.THREE;
+        break;
+      case 4:
+        this.octave = Octave.FOUR;
+        break;
+      case 5:
+        this.octave = Octave.FIVE;
+        break;
+      case 6:
+        this.octave = Octave.SIX;
+        break;
+      case 7:
+        this.octave = Octave.SEVEN;
+        break;
+      case 8:
+        this.octave = Octave.EIGHT;
+        break;
+      case 9:
+        this.octave = Octave.NINE;
+        break;
+      case 10:
+        this.octave = Octave.TEN;
+        break;
+      case 11:
+        this.octave = Octave.ELEVEN;
+        break;
+    }
+
+    this.MIDIPitch = MIDIPitch;
+  }
+
+  public void setInstrument(int instrument){
+    this.instrument = instrument;
+  }
+
+  public void setVolume(int volume){
+    this.volume = volume;
+  }
+
+  public int getInstrument(){
+    return instrument;
+  }
+
+  public int getVolume(){
+    return volume;
+  }
+
+  public int getMIDIPitch(){
+    return MIDIPitch;
+  }*/
 }
