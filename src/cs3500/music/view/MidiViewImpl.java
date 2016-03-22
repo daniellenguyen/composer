@@ -117,32 +117,30 @@ public class MidiViewImpl implements View {
   }
   //this.receiver.close(); // Only call this once you're done playing *all* notes
 
-  public void playSong(String songName) throws InvalidMidiDataException {
+  public void playSongFromText(String songName) throws InvalidMidiDataException {
+
+    MusicReader ReaderOfText = new MusicReader();
+
+    NoteList MarysLamb = ReaderOfText.ReturnNoteListFromFile(songName);
+
+    playSong(MarysLamb);
+  }
+
+  public void playSong(NoteList inputSong) throws InvalidMidiDataException {
 
     MidiViewImpl midiView = new MidiViewImpl();
     //midiView.playNote();
 
-    MusicReader ReaderOfText = new MusicReader();
-
-    MusicBuilder Builder = new MusicBuilder();
-    try {
-      //ReaderOfText.parseFile(new FileReader("mary-little-lamb.txt"), Builder);
-      ReaderOfText.parseFile(new FileReader(songName), Builder);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-    NoteList MarysLamb = Builder.build();
-
-    for (int i = 0; i < MarysLamb.songLength(); i++) {
+    for (int i = 0; i < inputSong.songLength(); i++) {
 
       try {
-        midiView.playBeat(MarysLamb, i);
+        midiView.playBeat(inputSong, i);
       } catch (IllegalArgumentException e) {
         continue;
       }
 
       try {
-        Thread.sleep(MarysLamb.getTempo()/1000);
+        Thread.sleep(inputSong.getTempo()/1000);
       } catch (InterruptedException ex) {
         Thread.currentThread().interrupt();
       }

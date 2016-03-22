@@ -5,6 +5,9 @@ import java.awt.event.MouseListener; // Possibly of interest for handling mouse 
 
 import javax.swing.*;
 
+import cs3500.music.model.Note;
+import cs3500.music.model.NoteList;
+
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
@@ -25,6 +28,14 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   //@Override
   public void initialize(){
     this.setVisible(true);
+  }
+
+  public void DisplaySongFromFile(String FileName){
+
+  }
+
+  public void DisplaySong(NoteList inputSong){
+
   }
 
   @Override
