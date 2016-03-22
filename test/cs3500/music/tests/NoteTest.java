@@ -283,5 +283,4 @@ public class NoteTest {
     n1.setOctave(Note.Octave.SIX);
     assertEquals(n1.getOctave(),  Note.Octave.SIX);
   }
-
 }

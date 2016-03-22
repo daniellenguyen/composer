@@ -3,12 +3,12 @@ package cs3500.music.model;
 /**
  * Created by daniellenguyen on 2/28/16.
  */
-public final class Note implements SoundUnit, Comparable {
+public class Note implements SoundUnit, Comparable {
 
-  private Pitch pitch; //Pitch of the Note
-  private Octave octave; //Octave of the Note
-  private int start; //Start of the Note
-  private int end; //End of the Note. Can be used to find duration
+  protected Pitch pitch; //Pitch of the Note
+  protected Octave octave; //Octave of the Note
+  protected int start; //Start of the Note
+  protected int end; //End of the Note. Can be used to find duration
 
   /**
    * Pitch of the current note
@@ -120,36 +120,6 @@ public final class Note implements SoundUnit, Comparable {
 
   public Pitch getPitch() {
     return this.pitch;
-  }
-
-  public int getPitchInt() {
-    switch (this.pitch) {
-      case C:
-        return 0;
-      case C2:
-        return 1;
-      case D:
-        return 2;
-      case D2:
-        return 3;
-      case E:
-        return 4;
-      case F:
-        return 5;
-      case F2:
-        return 6;
-      case G:
-        return 7;
-      case G2:
-        return 8;
-      case A:
-        return 9;
-      case A2:
-        return 10;
-      case B:
-        return 11;
-    }
-    return 0;
   }
 
   public Octave getOctave() {

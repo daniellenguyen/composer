@@ -80,9 +80,9 @@ public class MidiViewImpl /*implements YourViewInterfaceHere*/ {
          * void setMessage(int command, int channel, int data1, int data2)
          * Data1 is the pitch/octave represented 60=Middle C = C4
          */
-        int MidiPitch = Integer.parseInt(n.getOctave().toString()) * 15 + n.getPitchInt();
-        this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), -1);
-        this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), this.synth.getMicrosecondPosition() + 200000);
+        //int MidiPitch = Integer.parseInt(n.getOctave().toString()) * 15 + n.getPitchInt();
+        //this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), -1);
+        //this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, MidiPitch, 40), this.synth.getMicrosecondPosition() + 200000);
       }
 
       //Find Notes to Continue
