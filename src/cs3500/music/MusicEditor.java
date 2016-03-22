@@ -4,6 +4,7 @@ import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 import cs3500.music.util.MusicBuilder;
 import cs3500.music.util.MusicReader;
+import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 
@@ -50,7 +51,9 @@ public class MusicEditor {
       }
     }
 
-    
+    ConsoleViewImpl consoleView = new ConsoleViewImpl();
+    consoleView.consoleRender(MarysLamb);
+    System.out.println("hello");
 
     Thread.sleep(3000);
     // You probably need to connect these views to your model, too...

@@ -36,6 +36,10 @@ public class NoteList implements SoundUnitList<Note> {
     return set.first();
   }
 
+  public boolean hasNotesAtTime(int time) {
+    return map.containsKey(time);
+  }
+
   @Override
   public void add(Note note) {
     for (int i = note.getStart(); i <= note.getEnd(); i++) {

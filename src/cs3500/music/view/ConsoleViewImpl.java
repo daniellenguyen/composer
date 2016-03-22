@@ -50,42 +50,45 @@ public class ConsoleViewImpl implements View {
     HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = "";    // final return value
     for (int i = 0; i <= list.songLength(); i++) {
-      Iterator iterator = list.getAllAtTime(i).iterator();
-      String finalRow = "";
-      for (int j = 0; j < pitchRow.size(); j++) {
-        int wasAnythingAdded = 0;
-        while (iterator.hasNext()) {
-          Note n = (Note) iterator.next();
-          Note.Pitch nPitch = pitchRow.get(j).getPitch();
-          Note.Octave nOctave = pitchRow.get(j).getOctave();
-          if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave())) {
-            // "___X___"
-            if (!(onRightNow.containsKey(nOctave))) {
-              HashSet<Note.Pitch> p = new HashSet<>();
-              p.add(nPitch);
-              onRightNow.put(nOctave, p);
-              finalRow = finalRow + "   X   ";
-              wasAnythingAdded = 1;
-            } else if (!(onRightNow.get(nOctave).contains(nPitch))) {
-              onRightNow.get(nOctave).add(nPitch);
-              finalRow = finalRow + "   X   ";
-              wasAnythingAdded = 1;
-            }
-            // "___|___"
-            else if (onRightNow.get(nOctave).contains(nPitch)) {
-              finalRow = finalRow + "   |   ";
-              wasAnythingAdded = 1;
-              if (n.getEnd() == i) {
-                onRightNow.get(nOctave).remove(nPitch);
+      if (list.hasNotesAtTime(i)) {
+        Iterator iterator = list.getAllAtTime(i).iterator();
+        String finalRow = "";
+        for (int j = 0; j < pitchRow.size(); j++) {
+          int wasAnythingAdded = 0;
+          while (iterator.hasNext()) {
+            Note n = (Note) iterator.next();
+            Note.Pitch nPitch = pitchRow.get(j).getPitch();
+            Note.Octave nOctave = pitchRow.get(j).getOctave();
+            if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave())) {
+              // "___X___"
+              if (!(onRightNow.containsKey(nOctave))) {
+                HashSet<Note.Pitch> p = new HashSet<>();
+                p.add(nPitch);
+                onRightNow.put(nOctave, p);
+                finalRow = finalRow + "   X   ";
+                wasAnythingAdded = 1;
+              } else if (!(onRightNow.get(nOctave).contains(nPitch))) {
+                onRightNow.get(nOctave).add(nPitch);
+                finalRow = finalRow + "   X   ";
+                wasAnythingAdded = 1;
+              }
+              // "___|___"
+              else if (onRightNow.get(nOctave).contains(nPitch)) {
+                finalRow = finalRow + "   |   ";
+                wasAnythingAdded = 1;
+                if (n.getEnd() == i) {
+                  onRightNow.get(nOctave).remove(nPitch);
+                }
               }
             }
           }
+          if (wasAnythingAdded == 0) {
+            finalRow = finalRow + "_______";
+          }
         }
-        if(wasAnythingAdded == 0) {
-          finalRow = finalRow + "_______";
-        }
+        finalConsoleRender = finalConsoleRender + finalRow + "/n";
       }
-      finalConsoleRender = finalConsoleRender + finalRow + "/n";
+
     }
     System.out.println(finalConsoleRender);
   }

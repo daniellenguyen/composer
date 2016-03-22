@@ -432,17 +432,17 @@ public class NoteListTest {
 //    l.consoleRender();
 //  }
 //
-  @Test
-  public void consecutiveSamePitchOctaveRender() {
-    Note n1 = new Note(Note.Pitch.C, Note.Octave.FOUR, 5, 7);
-    Note n2 = new Note(Note.Pitch.C, Note.Octave.FOUR, 8, 9);
-    Note n3 = new Note(Note.Pitch.C, Note.Octave.FOUR, 10, 12);
-    SoundUnitList l = new NoteList();
-    NoteList dummy = new NoteList();
-    l.add(n1);
-    l.add(n2);
-    l.add(n3);
-    l.consoleRender(dummy);
-  }
+//  @Test
+//  public void consecutiveSamePitchOctaveRender() {
+//    Note n1 = new Note(Note.Pitch.C, Note.Octave.FOUR, 5, 7);
+//    Note n2 = new Note(Note.Pitch.C, Note.Octave.FOUR, 8, 9);
+//    Note n3 = new Note(Note.Pitch.C, Note.Octave.FOUR, 10, 12);
+//    SoundUnitList l = new NoteList();
+//    NoteList dummy = new NoteList();
+//    l.add(n1);
+//    l.add(n2);
+//    l.add(n3);
+//    l.consoleRender(dummy);
+//  }
 
 }
