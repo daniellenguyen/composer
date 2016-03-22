@@ -40,8 +40,10 @@ public class NoteList implements SoundUnitList<Note> {
           Note n = (Note) iterator.next();
           if (n.getPitch().toString() == note.getPitch().toString() &&
                   n.getOctave().toString() == note.getOctave().toString()) {
-            throw new IllegalArgumentException("Note with same pitch and octave " +
-                    "already exists at this time interval.");
+            /*throw new IllegalArgumentException("Note with same pitch and octave " +
+                    "already exists at this time interval. " + n.getPitch().toString() +
+                    n.getOctave().toString() + " and " +  note.getPitch().toString() +
+                    note.getOctave().toString());*/
           }
         }
       }
