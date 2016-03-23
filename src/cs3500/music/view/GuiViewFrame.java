@@ -2,6 +2,8 @@ package cs3500.music.view;
 
 import java.awt.*;
 import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.*;
 
@@ -39,8 +41,23 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     DisplaySong(inputSong);
   }
 
-  public void DisplaySong(NoteList inputSong){
-    
+  public void DisplaySong(NoteList noteList) {
+    getGraphics().drawString("BannaGramM!!", 50, 50);
+    int BeatNumber = 0;
+
+    Set<Note> Notes = noteList.getAllAtTime(BeatNumber);
+    Iterator<Note> i = Notes.iterator();
+    while (i.hasNext()) {
+      Note n = (Note) i.next();
+      //Find notes to Start
+      if (n.getStart() == BeatNumber) {
+        getGraphics().drawString(n.toString(), 100, 200);
+      }
+      //Find Notes to End
+      else if (n.getEnd() == BeatNumber) {
+      }
+    }
+    displayPanel.paint(getGraphics());
   }
 
 

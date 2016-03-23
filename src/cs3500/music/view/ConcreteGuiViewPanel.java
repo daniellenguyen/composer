@@ -8,15 +8,18 @@ import java.util.Objects;
 
 import javax.swing.*;
 
+import cs3500.music.model.NoteList;
+
 /**
  * A dummy view that simply draws a string 
  */
 public class ConcreteGuiViewPanel extends JPanel {
 
+
   @Override
   public void paint(Graphics g){
     // Look for more documentation about the Graphics class, and methods on it that may be useful
-    g.drawString("Hello World", 20, 20);
+    g.drawString("Hello World", 10, 10);
   }
 
 }
