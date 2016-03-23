@@ -3,7 +3,7 @@ package cs3500.music.model;
 /**
  * Created by daniellenguyen on 2/28/16.
  */
-public class Note implements SoundUnit, Comparable {
+public class Note implements Note, Comparable {
 
   protected Pitch pitch; //Pitch of the Note
   protected Octave octave; //Octave of the Note

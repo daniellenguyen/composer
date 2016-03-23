@@ -207,4 +207,7 @@ public class NoteList implements SoundUnitList<Note> {
     return finalConsoleRender;
   }
 
+  public static final class Builder implements CompositionBuilder<Note> {
+    // FILL IN HERE
+  }
 }

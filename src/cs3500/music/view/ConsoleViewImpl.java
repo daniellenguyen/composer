@@ -3,10 +3,9 @@ package cs3500.music.view;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Returns in the console a view of how all the notes are played
@@ -16,53 +15,33 @@ public class ConsoleViewImpl implements View {
   /**
    * Returns a list containing the range of notes to be played, including gaps
    * where there is no note in the song itself.
+   *
    * @param list the list of notes to be played
    * @return a list representing the range of notes to be played.
    */
   public ArrayList<Note> makeTopRow(NoteList list) {
-    Note highestNote = list.getHighestNote();
-    Note lowestNote = list.getLowestNote();
-    Note.Pitch currentPitch = lowestNote.getPitch();
-    Note.Octave currentOctave = lowestNote.getOctave();
-    Note.Pitch highestPitch = highestNote.getPitch();
-    Note.Octave highestOctave = highestNote.getOctave();
 
-    ArrayList<Note.Octave> allOctaves = new ArrayList<>();
-    for (Note.Octave octave : Note.Octave.values()) {
-      if (octave.compareTo(lowestNote.getOctave()) >= 0)
-        allOctaves.add(octave);
+    int rangeOfSong = list.getHighestNote().getMIDIPitch() - list.getLowestNote().getMIDIPitch();
+    ArrayList<Note> finalList = new ArrayList<>();
+    //Iterate Through the Range to create Header
+    for (int i = rangeOfSong; i >= 0; i--) {
+      Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+      rangeNote.setPitchAndOctaveFromMIDI(list.getHighestNote().getMIDIPitch() - i);
+      finalList.add(rangeNote);
     }
-
-    ArrayList<Note.Pitch> allPitches = new ArrayList<>();
-    for (Note.Pitch pitch : Note.Pitch.values()) {
-      allPitches.add(pitch);
-    }
-
-    ArrayList<Note> pitchRow = new ArrayList<>();
-    while (currentOctave.compareTo(highestOctave) < 0 ||
-            currentPitch.compareTo(highestPitch) < 0) { //|| currentPitch.equals(highestPitch)) {
-      Note n = new Note(currentPitch, currentOctave, 0, 1);
-      pitchRow.add(n);
-      // advance current octave and set pitch back to C
-      if (currentPitch.equals((Note.Pitch.B))) {
-        currentOctave = allOctaves.get(allOctaves.indexOf(currentOctave) + 1);
-        currentPitch = Note.Pitch.C;
-      } else {
-        currentPitch = allPitches.get(allPitches.indexOf(currentPitch) + 1);
-      }
-    }
-    return pitchRow;
+    return finalList;
   }
 
   /**
    * Renders the top row of the console output so that it lists
    * the entire range of pitches.
+   *
    * @param list
    * @return a string representing the range of pitches to be played
    */
   public String renderTopRow(ArrayList<Note> list) {
     String header = "     ";
-    for(int i = 0; i < list.size(); i++) {
+    for (int i = 0; i < list.size(); i++) {
       header = header + list.get(i).toString() + "   ";
     }
     return header;
@@ -70,18 +49,57 @@ public class ConsoleViewImpl implements View {
 
   /**
    * Renders the console view of the given list of notes
+   *
    * @param list the list of notes to be rendered
    * @return a string representing the list of notes as a timestamp grid
    */
   public void consoleRender(NoteList list) {
+//    String finalConsoleRender = "";
+//    //For each Beat in the song
+//    for (int BeatNumber = 0; BeatNumber < list.songLength(); BeatNumber++) {
+//      List<Note> ListOfNotesAtBeat = new ArrayList<>();
+//      ListOfNotesAtBeat.addAll(list.getAllAtTime(BeatNumber));
+//      String finalRow = Integer.toString(BeatNumber) + "  ";
+//      int rangeOfSong = list.getHighestNote().getMIDIPitch() - list.getLowestNote().getMIDIPitch();
+//      //Create a Column of Notes
+//      for (int i = rangeOfSong; i >= 0; i--) {
+//        Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+//        rangeNote.setPitchAndOctaveFromMIDI(list.getHighestNote().getMIDIPitch() - i);
+//
+//        boolean noteStarts = false;
+//        boolean noteContinues = false;
+//
+//        for (int j = 0; j < ListOfNotesAtBeat.size(); j++) {
+//          if (rangeNote.getMIDIPitch() == ListOfNotesAtBeat.get(j).getMIDIPitch()) {
+//            if (ListOfNotesAtBeat.get(j).getStart() == BeatNumber) {
+//              noteStarts = true;
+//            } else {
+//              noteContinues = true;
+//            }
+//          }
+//        }
+//
+//        //If a Note is Starting then Fill it! This takes Priority over the Continue
+//        if (noteStarts) {
+//          finalRow = finalRow + "  X  ";
+//        } else if (noteContinues) {
+//          finalRow = finalRow + "  |  ";
+//        }
+//
+//      }
+//      finalConsoleRender = finalConsoleRender + Integer.toString(BeatNumber) + "\n";
+//    }
+//    System.out.println(finalConsoleRender);
+//  }
     ArrayList<Note> pitchRow = this.makeTopRow(list);
     HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = this.renderTopRow(pitchRow) + "\n";    // final return value
     for (int i = 0; i <= list.songLength(); i++) {
       if (list.hasNotesAtTime(i)) {
-        Iterator iterator = list.getAllAtTime(i).iterator();
+
         String finalRow = Integer.toString(i) + "  ";
         for (int j = 0; j < pitchRow.size(); j++) {
+          Iterator iterator = list.getAllAtTime(i).iterator();
           boolean wasAnythingAdded = false;
           while (iterator.hasNext()) {
             Note n = (Note) iterator.next();
@@ -111,7 +129,7 @@ public class ConsoleViewImpl implements View {
             }
           }
           if (wasAnythingAdded == false) {
-            finalRow = finalRow + "_____";
+            finalRow = finalRow + "  $  ";
           }
         }
         finalConsoleRender = finalConsoleRender + finalRow + "\n";
@@ -124,8 +142,3 @@ public class ConsoleViewImpl implements View {
     System.out.println(finalConsoleRender);
   }
 }
-
-/**
- * ║    E3   F3  F#3   G3  G#3   A3  A#3   B3   C4  C#4   D4  D#4   E4   F4  F#4   G4 ║
- * ║ 0                 X                                            X                 ║
- */

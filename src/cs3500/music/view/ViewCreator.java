@@ -15,7 +15,9 @@ public class ViewCreator {
     }else if (type == ViewType.MIDI) {
       return new MidiViewImpl();
     }
+    else {
       return new ConsoleViewImpl();
+    }
   }
 
 }

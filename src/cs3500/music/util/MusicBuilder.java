@@ -38,4 +38,5 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
     listOfNotes.add(newNote);
     return null;
   }
+  // TODO: the source of the above problems is lack of a builder inside the noteList class
 }
