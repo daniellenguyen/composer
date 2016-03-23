@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Justin Hynes-Bruell on 3/23/2016.
  */
-public class MockRevieverTest {
+public class MockReceiverTest {
 
   @Test
   public void testForFullSongs() throws InvalidMidiDataException {
