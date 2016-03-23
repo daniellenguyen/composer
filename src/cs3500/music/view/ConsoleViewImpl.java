@@ -10,6 +10,11 @@ import java.util.*;
  */
 public class ConsoleViewImpl implements View {
 
+
+  public ConsoleViewImpl(){
+
+  }
+
   /**
    * Returns a list containing the range of notes to be played, including gaps
    * where there is no note in the song itself.
@@ -35,7 +40,7 @@ public class ConsoleViewImpl implements View {
    * Renders the top row of the console output so that it lists
    * the entire range of pitches.
    *
-   * @param list
+   * @param list ArrayList
    * @return a string representing the range of pitches to be played
    */
   public String renderTopRow(ArrayList<Note> list) {
@@ -56,7 +61,6 @@ public class ConsoleViewImpl implements View {
    *
    * @param list the list of notes to be rendered
    * @throws IllegalArgumentException if the NoteList is empty
-   * @return a string representing the list of notes as a timestamp grid
    */
   public void consoleRender(NoteList list) {
     if (list.size() == 0) {

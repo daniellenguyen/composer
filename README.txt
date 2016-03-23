@@ -17,9 +17,7 @@ TODO:
 6.  cut down giant methods in the view to make them smaller,
     especially if the same exact thing is copied into multiple places
 7.  abstract common functionality to the interface level.
-    record what functionalities were abstracted in the readme. 
-8.  make a mock MIDI to test midi. instructions for this are
-    near the bottom of the assignment page.
+    record what functionalities were abstracted in the readme.
 9.  polish and sharpen layout of GUI (maybe?)
 10. make a builder class inside of noteList class. we need 
     this in order to fix the errors you encountered in util.
@@ -47,9 +45,11 @@ TODO:
     — and the file extensions are case-sensitive.
 18. make a jar file
 19. Consider adding a MessageCloseFunction (Written by Justin)
+20.  Make sure EVERYTHING has Public Constructors (Justin)
 
 
 Questions for TA:
 1.  Should we change the type T in the CompositionBuilder interface to type NoteList?
 2.  If there are no notes in the list of notes, what should the console view return?
     Currently it throws an exception.
+3.  Is there a specific format Desired for midi-transcript.txt
