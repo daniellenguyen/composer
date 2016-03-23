@@ -1,18 +1,20 @@
 package cs3500.music.model;
 
 /**
- * Created by daniellenguyen on 2/28/16.
+ * To represent a Note
  */
 public class Note implements SoundUnit, Comparable {
-
   protected Pitch pitch; //Pitch of the Note
   protected Octave octave; //Octave of the Note
   protected int start; //Start of the Note
   protected int end; //End of the Note. Can be used to find duration
+  private int instrument;
+  private int volume;
+  private int MIDIPitch;
 
   /**
-   * Pitch of the current note
-   * This also has a toString method built in
+   * To represent the pitch of the note.
+   * Scales from C to B
    */
   public enum Pitch {
     C("C"), C2("C#"), D("D"), D2("D#"), E("E"), F("F"), F2("F#"),
@@ -32,8 +34,8 @@ public class Note implements SoundUnit, Comparable {
   }
 
   /**
-   * Octave of the current note
-   * This also has a toString method built in
+   * To represent the octave of the note.
+   * Scales from 1 to 11.
    */
   public enum Octave {
     ONE("1"), TWO("2"), THREE("3"), FOUR("4"), FIVE("5"),
@@ -53,17 +55,21 @@ public class Note implements SoundUnit, Comparable {
   }
 
   /**
-   * Note Constructor. This creates the note and sets all of the fields.
-   * @param pitch
-   * @param octave
-   * @param start
-   * @param end
+   * The default constructor for a note.
+   *
+   * INVARIANT: A note is allowed to start and end on the same beat.
+   *
+   * @param pitch the pitch of the note on the scale of C to B
+   * @param octave the octave of the note on the scale of 1 to 11
+   * @param start the start time of the note
+   * @param end the end time of the note
+   * @throws IllegalArgumentException if start time is less than 0,
+   * if end time is less than 0, or if start time is greater than end time.
    */
   public Note(Pitch pitch, Octave octave, int start, int end) {
-    if (start < 0 || end < 1 || start >= end) {
+    if (start < 0 || end < 0 || start > end) {
       throw new IllegalArgumentException("Start and/or end time is invalid!");
     }
-
     this.pitch = pitch;
     this.octave = octave;
     this.start = start;
@@ -73,10 +79,6 @@ public class Note implements SoundUnit, Comparable {
     setMIDIFromPitchAndOctave(pitch, octave);
   }
 
-  /**
-   * toString method for the Note.
-   * @return "String" + "Octave"
-   */
   @Override
   public String toString() {
     return this.pitch.toString() + this.octave.toString();
@@ -97,14 +99,17 @@ public class Note implements SoundUnit, Comparable {
     return pitch.hashCode() + octave.hashCode() + this.start + this.end;
   }
 
+  @Override
   public void setPitch(Pitch newPitch) {
     this.pitch = newPitch;
   }
 
+  @Override
   public void setOctave(Octave newOctave) {
     this.octave = newOctave;
   }
 
+  @Override
   public void setStart(int newTime) {
     if (newTime >= this.end || newTime < 0) {
       throw new IllegalArgumentException("New start time is greater than or equal to end time.");
@@ -113,12 +118,28 @@ public class Note implements SoundUnit, Comparable {
     }
   }
 
+  @Override
   public void setEnd(int newTime) {
     if (newTime <= this.start || newTime < 1) {
       throw new IllegalArgumentException("New end time is less than or equal to start time.");
     } else {
       this.end = newTime;
     }
+  }
+
+
+  public void setInstrument(int instrument){
+    if(instrument < 0 || instrument > 128) {
+      throw new IllegalArgumentException("Invalid MIDI instrument number. " +
+              "Should be between 0 and 128.");
+    }
+    else {
+      this.instrument = instrument;
+    }
+  }
+
+  public void setVolume(int volume){
+    this.volume = volume;
   }
 
   public Pitch getPitch() {
@@ -137,19 +158,17 @@ public class Note implements SoundUnit, Comparable {
     return this.end;
   }
 
-  /**
-   * Copy Constructor for Note
-   *
-   * @param inputNote Note that you are copying
-   */
-  public Note(Note inputNote) {
-    this.pitch = inputNote.getPitch();
-    this.octave = inputNote.getOctave();
-    this.start = inputNote.getStart();
-    this.end = inputNote.getEnd();
+  public int getInstrument(){
+    return instrument;
   }
 
+  public int getVolume(){
+    return volume;
+  }
 
+  public int getMIDIPitch(){
+    return MIDIPitch;
+  }
 
   @Override
   public int compareTo(Object o) throws ClassCastException, NullPointerException {
@@ -168,29 +187,6 @@ public class Note implements SoundUnit, Comparable {
     else {
       return this.octave.compareTo(((Note) o).octave);
     }
-  }
-
-
-
-  //THINGS ADDED TO ALLOW FOR MIDI FUNCTIONALITY
-  private int instrument;
-  private int volume;
-  private int MIDIPitch;
-
-  public Note(int MIDIPitch, int start, int end, int instrument, int volume) {
-    if(MIDIPitch < 24){
-      throw new IllegalArgumentException("Note is Too Low: " + MIDIPitch + " MIDI Value");
-    }
-    if(MIDIPitch > 108){
-      throw new IllegalArgumentException("Note is Too High: " + MIDIPitch + " MIDI Value");
-    }
-
-    this.MIDIPitch = MIDIPitch;
-    this.start = start;
-    this.end = end;
-    this.instrument = instrument;
-    this.volume = volume;
-    setPitchAndOctaveFromMIDI(MIDIPitch);
   }
 
   public void setMIDIFromPitchAndOctave(Pitch newPitch, Octave newOctave){
@@ -361,25 +357,5 @@ public class Note implements SoundUnit, Comparable {
     }
 
     this.MIDIPitch = MIDIPitch;
-  }
-
-  public void setInstrument(int instrument){
-    this.instrument = instrument;
-  }
-
-  public void setVolume(int volume){
-    this.volume = volume;
-  }
-
-  public int getInstrument(){
-    return instrument;
-  }
-
-  public int getVolume(){
-    return volume;
-  }
-
-  public int getMIDIPitch(){
-    return MIDIPitch;
   }
 }
