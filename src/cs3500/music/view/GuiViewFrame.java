@@ -28,6 +28,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     this.pack();
   }
 
+
+
   //@Override
   public void initialize(){
     this.setVisible(true);

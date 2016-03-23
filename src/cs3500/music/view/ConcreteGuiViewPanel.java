@@ -19,6 +19,7 @@ public class ConcreteGuiViewPanel extends JPanel {
   @Override
   public void paint(Graphics g){
     // Look for more documentation about the Graphics class, and methods on it that may be useful
+    super.paintComponent(g);
     g.drawString("Hello World", 10, 10);
   }
 
