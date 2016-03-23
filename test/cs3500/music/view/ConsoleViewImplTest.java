@@ -16,7 +16,7 @@ public class ConsoleViewImplTest {
    * Test calls to the method consoleRender
    */
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test //(expected = IllegalArgumentException.class)
   public void testEmptyListRender() {
     NoteList l = new NoteList();
     ConsoleViewImpl c = new ConsoleViewImpl();
@@ -71,6 +71,19 @@ public class ConsoleViewImplTest {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.FOUR, 5, 7);
     Note n2 = new Note(Note.Pitch.C, Note.Octave.FOUR, 8, 9);
     Note n3 = new Note(Note.Pitch.C, Note.Octave.FOUR, 10, 12);
+    NoteList l = new NoteList();
+    ConsoleViewImpl c = new ConsoleViewImpl();
+    l.add(n1);
+    l.add(n2);
+    l.add(n3);
+    c.consoleRender(l);
+  }
+
+  @Test
+  public void crossOctaveRender() {
+    Note n1 = new Note(Note.Pitch.C, Note.Octave.FOUR, 5, 7);
+    Note n2 = new Note(Note.Pitch.C, Note.Octave.FOUR, 8, 9);
+    Note n3 = new Note(Note.Pitch.C, Note.Octave.FIVE, 10, 12);
     NoteList l = new NoteList();
     ConsoleViewImpl c = new ConsoleViewImpl();
     l.add(n1);
