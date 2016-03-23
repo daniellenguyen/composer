@@ -49,4 +49,6 @@ TODO:
 
 
 Questions for TA:
-Should we change the type T in the CompositionBuilder interface to type NoteList? 
+1.  Should we change the type T in the CompositionBuilder interface to type NoteList?
+2.  If there are no notes in the list of notes, what should the console view return?
+    Currently it throws an exception.

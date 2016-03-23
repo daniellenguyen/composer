@@ -16,7 +16,7 @@ public class ConsoleViewImplTest {
    * Test calls to the method consoleRender
    */
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testEmptyListRender() {
     NoteList l = new NoteList();
     ConsoleViewImpl c = new ConsoleViewImpl();
