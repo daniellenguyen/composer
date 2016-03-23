@@ -1,7 +1,5 @@
 package cs3500.music.view;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,8 +9,6 @@ import javax.sound.midi.*;
 
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
-import cs3500.music.util.MusicBuilder;
-import cs3500.music.util.MusicReader;
 
 /**
  * A skeleton for MIDI playback
@@ -20,7 +16,6 @@ import cs3500.music.util.MusicReader;
 public class MidiViewImpl implements View {
   private Synthesizer synth;
   private Receiver receiver;
-  Instrument[] instr;
 
   public MidiViewImpl() {
     try {
@@ -45,6 +40,14 @@ public class MidiViewImpl implements View {
    * @see <a href="https://en.wikipedia.org/wiki/General_MIDI"> https://en.wikipedia.org/wiki/General_MIDI
    * </a>
    */
+
+  public void setMockReciever(Receiver inputReceiver){
+    this.receiver = inputReceiver;
+  }
+
+  public Receiver getMockReciever(){
+    return receiver;
+  }
 
   public void playNote() throws InvalidMidiDataException {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 64);
