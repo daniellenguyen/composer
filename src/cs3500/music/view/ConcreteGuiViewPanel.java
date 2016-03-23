@@ -49,43 +49,50 @@ public class ConcreteGuiViewPanel extends JPanel {
     for(Integer j = 0; j <= noteList.songLength(); j+=4) {
       g.drawString(j.toString(), 40+(25*j), 15);
       //Iterate Through the Range to create Box for Beat of Notes for TESTING
-      for (int i = 0; i < rangeOfSong; i++) {
-        g.drawRect(40+(25*j), ((separation * i)) + 15, 100, 30);
+      for (int i = 0; i <= rangeOfSong; i++) {
+        g.drawRect(40+(25*j), ((separation * i)) + 15, 100, 15);
       }
     }
 
 
-    /*
     //For each Beat in the song
     for (int BeatNumber = 0; BeatNumber < noteList.songLength(); BeatNumber++) {
-      Set<Note> Notes = noteList.getAllAtTime(BeatNumber);
+      List<Note> ListOfNotesAtBeat = new ArrayList<>();
+      ListOfNotesAtBeat.addAll(noteList.getAllAtTime(BeatNumber));
 
-      Iterator<Note> i = Notes.iterator();
+      //Create a Column of Notes
+      for(int i = rangeOfSong; i >= 0; i--){
+        Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+        rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch()-i);
 
-      List<Note> alreadyPlayed = new ArrayList<>();
+        boolean noteStarts = false;
+        boolean noteContinues = false;
 
-      while (i.hasNext()) {
-        //Get the Note from the set
-        Note n = (Note) i.next();
-
-        //Determine if note has already been played at this beat
-        boolean dontStopNote = false;
-        for (int j = 0; j < alreadyPlayed.size(); j++) {
-          if (alreadyPlayed.get(j).getMIDIPitch() == n.getMIDIPitch()) {
-            dontStopNote = true;
+        for(int j = 0; j < ListOfNotesAtBeat.size(); j++){
+          if(rangeNote.getMIDIPitch() == ListOfNotesAtBeat.get(j).getMIDIPitch()){
+            if(ListOfNotesAtBeat.get(j).getStart() == BeatNumber){
+              noteStarts = true;
+            }
+            else {
+              noteContinues = true;
+            }
           }
         }
-        alreadyPlayed.add(n);
 
-        //Find notes to Start
-        if (n.getStart() == BeatNumber) {
-
+        if(noteStarts){
+          //g.drawString(rangeNote.toString(), 15*BeatNumber + 30, separation * i + 30);
+          //g.drawRect(40+(25*BeatNumber), ((separation * i)) + 15, 25, 15);
+          g.fillRect(40+(25*BeatNumber), ((separation * i)) + 15, 25, 15);
         }
-        //Find Notes to End
-        else if (n.getEnd() == BeatNumber) {
+        else if(noteContinues){
+          //DRAW A DIFFERENT COLOR BOX!
+          g.setColor(Color.GREEN);
+          //g.drawString(rangeNote.toString(), 15*BeatNumber + 30, separation * i + 30);
+          g.fillRect(40+(25*BeatNumber), ((separation * i)) + 15 + 1, 25, 15 - 1);
+          g.setColor(Color.BLACK);
         }
       }
-    }*/
+    }
   }
 
 }
