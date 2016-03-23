@@ -1,6 +1,7 @@
 package cs3500.music;
 import cs3500.music.model.NoteList;
 import cs3500.music.util.MusicReader;
+import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.ViewCreator;
@@ -27,6 +28,10 @@ public class MusicEditor {
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
     ///////MidiViewImpl midiView = new MidiViewImpl();
     midiView.playSong(inputSong);
+
+    //TODO
+    ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.ViewType.CONSOLE, inputSong);
+    consoleView.consoleRender(inputSong);
 
     Thread.sleep(3000);
     // You probably need to connect these views to your model, too...

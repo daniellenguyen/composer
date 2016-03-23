@@ -2,6 +2,8 @@ package cs3500.music.model;
 
 import java.util.*;
 
+import cs3500.music.util.CompositionBuilder;
+
 /**
  * To sort individual notes by time.
  */
@@ -206,8 +208,4 @@ public class NoteList implements SoundUnitList<Note> {
     }
     return finalConsoleRender;
   }
-
-//  public static final class Builder implements CompositionBuilder<Note> {
-//    // FILL IN HERE
-//  }
 }

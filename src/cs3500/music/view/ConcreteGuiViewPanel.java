@@ -81,8 +81,8 @@ public class ConcreteGuiViewPanel extends JPanel {
       }
     }
 
-    for(Integer j = 0; j <= noteList.songLength(); j+=4) {
-      g.drawString(j.toString(), 40+(25*j), 15);
+    for(Integer j = 0; j <= noteList.songLength(); j+= 4) {
+      //g.drawString(j.toString(), 40+(25*j), 15);
       //Iterate Through the Range to create Box for Beat of Notes for TESTING
       for (int i = 0; i <= rangeOfSong; i++) {
         g.drawRect(40+(25*j), ((separation * i)) + 15, 100, 15);
@@ -93,6 +93,9 @@ public class ConcreteGuiViewPanel extends JPanel {
           g.fillRect(40 + (25 * j), ((separation * i)) + 15, 100, 2);
         }
       }
+    }
+    for(Integer j = 0; j <= noteList.songLength(); j+= 16) {
+      g.drawString(j.toString(), 40+(25*j), 15);
     }
   }
 }
