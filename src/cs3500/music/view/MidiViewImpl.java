@@ -118,14 +118,6 @@ public class MidiViewImpl implements View {
   }
   //this.receiver.close(); // Only call this once you're done playing *all* notes
 
-  /*public void playSongFromText(String songName) throws InvalidMidiDataException {
-
-    MusicReader ReaderOfText = new MusicReader();
-
-    NoteList MarysLamb = ReaderOfText.ReturnNoteListFromFile(songName);
-
-    playSong(MarysLamb);
-  }*/
 
   public void playSong(NoteList inputSong) throws InvalidMidiDataException {
 
