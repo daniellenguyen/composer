@@ -85,7 +85,7 @@ public class MidiViewImpl implements View {
       //Find notes to Start
       if (n.getStart() == BeatNumber) {
         ShortMessage myMsg = new ShortMessage();
-        myMsg.setMessage(ShortMessage.NOTE_ON, 0, n.getMIDIPitch(), n.getVolume());
+        myMsg.setMessage(ShortMessage.NOTE_ON, n.getInstrument() - 1, n.getMIDIPitch(), n.getVolume());
         Receiver rcvr = null;
         try {
           rcvr = MidiSystem.getReceiver();
@@ -94,17 +94,18 @@ public class MidiViewImpl implements View {
         }
         rcvr.send(myMsg, -1);
 
+        /*
         //Change Instrument To Suit Note
         ShortMessage instrumentChange = new ShortMessage();
         instrumentChange.setMessage(ShortMessage.PROGRAM_CHANGE, 0, n.getInstrument(),0);
-        rcvr.send(instrumentChange, -1);
+        rcvr.send(instrumentChange, -1);*/
 
       }
       //Find Notes to End
       else if (n.getEnd() == BeatNumber && !dontStopNote) {
 
         ShortMessage myMsg = new ShortMessage();
-        myMsg.setMessage(ShortMessage.NOTE_OFF, 0, n.getMIDIPitch(), n.getVolume());
+        myMsg.setMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1, n.getMIDIPitch(), n.getVolume());
         Receiver rcvr = null;
         try {
           rcvr = MidiSystem.getReceiver();
@@ -117,14 +118,14 @@ public class MidiViewImpl implements View {
   }
   //this.receiver.close(); // Only call this once you're done playing *all* notes
 
-  public void playSongFromText(String songName) throws InvalidMidiDataException {
+  /*public void playSongFromText(String songName) throws InvalidMidiDataException {
 
     MusicReader ReaderOfText = new MusicReader();
 
     NoteList MarysLamb = ReaderOfText.ReturnNoteListFromFile(songName);
 
     playSong(MarysLamb);
-  }
+  }*/
 
   public void playSong(NoteList inputSong) throws InvalidMidiDataException {
 

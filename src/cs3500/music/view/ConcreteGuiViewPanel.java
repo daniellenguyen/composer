@@ -15,12 +15,20 @@ import cs3500.music.model.NoteList;
  */
 public class ConcreteGuiViewPanel extends JPanel {
 
+  NoteList inputSong;
+
+  public ConcreteGuiViewPanel(NoteList inputSong){
+    this.inputSong =  inputSong;
+  }
+
 
   @Override
   public void paint(Graphics g){
     // Look for more documentation about the Graphics class, and methods on it that may be useful
     super.paintComponent(g);
     g.drawString("Hello World", 10, 10);
+
+    inputSong.getAllAtTime(0);
   }
 
 }
