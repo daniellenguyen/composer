@@ -21,43 +21,18 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   /**
    * Creates new GuiView
    */
-  public GuiViewFrame() {
-    this.displayPanel = new ConcreteGuiViewPanel();
+  public GuiViewFrame(NoteList inputSong) {
+    this.displayPanel = new ConcreteGuiViewPanel(inputSong);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
     this.pack();
   }
 
+
+
   //@Override
   public void initialize(){
     this.setVisible(true);
-  }
-
-  public void DisplaySongFromFile(String FileName){
-    MusicReader ReaderOfText = new MusicReader();
-
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile(FileName);
-
-    DisplaySong(inputSong);
-  }
-
-  public void DisplaySong(NoteList noteList) {
-    getGraphics().drawString("BannaGramM!!", 50, 50);
-    int BeatNumber = 0;
-
-    Set<Note> Notes = noteList.getAllAtTime(BeatNumber);
-    Iterator<Note> i = Notes.iterator();
-    while (i.hasNext()) {
-      Note n = (Note) i.next();
-      //Find notes to Start
-      if (n.getStart() == BeatNumber) {
-        getGraphics().drawString(n.toString(), 100, 200);
-      }
-      //Find Notes to End
-      else if (n.getEnd() == BeatNumber) {
-      }
-    }
-    displayPanel.paint(getGraphics());
   }
 
 
@@ -65,7 +40,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
 
   @Override
   public Dimension getPreferredSize(){
-    return new Dimension(1500, 600);
+    return new Dimension(1600, 800);
   }
 
 }

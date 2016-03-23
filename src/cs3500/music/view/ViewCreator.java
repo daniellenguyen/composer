@@ -9,15 +9,13 @@ public class ViewCreator {
 
   public enum ViewType {GUI, MIDI, CONSOLE}
 
-  public static View create(ViewType type) {
+  public static View create(ViewType type, NoteList inputSong) {
     if (type == ViewType.GUI) {
-      return new GuiViewFrame();
+      return new GuiViewFrame(inputSong);
     }else if (type == ViewType.MIDI) {
       return new MidiViewImpl();
     }
-    else {
       return new ConsoleViewImpl();
-    }
   }
 
 }
