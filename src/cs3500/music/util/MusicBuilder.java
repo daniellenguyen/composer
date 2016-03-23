@@ -21,14 +21,14 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
     return listOfNotes;
   }
 
-  //TODO THIS SHOULD NOT RETURN NULL??? THE INTERFACE MAKES ME RETURN A BUILDER???
+
   @Override
   public CompositionBuilder<NoteList> setTempo(int tempo) {
     listOfNotes.setTempo(tempo);
     return null;
   }
 
-  //TODO SAME PROBLEM AS ABOVE???
+
   @Override
   public CompositionBuilder<NoteList> addNote(int start, int end, int instrument, int pitch, int volume) {
     Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, start, end);
@@ -38,5 +38,4 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
     listOfNotes.add(newNote);
     return null;
   }
-  // TODO: the source of the above problems is lack of a builder inside the noteList class
 }

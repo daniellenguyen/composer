@@ -17,9 +17,9 @@ public class MusicEditor {
     MusicReader ReaderOfText = new MusicReader();
 
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
+    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
+    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
     GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.ViewType.GUI, inputSong);
     ///////GuiViewFrame GuiView = new GuiViewFrame(inputSong);
