@@ -21,17 +21,18 @@ public class MockRevieverTest {
   public void test() throws InvalidMidiDataException {
     MusicReader ReaderOfText = new MusicReader();
 
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
+    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
+    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
     midiView.setMockReciever(new MockReceiver());
+    midiView.fillMockReceiver(inputSong);
     //midiView.playSong(inputSong);
 
-    //MockReceiver editedReceiver = (MockReceiver) midiView.getMockReciever();
+    MockReceiver editedReceiver = (MockReceiver) midiView.getMockReciever();
 
-    //assertEquals("", editedReceiver.GetMockBuffer());
+    assertEquals("", editedReceiver.GetMockBuffer());
   }
 }

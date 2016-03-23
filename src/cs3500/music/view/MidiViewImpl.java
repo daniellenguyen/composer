@@ -69,12 +69,6 @@ public class MidiViewImpl implements View {
       //Get the Note from the set
       Note n = (Note) i.next();
 
-      //this.synth.loadInstrument(this.synth.getAvailableInstruments()[n.getInstrument()]);
-      //this.synth.loadInstrument(instr[n.getInstrument()]);
-
-      //MidiEvent instrumentChange = new MidiEvent(ShortMessage.PROGRAM_CHANGE,drumPatch.getBank(),drumPatch.getProgram());
-
-
       //Determine if note has already been played at this beat
       boolean dontStopNote = false;
       for (int j = 0; j < alreadyPlayed.size(); j++) {
@@ -89,33 +83,16 @@ public class MidiViewImpl implements View {
       if (n.getStart() == BeatNumber) {
         ShortMessage myMsg = new ShortMessage();
         myMsg.setMessage(ShortMessage.NOTE_ON, n.getInstrument() - 1, n.getMIDIPitch(), n.getVolume());
-        Receiver rcvr = null;
-        try {
-          rcvr = MidiSystem.getReceiver();
-        } catch (MidiUnavailableException e) {
-          e.printStackTrace();
-        }
-        rcvr.send(myMsg, -1);
 
-        /*
-        //Change Instrument To Suit Note
-        ShortMessage instrumentChange = new ShortMessage();
-        instrumentChange.setMessage(ShortMessage.PROGRAM_CHANGE, 0, n.getInstrument(),0);
-        rcvr.send(instrumentChange, -1);*/
-
+        receiver.send(myMsg, -1);
       }
       //Find Notes to End
       else if (n.getEnd() == BeatNumber && !dontStopNote) {
 
         ShortMessage myMsg = new ShortMessage();
         myMsg.setMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1, n.getMIDIPitch(), n.getVolume());
-        Receiver rcvr = null;
-        try {
-          rcvr = MidiSystem.getReceiver();
-        } catch (MidiUnavailableException e) {
-          e.printStackTrace();
-        }
-        rcvr.send(myMsg, -1);
+
+        receiver.send(myMsg, -1);
       }
     }
   }
@@ -123,14 +100,10 @@ public class MidiViewImpl implements View {
 
 
   public void playSong(NoteList inputSong) throws InvalidMidiDataException {
-
-    MidiViewImpl midiView = new MidiViewImpl();
-    //midiView.playNote();
-
     for (int i = 0; i < inputSong.songLength(); i++) {
 
       try {
-        midiView.playBeat(inputSong, i);
+        playBeat(inputSong, i);
       } catch (IllegalArgumentException e) {
         continue;
       }
@@ -139,6 +112,18 @@ public class MidiViewImpl implements View {
         Thread.sleep(inputSong.getTempo()/1000);
       } catch (InterruptedException ex) {
         Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  public void fillMockReceiver(NoteList inputSong){
+    for (int i = 0; i < inputSong.songLength(); i++) {
+      try {
+        playBeat(inputSong, i);
+      } catch (IllegalArgumentException e) {
+        continue;
+      } catch (InvalidMidiDataException e) {
+        e.printStackTrace();
       }
     }
   }

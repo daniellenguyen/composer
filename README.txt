@@ -46,6 +46,7 @@ TODO:
     file extension .jpg, or as a PNG, with file extension .png 
     — and the file extensions are case-sensitive.
 18. make a jar file
+19. Consider adding a MessageCloseFunction (Written by Justin)
 
 
 Questions for TA:
