@@ -29,11 +29,6 @@ public class ConcreteGuiViewPanel extends JPanel {
   public void paint(Graphics g){
     // Look for more documentation about the Graphics class, and methods on it that may be useful
     super.paintComponent(g);
-    //g.drawRect(0,0,100, 100);
-
-    //g.drawString(noteList.getLowestNote().toString(), 50, 50);
-
-    //g.drawString(noteList.getHighestNote().toString(), 50, 100);
 
     int separation = 15;
 
@@ -79,13 +74,18 @@ public class ConcreteGuiViewPanel extends JPanel {
           }
         }
 
+        //If a Note is Starting then Fill it! This takes Priority over the Continue
         if(noteStarts){
           //g.drawString(rangeNote.toString(), 15*BeatNumber + 30, separation * i + 30);
-          //g.drawRect(40+(25*BeatNumber), ((separation * i)) + 15, 25, 15);
           g.fillRect(40+(25*BeatNumber), ((separation * i)) + 15, 25, 15);
         }
+        else if(noteContinues && BeatNumber/4 == 0){
+          g.setColor(Color.GREEN);
+          //g.drawString(rangeNote.toString(), 15*BeatNumber + 30, separation * i + 30);
+          g.fillRect(40+(25*BeatNumber), ((separation * i)) + 15 + 1, 25, 15 - 1);
+          g.setColor(Color.BLACK);
+        }
         else if(noteContinues){
-          //DRAW A DIFFERENT COLOR BOX!
           g.setColor(Color.GREEN);
           //g.drawString(rangeNote.toString(), 15*BeatNumber + 30, separation * i + 30);
           g.fillRect(40+(25*BeatNumber), ((separation * i)) + 15 + 1, 25, 15 - 1);
