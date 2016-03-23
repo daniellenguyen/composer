@@ -91,8 +91,13 @@ public class ConcreteGuiViewPanel extends JPanel {
       //Iterate Through the Range to create Box for Beat of Notes for TESTING
       for (int i = 0; i <= rangeOfSong; i++) {
         g.drawRect(40+(25*j), ((separation * i)) + 15, 100, 15);
+
+        Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+        rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
+        if (rangeNote.getPitch() == Note.Pitch.B) {
+          g.fillRect(40 + (25 * j), ((separation * i)) + 15, 100, 2);
+        }
       }
     }
   }
-
 }
