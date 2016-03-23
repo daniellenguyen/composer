@@ -29,7 +29,6 @@ public class MusicEditor {
     ///////MidiViewImpl midiView = new MidiViewImpl();
     midiView.playSong(inputSong);
 
-    //TODO
     ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.ViewType.CONSOLE, inputSong);
     consoleView.consoleRender(inputSong);
 

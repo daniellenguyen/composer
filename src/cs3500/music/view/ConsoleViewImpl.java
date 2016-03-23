@@ -3,9 +3,7 @@ package cs3500.music.view;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * Returns in the console a view of how all the notes are played
@@ -21,7 +19,8 @@ public class ConsoleViewImpl implements View {
    */
   public ArrayList<Note> makeTopRow(NoteList list) {
 
-    int rangeOfSong = list.getHighestNote().getMIDIPitch() - list.getLowestNote().getMIDIPitch();
+    int rangeOfSong = list.getHighestNote().getMIDIPitch()
+            - list.getLowestNote().getMIDIPitch();
     ArrayList<Note> finalList = new ArrayList<>();
     //Iterate Through the Range to create Header
     for (int i = rangeOfSong; i >= 0; i--) {
@@ -65,7 +64,7 @@ public class ConsoleViewImpl implements View {
     }
     ArrayList<Note> pitchRow = this.makeTopRow(list);
     HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
-    String finalConsoleRender = this.renderTopRow(pitchRow) + "\n";    // final return value
+    String finalConsoleRender = this.renderTopRow(pitchRow) + "\n";
     for (int i = 0; i <= list.songLength(); i++) {
       String finalRow;
       if(i < 10) {
@@ -89,7 +88,6 @@ public class ConsoleViewImpl implements View {
             Note.Pitch nPitch = pitchRow.get(j).getPitch();
             Note.Octave nOctave = pitchRow.get(j).getOctave();
             if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave())) {
-              // "___X___"
               if (!(onRightNow.containsKey(nOctave))) {
                 HashSet<Note.Pitch> p = new HashSet<>();
                 p.add(nPitch);
@@ -101,7 +99,6 @@ public class ConsoleViewImpl implements View {
                 finalRow = finalRow + "  X  ";
                 wasAnythingAdded = true;
               }
-              // "___|___"
               else if (onRightNow.get(nOctave).contains(nPitch)) {
                 finalRow = finalRow + "  |  ";
                 wasAnythingAdded = true;
@@ -122,6 +119,5 @@ public class ConsoleViewImpl implements View {
       }
     }
     System.out.println(finalConsoleRender);
-    System.lineSeparator();
   }
 }
