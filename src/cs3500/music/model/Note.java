@@ -74,7 +74,8 @@ public class Note implements SoundUnit, Comparable {
     this.octave = octave;
     this.start = start;
     this.end = end;
-    this.volume = 80;
+    this.volume = 70;
+    this.instrument = 1;
 
     setMIDIFromPitchAndOctave(pitch, octave);
   }

@@ -24,13 +24,6 @@ public class MusicEditor {
     GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.ViewType.GUI, inputSong);
     ///////GuiViewFrame GuiView = new GuiViewFrame(inputSong);
     GuiView.initialize();
-//
-//    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
-//    ///////MidiViewImpl midiView = new MidiViewImpl();
-//    midiView.playSong(inputSong);
-
-    ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.ViewType.CONSOLE, inputSong);
-    consoleView.consoleRender(inputSong);
 
     Thread.sleep(3000);
     // You probably need to connect these views to your model, too...
