@@ -28,7 +28,7 @@ public class MusicEditor {
     //midiView.playSong("mystery-2.txt");
     //midiView.playSong("mystery-2.txt");
     //midiView.playSong("mystery-2.txt");
-    midiView.playSongFromText("mystery-2.txt");
+    //midiView.playSongFromText("mystery-1.txt");
 
     Thread.sleep(3000);
     // You probably need to connect these views to your model, too...

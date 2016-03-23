@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
+import cs3500.music.util.MusicReader;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
@@ -31,12 +32,19 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   }
 
   public void DisplaySongFromFile(String FileName){
+    MusicReader ReaderOfText = new MusicReader();
 
+    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile(FileName);
+
+    DisplaySong(inputSong);
   }
 
   public void DisplaySong(NoteList inputSong){
-
+    
   }
+
+
+
 
   @Override
   public Dimension getPreferredSize(){
