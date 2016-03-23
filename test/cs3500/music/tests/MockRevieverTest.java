@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.MidiViewImpl;
@@ -18,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class MockRevieverTest {
 
   @Test
-  public void test() throws InvalidMidiDataException {
+  public void testForFullSongs() throws InvalidMidiDataException {
     MusicReader ReaderOfText = new MusicReader();
 
     NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
@@ -29,10 +30,33 @@ public class MockRevieverTest {
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
     midiView.setMockReciever(new MockReceiver());
     midiView.fillMockReceiver(inputSong);
-    //midiView.playSong(inputSong);
 
     MockReceiver editedReceiver = (MockReceiver) midiView.getMockReciever();
 
-    assertEquals("", editedReceiver.GetMockBuffer());
+    //144 = Note On
+    //128 = Note Off
+    //assertEquals("", editedReceiver.GetMockBuffer());
+  }
+
+  /**
+   * ListOfNotesPlayed.append("Command, Channel, Data1, Data2");
+   * @throws InvalidMidiDataException
+   */
+  @Test
+  public void BasicFunctionalityTest() throws InvalidMidiDataException {
+    MusicReader ReaderOfText = new MusicReader();
+
+    NoteList inputSong = new NoteList();
+    inputSong.add(new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1));
+
+    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    midiView.setMockReciever(new MockReceiver());
+    midiView.fillMockReceiver(inputSong);
+
+    MockReceiver editedReceiver = (MockReceiver) midiView.getMockReciever();
+
+    //144 = Note On
+    //128 = Note Off
+    assertEquals("144 0 60 70\n", editedReceiver.GetMockBuffer());
   }
 }

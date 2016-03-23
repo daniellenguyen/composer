@@ -14,14 +14,13 @@ public class MockReceiver implements Receiver{
   public MockReceiver(){
     super();
     ListOfNotesPlayed = new StringBuilder();
-    ListOfNotesPlayed.append("STARTER\n");
   }
 
   @Override
   public void send(MidiMessage message, long timeStamp) {
     ShortMessage myMsg = (ShortMessage) message;
-    ListOfNotesPlayed.append(myMsg.toString() + "\n");
-    ListOfNotesPlayed.append('a');
+    ListOfNotesPlayed.append(myMsg.getCommand()
+            + " " + myMsg.getChannel() + " " + myMsg.getData1() + " " + myMsg.getData2() + "\n");
   }
 
   @Override
