@@ -39,9 +39,8 @@ public class ConsoleViewImpl implements View {
     }
 
     ArrayList<Note> pitchRow = new ArrayList<>();
-    System.out.println(currentPitch.compareTo(highestPitch));
     while (currentOctave.compareTo(highestOctave) < 0 ||
-            currentPitch.compareTo(highestPitch) < 0) {
+            currentPitch.compareTo(highestPitch) < 0) { //|| currentPitch.equals(highestPitch)) {
       Note n = new Note(currentPitch, currentOctave, 0, 1);
       pitchRow.add(n);
       // advance current octave and set pitch back to C
@@ -74,7 +73,7 @@ public class ConsoleViewImpl implements View {
    * @param list the list of notes to be rendered
    * @return a string representing the list of notes as a timestamp grid
    */
-  public String consoleRender(NoteList list) {
+  public void consoleRender(NoteList list) {
     ArrayList<Note> pitchRow = this.makeTopRow(list);
     HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = this.renderTopRow(pitchRow) + "\n";    // final return value
@@ -83,7 +82,7 @@ public class ConsoleViewImpl implements View {
         Iterator iterator = list.getAllAtTime(i).iterator();
         String finalRow = Integer.toString(i) + "  ";
         for (int j = 0; j < pitchRow.size(); j++) {
-          int wasAnythingAdded = 0;
+          boolean wasAnythingAdded = false;
           while (iterator.hasNext()) {
             Note n = (Note) iterator.next();
             Note.Pitch nPitch = pitchRow.get(j).getPitch();
@@ -95,24 +94,24 @@ public class ConsoleViewImpl implements View {
                 p.add(nPitch);
                 onRightNow.put(nOctave, p);
                 finalRow = finalRow + "  X  ";
-                wasAnythingAdded = 1;
+                wasAnythingAdded = true;
               } else if (!(onRightNow.get(nOctave).contains(nPitch))) {
                 onRightNow.get(nOctave).add(nPitch);
                 finalRow = finalRow + "  X  ";
-                wasAnythingAdded = 1;
+                wasAnythingAdded = true;
               }
               // "___|___"
               else if (onRightNow.get(nOctave).contains(nPitch)) {
                 finalRow = finalRow + "  |  ";
-                wasAnythingAdded = 1;
+                wasAnythingAdded = true;
                 if (n.getEnd() == i) {
                   onRightNow.get(nOctave).remove(nPitch);
                 }
               }
             }
           }
-          if (wasAnythingAdded == 0) {
-            finalRow = finalRow + "_______";
+          if (wasAnythingAdded == false) {
+            finalRow = finalRow + "_____";
           }
         }
         finalConsoleRender = finalConsoleRender + finalRow + "\n";
@@ -122,7 +121,7 @@ public class ConsoleViewImpl implements View {
       }
 
     }
-    return finalConsoleRender;
+    System.out.println(finalConsoleRender);
   }
 }
 
