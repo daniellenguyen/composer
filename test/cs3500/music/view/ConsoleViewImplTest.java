@@ -20,7 +20,7 @@ public class ConsoleViewImplTest {
   public void testEmptyListRender() {
     NoteList l = new NoteList();
     ConsoleViewImpl c = new ConsoleViewImpl();
-    //c.consoleRender(l);
+    c.consoleRender(l);
   }
 
   @Test
