@@ -39,7 +39,8 @@ public class ConsoleViewImpl implements View {
     }
 
     ArrayList<Note> pitchRow = new ArrayList<>();
-    while (currentOctave.compareTo(highestOctave) < 0 &&
+    System.out.println(currentPitch.compareTo(highestPitch));
+    while (currentOctave.compareTo(highestOctave) < 0 ||
             currentPitch.compareTo(highestPitch) < 0) {
       Note n = new Note(currentPitch, currentOctave, 0, 1);
       pitchRow.add(n);
@@ -61,9 +62,9 @@ public class ConsoleViewImpl implements View {
    * @return a string representing the range of pitches to be played
    */
   public String renderTopRow(ArrayList<Note> list) {
-    String header = "";
+    String header = "     ";
     for(int i = 0; i < list.size(); i++) {
-      header = header + list.get(i).toString();
+      header = header + list.get(i).toString() + "   ";
     }
     return header;
   }
@@ -76,11 +77,11 @@ public class ConsoleViewImpl implements View {
   public String consoleRender(NoteList list) {
     ArrayList<Note> pitchRow = this.makeTopRow(list);
     HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
-    String finalConsoleRender = "";    // final return value
+    String finalConsoleRender = this.renderTopRow(pitchRow) + "\n";    // final return value
     for (int i = 0; i <= list.songLength(); i++) {
       if (list.hasNotesAtTime(i)) {
         Iterator iterator = list.getAllAtTime(i).iterator();
-        String finalRow = this.renderTopRow(pitchRow);
+        String finalRow = Integer.toString(i) + "  ";
         for (int j = 0; j < pitchRow.size(); j++) {
           int wasAnythingAdded = 0;
           while (iterator.hasNext()) {
@@ -93,16 +94,16 @@ public class ConsoleViewImpl implements View {
                 HashSet<Note.Pitch> p = new HashSet<>();
                 p.add(nPitch);
                 onRightNow.put(nOctave, p);
-                finalRow = finalRow + "   X   ";
+                finalRow = finalRow + "  X  ";
                 wasAnythingAdded = 1;
               } else if (!(onRightNow.get(nOctave).contains(nPitch))) {
                 onRightNow.get(nOctave).add(nPitch);
-                finalRow = finalRow + "   X   ";
+                finalRow = finalRow + "  X  ";
                 wasAnythingAdded = 1;
               }
               // "___|___"
               else if (onRightNow.get(nOctave).contains(nPitch)) {
-                finalRow = finalRow + "   |   ";
+                finalRow = finalRow + "  |  ";
                 wasAnythingAdded = 1;
                 if (n.getEnd() == i) {
                   onRightNow.get(nOctave).remove(nPitch);
@@ -114,10 +115,18 @@ public class ConsoleViewImpl implements View {
             finalRow = finalRow + "_______";
           }
         }
-        finalConsoleRender = finalConsoleRender + finalRow + "/n";
+        finalConsoleRender = finalConsoleRender + finalRow + "\n";
+      }
+      else {
+        finalConsoleRender = finalConsoleRender + Integer.toString(i) + "\n";
       }
 
     }
     return finalConsoleRender;
   }
 }
+
+/**
+ * ║    E3   F3  F#3   G3  G#3   A3  A#3   B3   C4  C#4   D4  D#4   E4   F4  F#4   G4 ║
+ * ║ 0                 X                                            X                 ║
+ */
