@@ -44,21 +44,21 @@ public class NoteList implements SoundUnitList<Note> {
 
   @Override
   public void add(Note note) {
-    for (int i = note.getStart(); i <= note.getEnd(); i++) {
-      if (map.containsKey(i)) {
-        Iterator iterator = map.get(i).iterator();
-        while (iterator.hasNext()) {
-          Note n = (Note) iterator.next();
-          if (n.getPitch().toString() == note.getPitch().toString() &&
-                  n.getOctave().toString() == note.getOctave().toString()) {
-            /*throw new IllegalArgumentException("Note with same pitch and octave " +
-                    "already exists at this time interval. " + n.getPitch().toString() +
-                    n.getOctave().toString() + " and " +  note.getPitch().toString() +
-                    note.getOctave().toString());*/
-          }
-        }
-      }
-    }
+//    for (int i = note.getStart(); i <= note.getEnd(); i++) {
+//      if (map.containsKey(i)) {
+//        Iterator iterator = map.get(i).iterator();
+//        while (iterator.hasNext()) {
+//          Note n = (Note) iterator.next();
+//          if (n.getPitch().toString() == note.getPitch().toString() &&
+//                  n.getOctave().toString() == note.getOctave().toString()) {
+//            /*throw new IllegalArgumentException("Note with same pitch and octave " +
+//                    "already exists at this time interval. " + n.getPitch().toString() +
+//                    n.getOctave().toString() + " and " +  note.getPitch().toString() +
+//                    note.getOctave().toString());*/
+//          }
+//        }
+//      }
+//    }
     for (int i = note.getStart(); i < note.getEnd(); i++) {
       if (!map.containsKey(i)) {
         map.put(i, new HashSet());
@@ -73,7 +73,7 @@ public class NoteList implements SoundUnitList<Note> {
 
   @Override
   public void delete(Note note) {
-    for (int i = note.getStart(); i <= note.getEnd(); i++) {
+    for (int i = note.getStart(); i < note.getEnd(); i++) {
       if (map.containsKey(i) && !map.get(i).contains(note) && !set.contains(note)
               || !map.containsKey(i) && !set.contains(note)) {
         throw new IllegalArgumentException("The given note is not in this list");
@@ -86,7 +86,7 @@ public class NoteList implements SoundUnitList<Note> {
 
   @Override
   public boolean contains(Note note) {
-    for (int i = note.getStart(); i <= note.getEnd(); i++) {
+    for (int i = note.getStart(); i < note.getEnd(); i++) {
       if (map.containsKey(i) && !map.get(i).contains(note) && !set.contains(note)
               || !map.containsKey(i) && !set.contains(note)) {
         return false;
@@ -100,7 +100,7 @@ public class NoteList implements SoundUnitList<Note> {
     if (time < 0) {
       throw new IllegalArgumentException("Time cannot be negative.");
     }
-    else if (this.hasNotesAtTime(time)) {
+    if (this.hasNotesAtTime(time)) {
       return map.get(time);
     }
     return new HashSet<>();
@@ -111,6 +111,7 @@ public class NoteList implements SoundUnitList<Note> {
 //    } else {
 //      return map.get(time);
 //    }
+
   @Override
   public int size() {
     HashSet<Note> finalSet = new HashSet<>();

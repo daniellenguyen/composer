@@ -68,9 +68,8 @@ public class NoteListTest {
     assertEquals(l.contains(n3), true);
   }
 
-  //These Tests were throwing errors for note Overlap
-  /*
-  @Test (expected = IllegalArgumentException.class)
+
+  @Test
   public void addConsecutiveNotesWorks() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 2, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 7, 8);
@@ -81,7 +80,7 @@ public class NoteListTest {
     assertEquals(l.contains(n2), true);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void addOverlap1() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 2, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 8);
@@ -90,7 +89,7 @@ public class NoteListTest {
     l.add(n2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void addOverlap2() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 2, 6);
@@ -99,7 +98,7 @@ public class NoteListTest {
     l.add(n2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void addOverlap3() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 6);
@@ -108,7 +107,7 @@ public class NoteListTest {
     l.add(n2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void addOverlap4() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 6, 7);
@@ -117,7 +116,7 @@ public class NoteListTest {
     l.add(n2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void addOverlap5() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 1, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 4, 6);
@@ -126,7 +125,7 @@ public class NoteListTest {
     l.add(n2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void addOverlap6() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 1, 8);
@@ -135,14 +134,14 @@ public class NoteListTest {
     l.add(n2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void addOverlapSameNotes() {
     Note n1 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 7);
     Note n2 = new Note(Note.Pitch.A2, Note.Octave.TWO, 5, 7);
     NoteList l = new NoteList();
     l.add(n1);
     l.add(n2);
-  }*/
+  }
 
   /**
    * Tests for the method delete
@@ -303,8 +302,8 @@ public class NoteListTest {
     assertEquals(l.getAllAtTime(2).size(), 1);
     assertEquals(l.getAllAtTime(3).contains(n1), true);
     assertEquals(l.getAllAtTime(3).size(), 1);
-    assertEquals(l.getAllAtTime(4).contains(n1), true);
-    assertEquals(l.getAllAtTime(4).size(), 1);
+    assertEquals(l.getAllAtTime(4).contains(n1), false);
+    assertEquals(l.getAllAtTime(4).size(), 0); // if end time is 4 the note is not playing at 4
   }
 
   @Test
@@ -320,8 +319,8 @@ public class NoteListTest {
     assertEquals(l.getAllAtTime(2).size(), 1);
     assertEquals(l.getAllAtTime(3).contains(n1), true);
     assertEquals(l.getAllAtTime(3).size(), 1);
-    assertEquals(l.getAllAtTime(4).contains(n1), true);
-    assertEquals(l.getAllAtTime(4).size(), 1);
+    assertEquals(l.getAllAtTime(4).contains(n1), false);
+    assertEquals(l.getAllAtTime(4).size(), 0);
     assertEquals(l.getAllAtTime(5).contains(n2), true);
     assertEquals(l.getAllAtTime(5).contains(n1), false);
     assertEquals(l.getAllAtTime(5).size(), 1);
@@ -353,14 +352,14 @@ public class NoteListTest {
     l.getAllAtTime(-1);
   }
 
-//  @Test (expected = IllegalArgumentException.class)
-//  public void noNotesAtGivenTime() {
-//    Note n1 = new Note(Note.Pitch.B, Note.Octave.TWO, 2, 4);
-//    SoundUnitList l = new NoteList();
-//    l.add(n1);
-//    assertEquals(l.contains(n1), true);
-//    l.getAllAtTime(0);
-//  }
+  @Test
+  public void noNotesAtGivenTime() {
+    Note n1 = new Note(Note.Pitch.B, Note.Octave.TWO, 2, 4);
+    SoundUnitList l = new NoteList();
+    l.add(n1);
+    assertEquals(l.contains(n1), true);
+    l.getAllAtTime(0); // returns an empty list
+  }
 
   /**
    * Tests for the method size
