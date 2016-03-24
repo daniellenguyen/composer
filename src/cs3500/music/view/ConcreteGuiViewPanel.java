@@ -28,6 +28,7 @@ public class ConcreteGuiViewPanel extends JPanel {
   /**
    * Paints the GuiWithNotes similar to the way the console does. Has no action Functionality added
    * yet
+   * @param g Graphics
    */
   @Override
   public void paint(Graphics g) {
