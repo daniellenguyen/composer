@@ -28,7 +28,12 @@ Changes:
   HashSet<Integer, TreeSet<Note>>. This will eliminate a lot of code in the 
   view that makes the whole program slower - the view is currently trying to 
   compensate for the fact that HashSets' elements are not ordered from least
-  to greatest.   
+  to greatest.
+
+To Run from using the command line:
+  java -jar MusicEditor.jar mary-little-lamb.txt console
+  java -jar MusicEditor.jar mary-little-lamb.txt midi
+  java -jar MusicEditor.jar mary-little-lamb.txt gui
 
 TODO:
 
