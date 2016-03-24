@@ -266,8 +266,8 @@ public class NoteTest {
 
   /**
    * Tests for the set/get Octave
-   * Please note that it is impossible to give an invalid value without a compiler error
    */
+
   @Test
   public void setOctaveWorks() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
@@ -281,6 +281,51 @@ public class NoteTest {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.SIX, 2, 3);
     assertEquals(n1.getOctave(), Note.Octave.SIX);
     n1.setOctave(Note.Octave.SIX);
-    assertEquals(n1.getOctave(),  Note.Octave.SIX);
+    assertEquals(n1.getOctave(), Note.Octave.SIX);
+  }
+
+  @Test
+  public void MIDInoteConstructorWorks() {
+    Note n = new Note(Note.Pitch.C, Note.Octave.FIVE, 5, 7);
+    assertEquals(n.getPitch(), Note.Pitch.C);
+    assertEquals(n.getOctave(), Note.Octave.FIVE);
+    assertEquals(n.getStart(), 5);
+    assertEquals(n.getEnd(), 7);
+
+    n.setPitchAndOctaveFromMIDI(60);
+    assertEquals(n.getPitch(), Note.Pitch.C);
+    assertEquals(n.getOctave(), Note.Octave.FOUR);
+  }
+
+  @Test
+  public void SetMIDIPitchTest1() {
+    Note n = new Note(Note.Pitch.C, Note.Octave.FIVE, 5, 7);
+    n.setPitchAndOctaveFromMIDI(60);
+    assertEquals(n.getPitch(), Note.Pitch.C);
+    assertEquals(n.getOctave(), Note.Octave.FOUR);
+  }
+
+  @Test
+  public void SetMIDIPitchTest2() {
+    Note n = new Note(Note.Pitch.C, Note.Octave.FIVE, 5, 7);
+    n.setPitchAndOctaveFromMIDI(72);
+    assertEquals(n.getPitch(), Note.Pitch.C);
+    assertEquals(n.getOctave(), Note.Octave.FIVE);
+  }
+
+  @Test
+  public void SetMIDIPitchTest3() {
+    Note n = new Note(Note.Pitch.C, Note.Octave.FIVE, 5, 7);
+    n.setPitchAndOctaveFromMIDI(41);
+    assertEquals(n.getPitch(), Note.Pitch.F);
+    assertEquals(n.getOctave(), Note.Octave.TWO);
+  }
+
+  @Test
+  public void UseNormalConstructorToSetMIDI() {
+    Note n = new Note(Note.Pitch.C, Note.Octave.FOUR, 5, 7);
+    assertEquals(60, n.getMIDIPitch());
+    Note n2 = new Note(Note.Pitch.C2, Note.Octave.FOUR, 5, 7);
+    assertEquals(61, n2.getMIDIPitch());
   }
 }
