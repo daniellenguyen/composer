@@ -16,20 +16,12 @@ public class MusicEditor {
 
     MusicReader ReaderOfText = new MusicReader();
 
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
+    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
+    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
-
-//    GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.ViewType.GUI, inputSong);
-//    ///////GuiViewFrame GuiView = new GuiViewFrame(inputSong);
-//    GuiView.initialize();
-//
-//
-//    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
-//    midiView.playSong(inputSong);
 
     ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.ViewType.CONSOLE, inputSong);
     consoleView.consoleRender(inputSong);

@@ -2,7 +2,7 @@ README:
 
 The purpose of this program is to create a product where users can interact with compositions of music.
 
-Changes:TODO: put all changes here
+Changes:
 
 TODO:
 
