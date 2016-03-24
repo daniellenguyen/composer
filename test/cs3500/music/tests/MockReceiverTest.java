@@ -70,9 +70,9 @@ public class MockReceiverTest {
     inputSong.add(newNote);
 
     Note newNote2 = new Note(Note.Pitch.C, Note.Octave.ONE, 4, 5);
-    newNote.setPitchAndOctaveFromMIDI(65);
-    newNote.setVolume(85);
-    newNote.setInstrument(2);
+    newNote2.setPitchAndOctaveFromMIDI(65);
+    newNote2.setVolume(85);
+    newNote2.setInstrument(2);
     inputSong.add(newNote2);
 
 
@@ -84,8 +84,8 @@ public class MockReceiverTest {
 
     //144 = Note On
     //128 = Note Off
-    assertEquals("144 1 65 85\n" +
-            "128 1 65 85\n", editedReceiver.GetMockBuffer());
+    assertEquals("144 0 60 99\n" +
+            "128 0 60 99\n", editedReceiver.GetMockBuffer());
   }
 
   @Test
@@ -98,15 +98,15 @@ public class MockReceiverTest {
     inputSong.add(newNote);
 
     Note newNote2 = new Note(Note.Pitch.C, Note.Octave.ONE, 3, 5);
-    newNote.setPitchAndOctaveFromMIDI(65);
-    newNote.setVolume(85);
-    newNote.setInstrument(2);
+    newNote2.setPitchAndOctaveFromMIDI(65);
+    newNote2.setVolume(85);
+    newNote2.setInstrument(2);
     inputSong.add(newNote2);
 
     Note newNote3 = new Note(Note.Pitch.C, Note.Octave.ONE, 6, 8);
-    newNote.setPitchAndOctaveFromMIDI(70);
-    newNote.setVolume(50);
-    newNote.setInstrument(1);
+    newNote3.setPitchAndOctaveFromMIDI(70);
+    newNote3.setVolume(50);
+    newNote3.setInstrument(1);
     inputSong.add(newNote3);
 
 
@@ -118,10 +118,10 @@ public class MockReceiverTest {
 
     //144 = Note On
     //128 = Note Off
-    assertEquals("144 0 70 50\n" +
-                    "144 0 24 70\n" +
-                    "128 0 24 70\n" +
-                    "144 0 24 70\n",
+    assertEquals("144 0 60 99\n" +
+            "144 1 65 85\n" +
+            "128 1 65 85\n" +
+            "144 0 70 50\n",
             editedReceiver.GetMockBuffer());
   }
 

@@ -41,7 +41,8 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
    * @param volume     The volume (in the range [0, 127])
    */
   @Override
-  public CompositionBuilder<NoteList> addNote(int start, int end, int instrument, int pitch, int volume) {
+  public CompositionBuilder<NoteList> addNote(int start, int end,
+                                              int instrument, int pitch, int volume) {
     Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, start, end);
     newNote.setPitchAndOctaveFromMIDI(pitch);
     newNote.setVolume(volume);

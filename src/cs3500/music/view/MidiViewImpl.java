@@ -68,7 +68,8 @@ public class MidiViewImpl implements View {
       //Find notes to Start
       if (n.getStart() == BeatNumber) {
         ShortMessage myMsg = new ShortMessage();
-        myMsg.setMessage(ShortMessage.NOTE_ON, n.getInstrument() - 1, n.getMIDIPitch(), n.getVolume());
+        myMsg.setMessage(ShortMessage.NOTE_ON, n.getInstrument() - 1,
+                n.getMIDIPitch(), n.getVolume());
 
         receiver.send(myMsg, -1);
       }
@@ -76,7 +77,8 @@ public class MidiViewImpl implements View {
       else if (n.getEnd()-1 == BeatNumber && !dontStopNote) {
 
         ShortMessage myMsg = new ShortMessage();
-        myMsg.setMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1, n.getMIDIPitch(), n.getVolume());
+        myMsg.setMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1,
+                n.getMIDIPitch(), n.getVolume());
 
         receiver.send(myMsg, -1);
       }
