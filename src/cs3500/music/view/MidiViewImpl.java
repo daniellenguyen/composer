@@ -73,7 +73,7 @@ public class MidiViewImpl implements View {
         receiver.send(myMsg, -1);
       }
       //Find Notes to End
-      else if (n.getEnd() == BeatNumber && !dontStopNote) {
+      else if (n.getEnd()-1 == BeatNumber && !dontStopNote) {
 
         ShortMessage myMsg = new ShortMessage();
         myMsg.setMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1, n.getMIDIPitch(), n.getVolume());
