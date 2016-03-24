@@ -1,4 +1,5 @@
 package cs3500.music;
+
 import cs3500.music.model.NoteList;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.ConsoleViewImpl;
@@ -12,7 +13,8 @@ import javax.sound.midi.InvalidMidiDataException;
 
 
 public class MusicEditor {
-  public static void main(String[] args) throws IOException, InvalidMidiDataException, InterruptedException {
+  public static void main(String[] args) throws IOException,
+          InvalidMidiDataException, InterruptedException {
 
     MusicReader ReaderOfText = new MusicReader();
 
@@ -27,25 +29,28 @@ public class MusicEditor {
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
-    //GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.ViewType.GUI, inputSong);
+    //GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create
+    // (ViewCreator.ViewType.GUI, inputSong);
     ///////GuiViewFrame GuiView = new GuiViewFrame(inputSong);
     //GuiView.initialize();
 
 
-    //MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    //MidiViewImpl midiView = (MidiViewImpl)
+    // ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
     //midiView.playSong(inputSong);
 
 
-    if(args[1].equals("console")){
-      ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.ViewType.CONSOLE, inputSong);
+    if (args[1].equals("console")) {
+      ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.
+              ViewType.CONSOLE, inputSong);
       consoleView.consoleRender(inputSong);
-    }
-    else if(args[1].equals("midi")){
-      MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    } else if (args[1].equals("midi")) {
+      MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.
+              ViewType.MIDI, inputSong);
       midiView.playSong(inputSong);
-    }
-    else if(args[1].equals("gui")){
-      GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.ViewType.GUI, inputSong);
+    } else if (args[1].equals("gui")) {
+      GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.
+              ViewType.GUI, inputSong);
       GuiView.initialize();
     }
 
