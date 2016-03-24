@@ -31,6 +31,9 @@ public class MusicEditor {
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
     midiView.playSong(inputSong);
 
+    ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.ViewType.CONSOLE, inputSong);
+    consoleView.consoleRender(inputSong);
+
     Thread.sleep(3000);
     // You probably need to connect these views to your model, too...
   }

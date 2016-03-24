@@ -92,7 +92,11 @@ public class ConsoleViewImpl implements View {
             Note.Pitch nPitch = pitchRow.get(j).getPitch();
             Note.Octave nOctave = pitchRow.get(j).getOctave();
             if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave())) {
-              if (!(onRightNow.containsKey(nOctave))) {
+              if (!(onRightNow.containsKey(nOctave)) && n.getStart() == n.getEnd()) {
+                finalRow = finalRow + "  X  ";
+                wasAnythingAdded = true;
+              }
+              else if (!(onRightNow.containsKey(nOctave))) {
                 HashSet<Note.Pitch> p = new HashSet<>();
                 p.add(nPitch);
                 onRightNow.put(nOctave, p);

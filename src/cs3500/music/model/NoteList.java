@@ -59,7 +59,7 @@ public class NoteList implements SoundUnitList<Note> {
         }
       }
     }
-    for (int i = note.getStart(); i <= note.getEnd(); i++) {
+    for (int i = note.getStart(); i < note.getEnd(); i++) {
       if (!map.containsKey(i)) {
         map.put(i, new HashSet());
         map.get(i).add(note);
