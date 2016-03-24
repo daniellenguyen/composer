@@ -144,8 +144,7 @@ public class MockReceiverTest {
     //128 = Note Off
     assertEquals("144 0 70 50\n" +
                     "144 0 24 70\n" +
-                    "144 0 24 70\n" +
-                    "128 0 24 70\n",
+                    "144 0 24 70\n",
             editedReceiver.GetMockBuffer());
   }
 
