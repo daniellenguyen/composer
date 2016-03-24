@@ -42,29 +42,6 @@ public class MockReceiverTest {
     //assertEquals("", editedReceiver.GetMockBuffer());
   }
 
-/*
-  @Test
-  public void OneNoteMockTest() throws InvalidMidiDataException {
-    MusicReader ReaderOfText = new MusicReader();
-
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
-
-    NoteList inputSong = new NoteList();
-    inputSong.add(new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1));
-    inputSong.add(new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1));
-    inputSong.add(new Note(Note.Pitch.C2, Note.Octave.FOUR, 0, 1));
-
-
-    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
-    midiView.playSong(inputSong);
-  }*/
-
-
   @Test
   public void OneNoteMockTest() throws InvalidMidiDataException {
     NoteList inputSong = new NoteList();
@@ -82,7 +59,6 @@ public class MockReceiverTest {
 
     assertEquals("144 0 60 99\n", editedReceiver.GetMockBuffer());
   }
-
 
   @Test
   public void TwoNoteMockTest() throws InvalidMidiDataException {
