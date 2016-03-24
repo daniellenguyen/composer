@@ -110,7 +110,7 @@ public class ConsoleViewImpl implements View {
               else if (onRightNow.get(nOctave).contains(nPitch)) {
                 finalRow = finalRow + "  |  ";
                 wasAnythingAdded = true;
-                if (n.getEnd() == i) {
+                if (n.getEnd() == i + 1) {
                   onRightNow.get(nOctave).remove(nPitch);
                 }
               }
