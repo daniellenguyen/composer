@@ -26,7 +26,9 @@ Changes:
   In the future, we plan to change the data structure behind the NoteList class
   so that instead of it being a TreeMap<Integer, HashSet<Note>>, it will be a
   HashSet<Integer, TreeSet<Note>>. This will eliminate a lot of code in the 
-  view that makes the whole program slower - the view is compensating for   
+  view that makes the whole program slower - the view is currently trying to 
+  compensate for the fact that HashSets' elements are not ordered from least
+  to greatest.   
 
 TODO:
 
