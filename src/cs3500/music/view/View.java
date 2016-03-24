@@ -5,4 +5,6 @@ package cs3500.music.view;
  */
 public interface View {
 
+  //TODO ADD THINGS IN HERE
+
 }

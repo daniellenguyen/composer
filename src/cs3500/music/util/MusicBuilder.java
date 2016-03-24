@@ -12,7 +12,7 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
   private NoteList listOfNotes = new NoteList();
 
 
-  public MusicBuilder(){
+  public MusicBuilder() {
 
   }
 
@@ -29,6 +29,17 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
   }
 
 
+  /**
+   * This is used by the reader to build a composition. First general Note is created, then
+   * parameters make it more specific
+   *
+   * @param start      The start time of the note, in beats
+   * @param end        The end time of the note, in beats
+   * @param instrument The instrument number (to be interpreted by MIDI)
+   * @param pitch      The pitch (in the range [0, 127], where 60 represents C4, the middle-C on a
+   *                   piano)
+   * @param volume     The volume (in the range [0, 127])
+   */
   @Override
   public CompositionBuilder<NoteList> addNote(int start, int end, int instrument, int pitch, int volume) {
     Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, start, end);

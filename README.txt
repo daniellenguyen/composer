@@ -45,7 +45,8 @@ TODO:
     — and the file extensions are case-sensitive.
 18. make a jar file
 19. Consider adding a MessageCloseFunction (Written by Justin)
-20.  Make sure EVERYTHING has Public Constructors (Justin)
+20. Make sure EVERYTHING has Public Constructors (Justin)
+21. Give View things to have??? (Justin)
 
 
 Questions for TA:

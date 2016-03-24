@@ -77,4 +77,11 @@ public class MusicReader {
 
     return  inputSong;
   }
+
+  /**
+   * General Constructor for Reader
+   */
+  public MusicReader(){
+
+  }
 }
