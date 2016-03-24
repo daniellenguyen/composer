@@ -4,6 +4,30 @@ The purpose of this program is to create a product where users can interact with
 
 Changes:
 
+  The Note class was changed to accomodate fields necessary for the MIDI view.
+  The getter-setter pattern was also applied here.
+
+  The NoteList class was changed to accomodate that the given txt files'
+  definition of the end of a note. The original model assumed that the 
+  end time was the last timestamp the note would play, but the txt file
+  assumes that the end time is the first timestamp where the note doesn't
+  play. The add, delete, and contains method with accompanying unit tests
+  were changed to accomodate this. 
+ 
+  The NoteList class was also changed so that if a user tried to get all notes 
+  at a certain timestamp and that timestamp did not happen to be recorded in 
+  the model, the model would not throw an error saying "invalid timestamp." 
+  Instead, an empty list is returned. This is safe because there is no modification
+  of the list anywhere in the view code; the view code merely reads the 
+  contents of the list. 
+
+  All three views are connected in that they implement a View interface. 
+
+  In the future, we plan to change the data structure behind the NoteList class
+  so that instead of it being a TreeMap<Integer, HashSet<Note>>, it will be a
+  HashSet<Integer, TreeSet<Note>>. This will eliminate a lot of code in the 
+  view that makes the whole program slower - the view is compensating for   
+
 TODO:
 
 1.  unite the MIDI aspects of the note with the note itself,
