@@ -45,5 +45,10 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   }
 
   public void addActionListener(MusicEditorController musicEditorController) {
+    //TODO add listeners Here
+    /*
+    echoButton.addActionListener(actionListener);
+    exitButton.addActionListener(actionListener);
+     */
   }
 }

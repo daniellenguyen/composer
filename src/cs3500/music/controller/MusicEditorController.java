@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.sound.midi.InvalidMidiDataException;
+
 import cs3500.music.model.NoteList;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
@@ -28,6 +30,13 @@ public class MusicEditorController implements ActionListener {
     this.consoleView = consoleView;
     configureKeyBoardListener();
     this.guiView.addActionListener(this);
+
+    try {
+      this.guiView.initialize();
+      this.midiView.playSong(this.model);
+    } catch (InvalidMidiDataException e) {
+      e.printStackTrace();
+    }
   }
 
   private void configureKeyBoardListener() {
@@ -35,27 +44,12 @@ public class MusicEditorController implements ActionListener {
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
-    ////keyPresses.put(KeyEvent.VK_C, new MakeCaps());
-    ////keyReleases.put(KeyEvent.VK_C, new MakeOriginalCase());
-    // Another possible syntax: instead of defining a new class, just to make a single instance,
-    // you can create an "anonymous class" that implements a particular interface, by writing
-    // "new Interfacename() { all the methods you need to implement }"
-    // Note that "view" is in scope inside this Runnable!  But, also note that within the Runnable,
-    // "this" refers to the Runnable and not to the Controller, so we don't say "this.view".
     keyTypes.put('r', new Runnable() {
       public void run() {
         ///////////////////////     view.toggleColor();
       }
     });
 
-    // Another possible syntax:
-    // Instead of an anonymous class, you can (as of Java 8) use "lambda syntax",
-    // as follows: if the interface you want to implement has only one single method,
-    // then write the parenthesized argument list, followed by an arrow, followed by
-    // the body of the method.  Java will infer that you mean to implement the particular
-    // single method of that interface, and translate the code for you to resemble the
-    // anonymous Runnable example above.
-    // Again note all the names that are in scope.
     keyTypes.put('x', () -> {
       // exchange the hotkeys C and U:
       // Take the event handlers from VK_C and VK_U
