@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.swing.*;
 
+import cs3500.music.controller.MusicEditorController;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 import cs3500.music.util.MusicReader;
@@ -43,4 +44,11 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     return new Dimension(1600, 800);
   }
 
+  public void addActionListener(MusicEditorController musicEditorController) {
+    //TODO add listeners Here
+    /*
+    echoButton.addActionListener(actionListener);
+    exitButton.addActionListener(actionListener);
+     */
+  }
 }

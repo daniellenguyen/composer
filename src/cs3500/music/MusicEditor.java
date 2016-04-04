@@ -1,5 +1,6 @@
 package cs3500.music;
 
+import cs3500.music.controller.MusicEditorController;
 import cs3500.music.model.NoteList;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.ConsoleViewImpl;
@@ -22,7 +23,7 @@ public class MusicEditor {
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
 
 
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
+    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
     /// /NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
@@ -34,28 +35,14 @@ public class MusicEditor {
     ///////GuiViewFrame GuiView = new GuiViewFrame(inputSong);
     //GuiView.initialize();
 
+    ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.
+            ViewType.CONSOLE, inputSong);
+    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.
+            ViewType.MIDI, inputSong);
+    GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.
+            ViewType.GUI, inputSong);
 
-    MidiViewImpl midiView = (MidiViewImpl)
-            ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
-    midiView.playSong(inputSong);
-
-//
-//    if (args[1].equals("console")) {
-//      ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.
-//              ViewType.CONSOLE, inputSong);
-//      consoleView.consoleRender(inputSong);
-//    } else if (args[1].equals("midi")) {
-//      MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.
-//              ViewType.MIDI, inputSong);
-//      midiView.playSong(inputSong);
-//    } else if (args[1].equals("gui")) {
-//      GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.
-//              ViewType.GUI, inputSong);
-//      GuiView.initialize();
-//    }
-//
-//    Thread.sleep(3000);
-//    // You probably need to connect these views to your model, too...
-//  }
+    MusicEditorController asd = new MusicEditorController(inputSong, GuiView, midiView, consoleView);
+    
   }
 }
