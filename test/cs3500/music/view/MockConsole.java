@@ -7,23 +7,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 /**
- * Created by daniellenguyen on 4/4/16.
+ * To test the console output
  */
-public class MockConsole {
-  StringBuilder mockConsoleOutput;
-  SoundUnitList list;
+public class MockConsole implements View {
+  private StringBuilder mockConsoleOutput;
+  private SoundUnitList list;
 
   public MockConsole() {
     mockConsoleOutput = new StringBuilder();
     list = new NoteList();
   }
 
-  public void setStringBuilder(StringBuilder givenBuilder) {
-    mockConsoleOutput = givenBuilder;
-  }
-
-  public StringBuilder getStringBuilder() {
-    return mockConsoleOutput;
+  public String getStringBuilderAsString() {
+    return mockConsoleOutput.toString();
   }
 
   public void createSong(SoundUnitList list) {
