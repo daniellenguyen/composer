@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import cs3500.music.controller.MusicEditorController;
+import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnitList;
 
 /**
@@ -13,7 +14,7 @@ import cs3500.music.model.SoundUnitList;
 public class GuiViewFrame extends javax.swing.JFrame implements View {
 
   private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
-
+  NoteAdderView noteAdderView;
   /**
    * Creates new GuiView
    */
@@ -22,11 +23,26 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
     this.pack();
+
   }
 
   //@Override
   public void initialize(){
     this.setVisible(true);
+  }
+
+  /*
+  public void OpenNoteAdder(Note inputNote) {
+    this.setVisible(false);
+    noteAdderView = new NoteAdderView(inputNote);
+  }
+  public void closeNoteAdder() {
+    noteAdderView.setVisible(false);
+  }*/
+
+  public void resetFocus() {
+    this.setFocusable(true);
+    this.requestFocus();
   }
 
   @Override

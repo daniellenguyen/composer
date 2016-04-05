@@ -8,10 +8,12 @@ import java.util.Map;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
+import cs3500.music.view.NoteAdderView;
 
 /**
  * Created by Justin Hynes-Bruell on 3/31/2016.
@@ -22,6 +24,7 @@ public class MusicEditorController implements ActionListener {
   private GuiViewFrame guiView;
   private MidiViewImpl midiView;
   private ConsoleViewImpl consoleView;
+  private NoteAdderView noteAdderView;
 
   public MusicEditorController(SoundUnitList model, GuiViewFrame guiView, MidiViewImpl midiView, ConsoleViewImpl consoleView) {
     this.model = model;
@@ -44,27 +47,11 @@ public class MusicEditorController implements ActionListener {
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
-    keyTypes.put('r', new Runnable() {
+    keyTypes.put('a', new Runnable() {
       public void run() {
-        ///////////////////////     view.toggleColor();
+        System.out.println("Set Note Button Pressed:\n");
+        noteAdderViewCreator();
       }
-    });
-
-    keyTypes.put('x', () -> {
-      // exchange the hotkeys C and U:
-      // Take the event handlers from VK_C and VK_U
-      Runnable oldCHandler = keyPresses.get(KeyEvent.VK_C);
-      Runnable oldUHandler = keyPresses.get(KeyEvent.VK_U);
-      // Update the C handler
-      if (oldCHandler != null)
-        keyPresses.put(KeyEvent.VK_U, oldCHandler);
-      else
-        keyPresses.remove(KeyEvent.VK_U);
-      // Update the U handler
-      if (oldUHandler != null)
-        keyPresses.put(KeyEvent.VK_U, oldCHandler);
-      else
-        keyPresses.remove(KeyEvent.VK_U);
     });
 
     KeyboardListener kbd = new KeyboardListener();
@@ -75,30 +62,53 @@ public class MusicEditorController implements ActionListener {
     guiView.addKeyListener(kbd);
   }
 
+  private void noteAdderViewCreator(){
+    guiView.setVisible(false);
+    noteAdderView = new NoteAdderView(model.getLastNote());
+    noteAdderView.resetFocus();
+    noteAdderView.addActionListener(this);
+  }
+
   @Override
   public void actionPerformed(ActionEvent e) {
     // TODO Auto-generated method stub
     switch (e.getActionCommand()) {
-      /*
       //read from the input textfield
-      case "Echo Button":
-        String text = guiView.getInputString();
-        //send text to the model
-        model.setString(text);
+      case "Set Note Button":
+        System.out.println("\n" + "Pitch: ");
+        System.out.println(noteAdderView.getInputPitch());
+        System.out.println("\n" + "Octave: ");
+        System.out.println(noteAdderView.getInputOctave());
+        System.out.println("\n" + "Start: ");
+        System.out.println(noteAdderView.getInputStart().toString());
+        System.out.println("\n" + "Duration: ");
+        System.out.println(noteAdderView.getInputDuration());
+        System.out.println("\n" + "Volume: ");
+        System.out.println(noteAdderView.getInputVolume().toString());
+        System.out.println("\n" + "Instrument: ");
+        System.out.println(noteAdderView.getInputInstrument());
+        System.out.println("\n\n");
 
-        //clear input textfield
-        guiView.clearInputString();
-        //finally echo the string in view
-        text = model.getString();
-        guiView.setEchoOutput(text);
 
-        //set focus back to main frame so that keyboard events work
-        guiView.resetFocus();
-
+        Note noteToAdd = new Note(noteAdderView.getInputPitchEnum(),
+              noteAdderView.getInputOctaveEnum(), Integer.valueOf(noteAdderView.getInputStart()),
+              Integer.valueOf(noteAdderView.getInputDuration()));
+        noteToAdd.setVolume(Integer.valueOf(noteAdderView.getInputStart().toString()));
+        noteToAdd.setInstrument(Integer.valueOf(noteAdderView.getInputVolume().toString()));
+        model.add(noteToAdd);
+        model.setLastNote(noteToAdd);
         break;
+
       case "Exit Button":
-        System.exit(0);
-        break;*/
+        noteAdderView.setVisible(false);
+        guiView = new GuiViewFrame(model);
+        guiView.initialize();
+        guiView.resetFocus();
+        guiView.addActionListener(this);
+        configureKeyBoardListener();
+
+        //System.exit(0);
+        break;
     }
   }
 }

@@ -86,4 +86,8 @@ public interface SoundUnitList<T> {
    * @param tempo the new tempo
    */
   void setTempo(int tempo);
+
+  void setLastNote(Note newLastNote);
+
+  Note getLastNote();
 }
