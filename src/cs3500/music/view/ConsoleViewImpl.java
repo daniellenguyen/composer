@@ -11,9 +11,6 @@ import java.util.*;
  */
 public class ConsoleViewImpl implements View {
 
-  public ConsoleViewImpl() {
-  }
-
   /**
    * Returns a list containing the range of notes to be played, including gaps
    * where there is no note in the song itself.

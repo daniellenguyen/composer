@@ -28,21 +28,11 @@ public class MidiViewImpl implements View {
     }
   }
 
-  public void setMockReciever(Receiver inputReceiver){
+  public void setMockReciever(Receiver inputReceiver) {
     this.receiver = inputReceiver;
   }
 
-  public Receiver getMockReciever(){
-    return receiver;
-  }
-
-  public void playNote() throws InvalidMidiDataException {
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 64);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 60, 64);
-    this.receiver.send(start, -1);
-    this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
-    this.receiver.close(); // Only call this once you're done playing *all* notes
-  }
+  public Receiver getMockReciever() { return receiver; }
 
   public void playBeat(SoundUnitList noteList, int BeatNumber) throws InvalidMidiDataException {
 
@@ -54,7 +44,7 @@ public class MidiViewImpl implements View {
 
     while (i.hasNext()) {
       //Get the Note from the set
-      SoundUnit n = (Note) i.next();
+      SoundUnit n = i.next();
 
       //Determine if note has already been played at this beat
       boolean dontStopNote = false;
@@ -75,7 +65,7 @@ public class MidiViewImpl implements View {
         receiver.send(myMsg, -1);
       }
       //Find Notes to End
-      else if (n.getEnd()-1 == BeatNumber && !dontStopNote) {
+      else if (n.getEnd() - 1 == BeatNumber && !dontStopNote) {
 
         ShortMessage myMsg = new ShortMessage();
         myMsg.setMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1,
@@ -98,14 +88,14 @@ public class MidiViewImpl implements View {
       }
 
       try {
-        Thread.sleep(inputSong.getTempo()/1000);
+        Thread.sleep(inputSong.getTempo() / 1000);
       } catch (InterruptedException ex) {
         Thread.currentThread().interrupt();
       }
     }
   }
 
-  public void fillMockReceiver(SoundUnitList inputSong){
+  public void fillMockReceiver(SoundUnitList inputSong) {
     for (int i = 0; i < inputSong.songLength(); i++) {
       try {
         playBeat(inputSong, i);

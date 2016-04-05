@@ -1,8 +1,5 @@
-package cs3500.music.tests;
+package cs3500.music.model;
 
-import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
-import cs3500.music.model.SoundUnitList;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

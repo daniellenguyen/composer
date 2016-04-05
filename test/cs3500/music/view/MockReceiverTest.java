@@ -9,9 +9,6 @@ import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.util.MusicReader;
-import cs3500.music.view.MidiViewImpl;
-import cs3500.music.view.MockReceiver;
-import cs3500.music.view.ViewCreator;
 
 import static org.junit.Assert.assertEquals;
 

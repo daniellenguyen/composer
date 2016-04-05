@@ -5,10 +5,9 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 
 /**
- *
+ * Mock object to test MIDI
  */
 public class MockReceiver implements Receiver{
-
   StringBuilder ListOfNotesPlayed;
 
   public MockReceiver(){

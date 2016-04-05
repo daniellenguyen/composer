@@ -1,9 +1,6 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
-import java.util.Iterator;
-import java.util.Set;
 
 import javax.swing.*;
 
@@ -27,15 +24,10 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     this.pack();
   }
 
-
-
   //@Override
   public void initialize(){
     this.setVisible(true);
   }
-
-
-
 
   @Override
   public Dimension getPreferredSize(){

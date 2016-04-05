@@ -29,8 +29,7 @@ public class ConsoleViewImplTest {
     NoteList l = new NoteList();
     ConsoleViewImpl c = new ConsoleViewImpl();
     l.add(n1);
-    //TODO
-    //c.consoleRender(l);
+    //assertEquals("", c.consoleRender(l));
   }
 
   @Test
@@ -39,8 +38,7 @@ public class ConsoleViewImplTest {
     NoteList l = new NoteList();
     ConsoleViewImpl c = new ConsoleViewImpl();
     l.add(n1);
-    //TODO
-    //c.consoleRender(l);
+    c.consoleRender(l);
   }
 
   @Test
@@ -53,8 +51,7 @@ public class ConsoleViewImplTest {
     l.add(n1);
     l.add(n2);
     l.add(n3);
-    //TODO
-    //c.consoleRender(l);
+    c.consoleRender(l);
   }
 
   @Test
@@ -67,8 +64,7 @@ public class ConsoleViewImplTest {
     l.add(n1);
     l.add(n2);
     l.add(n3);
-    //TODO
-    //c.consoleRender(l);
+    c.consoleRender(l);
   }
 
   @Test
@@ -81,8 +77,7 @@ public class ConsoleViewImplTest {
     l.add(n1);
     l.add(n2);
     l.add(n3);
-    //TODO
-    //c.consoleRender(l);
+    c.consoleRender(l);
   }
 
   @Test
@@ -95,7 +90,6 @@ public class ConsoleViewImplTest {
     l.add(n1);
     l.add(n2);
     l.add(n3);
-    //TODO
-    //c.consoleRender(l);
+    c.consoleRender(l);
   }
 }
