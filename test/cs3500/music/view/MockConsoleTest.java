@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created by daniellenguyen on 3/22/16.
  */
-public class ConsoleViewImplTest {
+public class MockConsoleTest {
 
 
   /**
