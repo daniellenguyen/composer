@@ -6,10 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Iterator;
 import java.util.Set;
-
-
-import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnit;
+import cs3500.music.model.SoundUnitList;
 import cs3500.music.util.MusicBuilder;
 import cs3500.music.util.MusicReader;
 
@@ -49,18 +47,18 @@ public class MusicReaderTest {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    NoteList MarysLamb = Builder.build();
+    SoundUnitList MarysLamb = Builder.build();
 
     //At Beat 27, ONLY ONE NOTE IS PLAYING
-    Set<Note> Notes = MarysLamb.getAllAtTime(27);
+    Set<SoundUnit> Notes = MarysLamb.getAllAtTime(27);
 
-    Iterator<Note> i = Notes.iterator();
+    Iterator<SoundUnit> i = Notes.iterator();
 
     while (i.hasNext()){
-      Note n = (Note) i.next();
+      SoundUnit n = i.next();
       assertEquals(n.getStart(), 26);
-      assertEquals(n.getPitch(), Note.Pitch.G);
-      assertEquals(n.getOctave(), Note.Octave.FOUR);
+      assertEquals(n.getPitch(), SoundUnit.Pitch.G);
+      assertEquals(n.getOctave(), SoundUnit.Octave.FOUR);
     }
   }
 }

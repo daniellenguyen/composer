@@ -1,7 +1,8 @@
 package cs3500.music.view;
 
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnit;
+import cs3500.music.model.SoundUnitList;
 
 import java.util.*;
 
@@ -10,7 +11,8 @@ import java.util.*;
  */
 public class ConsoleViewImpl implements View {
 
-  public ConsoleViewImpl(){}
+  public ConsoleViewImpl() {
+  }
 
   /**
    * Returns a list containing the range of notes to be played, including gaps
@@ -19,14 +21,14 @@ public class ConsoleViewImpl implements View {
    * @param list the list of notes to be played
    * @return a list representing the range of notes to be played.
    */
-  public ArrayList<Note> makeTopRow(NoteList list) {
+  public ArrayList<SoundUnit> makeTopRow(SoundUnitList list) {
 
     int rangeOfSong = list.getHighestNote().getMIDIPitch()
             - list.getLowestNote().getMIDIPitch();
-    ArrayList<Note> finalList = new ArrayList<>();
+    ArrayList<SoundUnit> finalList = new ArrayList<>();
     //Iterate Through the Range to create Header
     for (int i = rangeOfSong; i >= 0; i--) {
-      Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+      SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
       rangeNote.setPitchAndOctaveFromMIDI(list.getHighestNote().getMIDIPitch() - i);
       finalList.add(rangeNote);
     }
@@ -40,13 +42,12 @@ public class ConsoleViewImpl implements View {
    * @param list ArrayList
    * @return a string representing the range of pitches to be played
    */
-  public String renderTopRow(ArrayList<Note> list) {
+  public String renderTopRow(ArrayList<SoundUnit> list) {
     String header = "        ";
     for (int i = 0; i < list.size(); i++) {
-      if(list.get(i).toString().length() == 2) {
+      if (list.get(i).toString().length() == 2) {
         header = header + list.get(i).toString() + "   ";
-      }
-      else {
+      } else {
         header = header + list.get(i).toString() + "  ";
       }
     }
@@ -59,25 +60,22 @@ public class ConsoleViewImpl implements View {
    * @param list the list of notes to be rendered
    * @throws IllegalArgumentException if the NoteList is empty
    */
-  public void consoleRender(NoteList list) {
+  public void consoleRender(SoundUnitList list) {
     if (list.size() == 0) {
       throw new IllegalArgumentException("Nothing to render");
     }
-    ArrayList<Note> pitchRow = this.makeTopRow(list);
-    HashMap<Note.Octave, HashSet<Note.Pitch>> onRightNow = new HashMap<>();
+    ArrayList<SoundUnit> pitchRow = this.makeTopRow(list);
+    HashMap<SoundUnit.Octave, HashSet<SoundUnit.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = this.renderTopRow(pitchRow) + "\n";
     for (int i = 0; i <= list.songLength(); i++) {
       String finalRow;
-      if(i < 10) {
+      if (i < 10) {
         finalRow = "   " + Integer.toString(i) + "  ";
-      }
-      else if (i < 100) {
+      } else if (i < 100) {
         finalRow = "  " + Integer.toString(i) + "  ";
-      }
-      else if (i < 1000) {
+      } else if (i < 1000) {
         finalRow = " " + Integer.toString(i) + "  ";
-      }
-      else {
+      } else {
         finalRow = Integer.toString(i) + "  ";
       }
       if (list.hasNotesAtTime(i)) {
@@ -85,16 +83,15 @@ public class ConsoleViewImpl implements View {
           Iterator iterator = list.getAllAtTime(i).iterator();
           boolean wasAnythingAdded = false;
           while (iterator.hasNext()) {
-            Note n = (Note) iterator.next();
-            Note.Pitch nPitch = pitchRow.get(j).getPitch();
-            Note.Octave nOctave = pitchRow.get(j).getOctave();
+            SoundUnit n = (Note) iterator.next();
+            SoundUnit.Pitch nPitch = pitchRow.get(j).getPitch();
+            SoundUnit.Octave nOctave = pitchRow.get(j).getOctave();
             if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave())) {
               if (!(onRightNow.containsKey(nOctave)) && n.getStart() == n.getEnd()) {
                 finalRow = finalRow + "  X  ";
                 wasAnythingAdded = true;
-              }
-              else if (!(onRightNow.containsKey(nOctave))) {
-                HashSet<Note.Pitch> p = new HashSet<>();
+              } else if (!(onRightNow.containsKey(nOctave))) {
+                HashSet<SoundUnit.Pitch> p = new HashSet<>();
                 p.add(nPitch);
                 onRightNow.put(nOctave, p);
                 finalRow = finalRow + "  X  ";
@@ -103,8 +100,7 @@ public class ConsoleViewImpl implements View {
                 onRightNow.get(nOctave).add(nPitch);
                 finalRow = finalRow + "  X  ";
                 wasAnythingAdded = true;
-              }
-              else if (onRightNow.get(nOctave).contains(nPitch)) {
+              } else if (onRightNow.get(nOctave).contains(nPitch)) {
                 finalRow = finalRow + "  |  ";
                 wasAnythingAdded = true;
                 if (n.getEnd() == i + 1) {
@@ -118,8 +114,7 @@ public class ConsoleViewImpl implements View {
           }
         }
         finalConsoleRender = finalConsoleRender + finalRow + "\n";
-      }
-      else {
+      } else {
         finalConsoleRender = finalConsoleRender + finalRow + "\n";
       }
     }

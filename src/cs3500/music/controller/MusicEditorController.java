@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnitList;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
@@ -18,12 +18,12 @@ import cs3500.music.view.MidiViewImpl;
  */
 public class MusicEditorController implements ActionListener {
 
-  private NoteList model;
+  private SoundUnitList model;
   private GuiViewFrame guiView;
   private MidiViewImpl midiView;
   private ConsoleViewImpl consoleView;
 
-  public MusicEditorController(NoteList model, GuiViewFrame guiView, MidiViewImpl midiView, ConsoleViewImpl consoleView) {
+  public MusicEditorController(SoundUnitList model, GuiViewFrame guiView, MidiViewImpl midiView, ConsoleViewImpl consoleView) {
     this.model = model;
     this.guiView = guiView;
     this.midiView = midiView;

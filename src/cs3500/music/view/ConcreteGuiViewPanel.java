@@ -2,25 +2,25 @@ package cs3500.music.view;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.*;
 
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnit;
+import cs3500.music.model.SoundUnitList;
 
 /**
  * A dummy view that simply draws a string
  */
 public class ConcreteGuiViewPanel extends JPanel {
 
-  NoteList noteList;
+  SoundUnitList noteList;
 
   /**
    * Constructor Grabs data about Notelist from the constructor of th GuiViewFram. This is added
    * here to make it easier to paint when the time comes
    */
-  public ConcreteGuiViewPanel(NoteList inputSong) {
+  public ConcreteGuiViewPanel(SoundUnitList inputSong) {
     this.noteList = inputSong;
   }
 
@@ -42,7 +42,8 @@ public class ConcreteGuiViewPanel extends JPanel {
 
     //Iterate Through the Range to create Side Header with Pitch Values of Range
     for (int i = rangeOfSong; i >= 0; i--) {
-      Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+      SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1) {
+      };
       rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
       g.drawString(rangeNote.toString(), 15, separation * i + 30);
     }
@@ -50,12 +51,12 @@ public class ConcreteGuiViewPanel extends JPanel {
 
     //For each Beat in the song Draws the Notes
     for (int BeatNumber = 0; BeatNumber < noteList.songLength(); BeatNumber++) {
-      List<Note> ListOfNotesAtBeat = new ArrayList<>();
+      ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
       ListOfNotesAtBeat.addAll(noteList.getAllAtTime(BeatNumber));
 
       //Create a Column of Notes
       for (int i = rangeOfSong; i >= 0; i--) {
-        Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+        SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
         rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
 
         boolean noteStarts = false;
@@ -92,9 +93,9 @@ public class ConcreteGuiViewPanel extends JPanel {
       for (int i = 0; i <= rangeOfSong; i++) {
         g.drawRect(40 + (25 * j), ((separation * i)) + 15, 100, 15);
 
-        Note rangeNote = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
+        SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
         rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
-        if (rangeNote.getPitch() == Note.Pitch.B) {
+        if (rangeNote.getPitch() == SoundUnit.Pitch.B) {
           g.fillRect(40 + (25 * j), ((separation * i)) + 15, 100, 2);
         }
       }

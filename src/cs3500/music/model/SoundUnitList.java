@@ -13,7 +13,7 @@ public interface SoundUnitList<T> {
    * @throws IllegalArgumentException if the given {@code SoundUnit}
    * overlaps another {@code SoundUnit} in this list.
    */
-  void add(Note note);
+  void add(SoundUnit note);
 
 
   /**
@@ -23,7 +23,7 @@ public interface SoundUnitList<T> {
    * @throws IllegalArgumentException if the given {@code SoundUnit}
    * is not in this list
    */
-  void delete(Note note);
+  void delete(SoundUnit note);
 
   /**
    * Does this list contain the given {@code SoundUnit}?
@@ -32,7 +32,7 @@ public interface SoundUnitList<T> {
    * @return a boolean representing whether the given
    * {@code SoundUnit} is in this list
    */
-  boolean contains(Note note);
+  boolean contains(SoundUnit note);
 
   /**
    * Gets all {@code SoundUnit}s playing at the given
@@ -53,7 +53,37 @@ public interface SoundUnitList<T> {
    */
   int size();
 
-  String consoleRender(NoteList list);
-//  void consoleRender(NoteList list);
+  /**
+   * Gets the tempo of the SoundUnitList
+   */
+  int getTempo();
 
+  /**
+   * Gets the highest note in the SoundUnitList
+   */
+  Note getHighestNote();
+
+  /**
+   * Gets the lowest note in the SoundUnitList
+   */
+  Note getLowestNote();
+
+  /**
+   * Gets the length in beats of the song
+   */
+  int songLength();
+
+  /**
+   * Does the given timestamp have any notes?
+   *
+   * @param time the given timestamp
+   * @return boolean representing if timestamp has notes
+   */
+  boolean hasNotesAtTime(int time);
+
+  /**
+   * Sets a new tempo for the SoundUnitList
+   * @param tempo the new tempo
+   */
+  void setTempo(int tempo);
 }

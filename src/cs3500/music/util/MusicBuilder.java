@@ -1,29 +1,24 @@
 package cs3500.music.util;
 
-
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnit;
+import cs3500.music.model.SoundUnitList;
 
-/**
- * Created by Justin Hynes-Bruell on 3/21/2016.
- */
-public class MusicBuilder implements CompositionBuilder<NoteList> {
+public class MusicBuilder implements CompositionBuilder<SoundUnitList> {
 
-  private NoteList listOfNotes = new NoteList();
+  private SoundUnitList listOfNotes = new NoteList();
 
-
-  public MusicBuilder() {
-
-  }
+  public MusicBuilder() {}
 
   @Override
-  public NoteList build() {
+  public SoundUnitList build() {
     return listOfNotes;
   }
 
 
   @Override
-  public CompositionBuilder<NoteList> setTempo(int tempo) {
+  public CompositionBuilder<SoundUnitList> setTempo(int tempo) {
     listOfNotes.setTempo(tempo);
     return null;
   }
@@ -41,9 +36,9 @@ public class MusicBuilder implements CompositionBuilder<NoteList> {
    * @param volume     The volume (in the range [0, 127])
    */
   @Override
-  public CompositionBuilder<NoteList> addNote(int start, int end,
+  public CompositionBuilder<SoundUnitList> addNote(int start, int end,
                                               int instrument, int pitch, int volume) {
-    Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, start, end);
+    Note newNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.ONE, start, end);
     newNote.setPitchAndOctaveFromMIDI(pitch);
     newNote.setVolume(volume);
     newNote.setInstrument(instrument);

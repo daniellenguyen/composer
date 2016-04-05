@@ -8,9 +8,7 @@ import java.util.Set;
 import javax.swing.*;
 
 import cs3500.music.controller.MusicEditorController;
-import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
-import cs3500.music.util.MusicReader;
+import cs3500.music.model.SoundUnitList;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
@@ -22,7 +20,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   /**
    * Creates new GuiView
    */
-  public GuiViewFrame(NoteList inputSong) {
+  public GuiViewFrame(SoundUnitList inputSong) {
     this.displayPanel = new ConcreteGuiViewPanel(inputSong);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);

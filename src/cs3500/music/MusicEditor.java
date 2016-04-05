@@ -1,7 +1,7 @@
 package cs3500.music;
 
 import cs3500.music.controller.MusicEditorController;
-import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnitList;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
@@ -20,15 +20,14 @@ public class MusicEditor {
     MusicReader ReaderOfText = new MusicReader();
 
 
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
 
-
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
-    /// /NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
-    //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
+    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
     //GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create
     // (ViewCreator.ViewType.GUI, inputSong);
@@ -43,6 +42,6 @@ public class MusicEditor {
             ViewType.GUI, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, GuiView, midiView, consoleView);
-    
+
   }
 }

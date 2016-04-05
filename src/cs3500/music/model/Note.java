@@ -13,48 +13,6 @@ public class Note implements SoundUnit, Comparable {
   private int MIDIPitch;
 
   /**
-   * To represent the pitch of the note.
-   * Scales from C to B
-   */
-  public enum Pitch {
-    C("C"), C2("C#"), D("D"), D2("D#"), E("E"), F("F"), F2("F#"),
-    G("G"), G2("G#"), A("A"), A2("A#"), B("B");
-
-    private final String asString;
-
-    Pitch(String asString) {
-      this.asString = asString;
-    }
-
-    @Override
-    public String toString() {
-      return this.asString;
-    }
-
-  }
-
-  /**
-   * To represent the octave of the note.
-   * Scales from 1 to 11.
-   */
-  public enum Octave {
-    ONE("1"), TWO("2"), THREE("3"), FOUR("4"), FIVE("5"),
-    SIX("6"), SEVEN("7"), EIGHT("8"), NINE("9"), TEN("10"), ELEVEN("11");
-
-
-    private final String asString;
-
-    Octave(String asString) {
-      this.asString = asString;
-    }
-
-    @Override
-    public String toString() {
-      return this.asString;
-    }
-  }
-
-  /**
    * The default constructor for a note.
    *
    * INVARIANT: A note is allowed to start and end on the same beat.
@@ -129,7 +87,7 @@ public class Note implements SoundUnit, Comparable {
     }
   }
 
-
+  @Override
   public void setInstrument(int instrument){
     if(instrument < 0 || instrument > 128) {
       throw new IllegalArgumentException("Invalid MIDI instrument number. " +
@@ -140,34 +98,42 @@ public class Note implements SoundUnit, Comparable {
     }
   }
 
+  @Override
   public void setVolume(int volume){
     this.volume = volume;
   }
 
+  @Override
   public Pitch getPitch() {
     return this.pitch;
   }
 
+  @Override
   public Octave getOctave() {
     return this.octave;
   }
 
+  @Override
   public int getStart() {
     return this.start;
   }
 
+  @Override
   public int getEnd() {
     return this.end;
   }
 
+  @Override
   public int getInstrument(){
     return instrument;
   }
 
+  @Override
   public int getVolume(){
     return volume;
   }
 
+  @Override
   public int getMIDIPitch(){
     return MIDIPitch;
   }
@@ -191,6 +157,7 @@ public class Note implements SoundUnit, Comparable {
     }
   }
 
+  @Override
   public void setMIDIFromPitchAndOctave(Pitch newPitch, Octave newOctave){
     int newMIDIPitch = 0;
     switch (newOctave) {
@@ -272,7 +239,7 @@ public class Note implements SoundUnit, Comparable {
     this.MIDIPitch = newMIDIPitch;
   }
 
-  //Edits note's pitch and octave to match MIDI pith
+  @Override
   public void setPitchAndOctaveFromMIDI(int MIDIPitch){
     if(MIDIPitch < 24){
       throw new IllegalArgumentException("Note is Too Low: " + MIDIPitch + " MIDI Value");

@@ -6,6 +6,8 @@ import javax.sound.midi.InvalidMidiDataException;
 
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnit;
+import cs3500.music.model.SoundUnitList;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.MockReceiver;
@@ -26,7 +28,7 @@ public class MockReceiverTest {
   public void testForFullSongs() throws InvalidMidiDataException {
     MusicReader ReaderOfText = new MusicReader();
 
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
+    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
@@ -44,8 +46,8 @@ public class MockReceiverTest {
 
   @Test
   public void OneNoteMockTest() throws InvalidMidiDataException {
-    NoteList inputSong = new NoteList();
-    Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, 1, 3);
+    SoundUnitList inputSong = new NoteList();
+    SoundUnit newNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.ONE, 1, 3);
     newNote.setPitchAndOctaveFromMIDI(60);
     newNote.setVolume(99);
     newNote.setInstrument(1);
@@ -62,14 +64,14 @@ public class MockReceiverTest {
 
   @Test
   public void TwoNoteMockTest() throws InvalidMidiDataException {
-    NoteList inputSong = new NoteList();
-    Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, 1, 3);
+    SoundUnitList inputSong = new NoteList();
+    SoundUnit newNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.ONE, 1, 3);
     newNote.setPitchAndOctaveFromMIDI(60);
     newNote.setVolume(99);
     newNote.setInstrument(1);
     inputSong.add(newNote);
 
-    Note newNote2 = new Note(Note.Pitch.C, Note.Octave.ONE, 4, 5);
+    SoundUnit newNote2 = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.ONE, 4, 5);
     newNote2.setPitchAndOctaveFromMIDI(65);
     newNote2.setVolume(85);
     newNote2.setInstrument(2);
@@ -90,27 +92,28 @@ public class MockReceiverTest {
 
   @Test
   public void ThreeNoteMockTest() throws InvalidMidiDataException {
-    NoteList inputSong = new NoteList();
-    Note newNote = new Note(Note.Pitch.C, Note.Octave.ONE, 1, 2);
+    SoundUnitList inputSong = new NoteList();
+    SoundUnit newNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.ONE, 1, 2);
     newNote.setPitchAndOctaveFromMIDI(60);
     newNote.setVolume(99);
     newNote.setInstrument(1);
     inputSong.add(newNote);
 
-    Note newNote2 = new Note(Note.Pitch.C, Note.Octave.ONE, 3, 5);
+    SoundUnit newNote2 = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.ONE, 3, 5);
     newNote2.setPitchAndOctaveFromMIDI(65);
     newNote2.setVolume(85);
     newNote2.setInstrument(2);
     inputSong.add(newNote2);
 
-    Note newNote3 = new Note(Note.Pitch.C, Note.Octave.ONE, 6, 8);
+    SoundUnit newNote3 = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.ONE, 6, 8);
     newNote3.setPitchAndOctaveFromMIDI(70);
     newNote3.setVolume(50);
     newNote3.setInstrument(1);
     inputSong.add(newNote3);
 
 
-    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    MidiViewImpl midiView = (MidiViewImpl)
+            ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
     midiView.setMockReciever(new MockReceiver());
     midiView.fillMockReceiver(inputSong);
 
@@ -129,7 +132,7 @@ public class MockReceiverTest {
   public void ChromaticScale() throws InvalidMidiDataException {
     MusicReader ReaderOfText = new MusicReader();
 
-    NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
+    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
 
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
     midiView.setMockReciever(new MockReceiver());

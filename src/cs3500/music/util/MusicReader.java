@@ -4,7 +4,6 @@ import cs3500.music.model.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -63,7 +62,7 @@ public class MusicReader {
     return piece.build();
   }
 
-  public NoteList ReturnNoteListFromFile(String FileName){
+  public SoundUnitList ReturnNoteListFromFile(String FileName){
     MusicReader ReaderOfText = new MusicReader();
 
     MusicBuilder Builder = new MusicBuilder();
@@ -73,9 +72,9 @@ public class MusicReader {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    NoteList inputSong = Builder.build();
+    SoundUnitList inputSong = Builder.build();
 
-    return  inputSong;
+    return inputSong;
   }
 
   /**

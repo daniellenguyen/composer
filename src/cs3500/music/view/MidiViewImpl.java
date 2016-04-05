@@ -8,7 +8,8 @@ import java.util.Set;
 import javax.sound.midi.*;
 
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnit;
+import cs3500.music.model.SoundUnitList;
 
 /**
  * A skeleton for MIDI playback
@@ -43,17 +44,17 @@ public class MidiViewImpl implements View {
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
-  public void playBeat(NoteList noteList, int BeatNumber) throws InvalidMidiDataException {
+  public void playBeat(SoundUnitList noteList, int BeatNumber) throws InvalidMidiDataException {
 
-    Set<Note> Notes = noteList.getAllAtTime(BeatNumber);
+    Set<SoundUnit> Notes = noteList.getAllAtTime(BeatNumber);
 
-    Iterator<Note> i = Notes.iterator();
+    Iterator<SoundUnit> i = Notes.iterator();
 
-    List<Note> alreadyPlayed = new ArrayList<>();
+    List<SoundUnit> alreadyPlayed = new ArrayList<>();
 
     while (i.hasNext()) {
       //Get the Note from the set
-      Note n = (Note) i.next();
+      SoundUnit n = (Note) i.next();
 
       //Determine if note has already been played at this beat
       boolean dontStopNote = false;
@@ -87,7 +88,7 @@ public class MidiViewImpl implements View {
   //this.receiver.close(); // Only call this once you're done playing *all* notes
 
 
-  public void playSong(NoteList inputSong) throws InvalidMidiDataException {
+  public void playSong(SoundUnitList inputSong) throws InvalidMidiDataException {
     for (int i = 0; i < inputSong.songLength(); i++) {
 
       try {
@@ -104,7 +105,7 @@ public class MidiViewImpl implements View {
     }
   }
 
-  public void fillMockReceiver(NoteList inputSong){
+  public void fillMockReceiver(SoundUnitList inputSong){
     for (int i = 0; i < inputSong.songLength(); i++) {
       try {
         playBeat(inputSong, i);
