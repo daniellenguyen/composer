@@ -122,9 +122,7 @@ public class NoteAdderView extends JFrame {
     //Set text in Boxes
     Integer converter = oldNote.getStart();
     inputStart.setText(converter.toString());
-    //converter = (oldNote.getEnd()-oldNote.getStart());
-    //TODO determine End Vs Duration
-    converter = oldNote.getEnd();
+    converter = (oldNote.getEnd()-oldNote.getStart());
     inputDuration.setText(converter.toString());
     converter = oldNote.getVolume();
     inputVolume.setText(converter.toString());
@@ -133,7 +131,6 @@ public class NoteAdderView extends JFrame {
 
     pack();
     setVisible(true);
-
   }
 
   private void setOctaveRadio() {
@@ -142,38 +139,40 @@ public class NoteAdderView extends JFrame {
 
     //Create the radio buttons.
     oOne.setMnemonic(KeyEvent.VK_B);
-    oOne.setActionCommand("C");
-    oOne.setSelected(true);
+    oOne.setActionCommand("1");
 
     oTwo.setMnemonic(KeyEvent.VK_C);
-    oTwo.setActionCommand("C2");
+    oTwo.setActionCommand("2");
 
     oThree.setMnemonic(KeyEvent.VK_D);
-    oThree.setActionCommand("D");
+    oThree.setActionCommand("3");
 
     oFour.setMnemonic(KeyEvent.VK_R);
-    oFour.setActionCommand("D2");
+    oFour.setActionCommand("4");
 
     oFive.setMnemonic(KeyEvent.VK_P);
-    oFive.setActionCommand("E");
+    oFive.setActionCommand("5");
 
     oSix.setMnemonic(KeyEvent.VK_C);
-    oSix.setActionCommand("F");
+    oSix.setActionCommand("6");
 
     oSeven.setMnemonic(KeyEvent.VK_D);
-    oSeven.setActionCommand("F2");
+    oSeven.setActionCommand("7");
 
     oEight.setMnemonic(KeyEvent.VK_R);
-    oEight.setActionCommand("G");
+    oEight.setActionCommand("8");
 
     oNine.setMnemonic(KeyEvent.VK_P);
-    oNine.setActionCommand("G2");
+    oNine.setActionCommand("9");
 
     oTen.setMnemonic(KeyEvent.VK_D);
-    oTen.setActionCommand("A");
+    oTen.setActionCommand("10");
 
     oEleven.setMnemonic(KeyEvent.VK_R);
-    oEleven.setActionCommand("A2");
+    oEleven.setActionCommand("11");
+
+
+    oFour.setSelected(true);
 
     //Group the radio buttons.
     ButtonGroup group = new ButtonGroup();

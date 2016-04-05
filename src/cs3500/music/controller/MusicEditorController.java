@@ -33,13 +33,14 @@ public class MusicEditorController implements ActionListener {
     this.consoleView = consoleView;
     configureKeyBoardListener();
     this.guiView.addActionListener(this);
+    this.guiView.initialize();
 
+    /*
     try {
-      this.guiView.initialize();
       this.midiView.playSong(this.model);
     } catch (InvalidMidiDataException e) {
       e.printStackTrace();
-    }
+    }*/
   }
 
   private void configureKeyBoardListener() {
@@ -54,6 +55,14 @@ public class MusicEditorController implements ActionListener {
       }
     });
 
+    keyTypes.put(' ', new Runnable() {
+      public void run() {
+        System.out.println("Play Song From Begin\n");
+        playFromBeggining();
+      }
+    });
+
+
     KeyboardListener kbd = new KeyboardListener();
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);
@@ -67,6 +76,14 @@ public class MusicEditorController implements ActionListener {
     noteAdderView = new NoteAdderView(model.getLastNote());
     noteAdderView.resetFocus();
     noteAdderView.addActionListener(this);
+  }
+
+  private void playFromBeggining(){
+    try {
+      this.midiView.playSong(this.model);
+    } catch (InvalidMidiDataException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -92,23 +109,28 @@ public class MusicEditorController implements ActionListener {
 
         Note noteToAdd = new Note(noteAdderView.getInputPitchEnum(),
               noteAdderView.getInputOctaveEnum(), Integer.valueOf(noteAdderView.getInputStart()),
-              Integer.valueOf(noteAdderView.getInputDuration()));
-        noteToAdd.setVolume(Integer.valueOf(noteAdderView.getInputStart().toString()));
-        noteToAdd.setInstrument(Integer.valueOf(noteAdderView.getInputVolume().toString()));
+              Integer.valueOf(noteAdderView.getInputDuration())
+                      +Integer.valueOf(noteAdderView.getInputStart()));
+        noteToAdd.setVolume(Integer.valueOf(noteAdderView.getInputVolume().toString()));
+        noteToAdd.setInstrument(Integer.valueOf(noteAdderView.getInputInstrument().toString()));
         model.add(noteToAdd);
         model.setLastNote(noteToAdd);
+        exitFromNoteAdder();
         break;
 
       case "Exit Button":
-        noteAdderView.setVisible(false);
-        guiView = new GuiViewFrame(model);
-        guiView.initialize();
-        guiView.resetFocus();
-        guiView.addActionListener(this);
-        configureKeyBoardListener();
-
+        exitFromNoteAdder();
         //System.exit(0);
         break;
     }
+  }
+
+  private void exitFromNoteAdder(){
+    noteAdderView.setVisible(false);
+    guiView = new GuiViewFrame(model);
+    guiView.initialize();
+    guiView.resetFocus();
+    guiView.addActionListener(this);
+    configureKeyBoardListener();
   }
 }
