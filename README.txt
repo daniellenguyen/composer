@@ -51,3 +51,23 @@ Questions for TA:
 2.  If there are no notes in the list of notes, what should the console view return?
     Currently it throws an exception.
 3.  Is there a specific format Desired for midi-transcript.txt
+
+class CompositeTimer {
+  Timer timer;
+
+  CompositeTimer(Timertask timertask) {
+    timer = new Timer();
+    timer.schedule(timertask,
+                   0,       // initial delay
+                   1 * 1000); // subsequent rate
+  }
+
+  class RenderTask implements Timertask {
+    public void run() {
+      playBeat(TODO timer code here);
+      draw(TODO draw certain range of beats);
+    }
+  }
+}
+
+CompositeTimer cMIDI = new CompositeTimer(new RenderTask());
