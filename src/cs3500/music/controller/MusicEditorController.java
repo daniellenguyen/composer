@@ -6,10 +6,13 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import cs3500.music.MusicEditor;
 import cs3500.music.model.Note;
+import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
@@ -29,6 +32,8 @@ public class MusicEditorController implements ActionListener {
 
   private Timer musicTimer;
 
+  private boolean songPlaying;
+
 
   public MusicEditorController(SoundUnitList model, GuiViewFrame guiView, MidiViewImpl midiView, ConsoleViewImpl consoleView) {
     this.model = model;
@@ -40,6 +45,7 @@ public class MusicEditorController implements ActionListener {
     this.guiView.initialize();
     model.setCurrentBeat(0);
     musicTimer = new Timer();
+    songPlaying = false;
   }
 
   private void configureKeyBoardListener() {
@@ -77,7 +83,7 @@ public class MusicEditorController implements ActionListener {
 
     keyTypes.put(' ', new Runnable() {
       public void run() {
-        System.out.println("Play Song From Current Beat\n");
+        System.out.println("Play Song From Current Beat / Stop Song\n");
         playFromCurrentBeat();
       }
     });
@@ -103,29 +109,49 @@ public class MusicEditorController implements ActionListener {
   }
 
   private void playFromCurrentBeat(){
-    for (int i = this.model.getCurrentBeat(); i < this.model.songLength(); i++) {
-      //Play Beat
-      try {
-        this.midiView.playBeat(this.model, i);
-      } catch (InvalidMidiDataException e) {
-        continue;
-      }
+    if(songPlaying){
+      musicTimer.cancel();
+      songPlaying = false;
+      musicTimer = new Timer();
+    }
+    else {
+      songPlaying = true;
+      int Delay = (this.model.getTempo()/1000);
+      musicTimer.schedule(new timerTask(this), 0, Delay);
+    }
+  }
 
-      this.model.setCurrentBeat(this.model.getCurrentBeat()+1);
-      guiView.Render(model);
-      /*
-      //guiView = new GuiViewFrame(model);
-      guiView.refresh(model);
-      guiView.resetFocus();
-      guiView.addActionListener(this);
-      configureKeyBoardListener();*/
+  class timerTask extends TimerTask {
 
-      //Delay for an amount of time
-      try {
-        Thread.sleep(this.model.getTempo() / 1000);
-      } catch (InterruptedException ex) {
-        Thread.currentThread().interrupt();
+    private MusicEditorController controller;
+    public timerTask(MusicEditorController controller){
+      this.controller = controller;
+    }
+    @Override
+    public void run() {
+      System.out.println("Playing a Beat\n");
+      controller.RenderNewBeat();
+      if(IsSongOver()){
+        this.cancel();
       }
+    }
+  }
+
+  public boolean IsSongOver(){
+    if(this.model.getCurrentBeat() >= this.model.songLength()){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  public void RenderNewBeat(){
+    try {
+      this.midiView.playBeat(this.model, this.model.getCurrentBeat());
+      arrowRight();
+    } catch (InvalidMidiDataException e) {
+      //arrowRight();
     }
   }
 

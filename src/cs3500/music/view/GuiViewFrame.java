@@ -19,7 +19,6 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
 
   private JPanel displayPanel; // You may want to refine this to a subtype of JPanel
 
-  SoundUnitList noteList;
   /**
    * Creates new GuiView
    */
@@ -27,8 +26,9 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     this.displayPanel = new ConcreteGuiViewPanel(inputSong);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
+    //JScrollPane newScroll = new JScrollPane(displayPanel);
+    //this.getContentPane().add(newScroll);
     this.pack();
-    noteList = inputSong;
   }
 
   //@Override
