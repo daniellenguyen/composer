@@ -1,6 +1,8 @@
 package cs3500.music.view;
 import java.util.Timer;
 
+import cs3500.music.model.SoundUnitList;
+
 /**
  * An interface to represent compositions in different forms.
  */
@@ -24,17 +26,5 @@ public interface View {
    * the extension that the GUI interface must have in order to hold additional
    * methods irrelevant to the other two views.
    */
-
-
-
-
-//  /**
-//   * Creates a Timer that can be used synchronously with more than one view.
-//   */
-//  Timer createGlobalTimer();
-//
-//  /**
-//   * Gets the current state of the Timer (if any)
-//   */
-//  int getTimer();
+  void Render(SoundUnitList listOfNote);
 }

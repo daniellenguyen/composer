@@ -117,4 +117,9 @@ public class ConsoleViewImpl implements View {
     }
     System.out.println(finalConsoleRender);
   }
+
+  @Override
+  public void Render(SoundUnitList listOfNote) {
+    consoleRender(listOfNote);
+  }
 }

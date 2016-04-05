@@ -39,4 +39,8 @@ public class MockConsole implements View {
     System.out.println(mockConsoleOutput.toString());
   }
 
+  @Override
+  public void Render(SoundUnitList listOfNote) {
+    createSong(listOfNote);
+  }
 }

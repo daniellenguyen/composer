@@ -130,6 +130,12 @@ public class NoteList implements SoundUnitList<Note> {
 
   @Override
   public void setCurrentBeat(Integer newBeat){
+    if(newBeat<0){
+      newBeat = 0;
+    }
+    if(newBeat>songLength()){
+      newBeat = songLength();
+    }
     this.currentBeat = newBeat;
   }
 

@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -26,6 +27,8 @@ public class MusicEditorController implements ActionListener {
   private ConsoleViewImpl consoleView;
   private NoteAdderView noteAdderView;
 
+  private Timer musicTimer;
+
 
   public MusicEditorController(SoundUnitList model, GuiViewFrame guiView, MidiViewImpl midiView, ConsoleViewImpl consoleView) {
     this.model = model;
@@ -36,13 +39,7 @@ public class MusicEditorController implements ActionListener {
     this.guiView.addActionListener(this);
     this.guiView.initialize();
     model.setCurrentBeat(0);
-
-    /*
-    try {
-      this.midiView.playSong(this.model);
-    } catch (InvalidMidiDataException e) {
-      e.printStackTrace();
-    }*/
+    musicTimer = new Timer();
   }
 
   private void configureKeyBoardListener() {
@@ -57,10 +54,24 @@ public class MusicEditorController implements ActionListener {
       }
     });
 
+    keyTypes.put('>', new Runnable() {
+      public void run() {
+        System.out.println("Right Arrow Key Pressed:\n");
+        arrowRight();
+      }
+    });
+
+    keyTypes.put('<', new Runnable() {
+      public void run() {
+        System.out.println("Left Arrow Key Pressed:\n");
+        arrowLeft();
+      }
+    });
+
     keyTypes.put('p', new Runnable() {
       public void run() {
         System.out.println("Play Song From Begin\n");
-        playFromBeggining();
+        playFromBeginning();
       }
     });
 
@@ -86,14 +97,13 @@ public class MusicEditorController implements ActionListener {
     noteAdderView.addActionListener(this);
   }
 
-  private void playFromBeggining(){
+  private void playFromBeginning(){
     this.model.setCurrentBeat(0);
     playFromCurrentBeat();
   }
 
   private void playFromCurrentBeat(){
     for (int i = this.model.getCurrentBeat(); i < this.model.songLength(); i++) {
-
       //Play Beat
       try {
         this.midiView.playBeat(this.model, i);
@@ -101,6 +111,8 @@ public class MusicEditorController implements ActionListener {
         continue;
       }
 
+      this.model.setCurrentBeat(this.model.getCurrentBeat()+1);
+      guiView.Render(model);
       /*
       //guiView = new GuiViewFrame(model);
       guiView.refresh(model);
@@ -115,6 +127,16 @@ public class MusicEditorController implements ActionListener {
         Thread.currentThread().interrupt();
       }
     }
+  }
+
+  private void arrowRight(){
+    this.model.setCurrentBeat(this.model.getCurrentBeat()+1);
+    guiView.Render(model);
+  }
+
+  private void arrowLeft(){
+    this.model.setCurrentBeat(this.model.getCurrentBeat()-1);
+    guiView.Render(model);
   }
 
 

@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.sound.midi.*;
 
 import cs3500.music.model.Note;
+import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 
@@ -108,4 +109,11 @@ public class MidiViewImpl implements View {
     }
   }
 
+  @Override
+  public void Render(SoundUnitList listOfNote) {
+    try {
+      playSong(listOfNote);
+    } catch (InvalidMidiDataException e) {
+    }
+  }
 }
