@@ -32,7 +32,11 @@ public class ConcreteGuiViewPanel extends JPanel {
    */
   @Override
   public void paint(Graphics g) {
-    // Look for more documentation about the Graphics class, and methods on it that may be useful
+    super.paintComponent(g);
+    paintComponent(g);
+  }
+
+  @Override public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
     int separation = 15;
@@ -96,12 +100,23 @@ public class ConcreteGuiViewPanel extends JPanel {
         SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
         rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
         if (rangeNote.getPitch() == SoundUnit.Pitch.B) {
+          //Draws Bar for every Middle C
           g.fillRect(40 + (25 * j), ((separation * i)) + 15, 100, 2);
         }
       }
     }
     for (Integer j = 0; j <= noteList.songLength(); j += 16) {
       g.drawString(j.toString(), 40 + (25 * j), 15);
+    }
+
+    //Draw Measure of Current Beat Line
+    for (Integer j = 0; j <= noteList.songLength(); j++) {
+      if(j == noteList.getCurrentBeat()){
+        g.setColor(Color.RED);
+        // g.drawRect(40 + (25 * j), ((separation * i)) + 15, 100, 15);
+        g.fillRect(40 + (25 * j), 15, 3, 15*(rangeOfSong+1));
+        g.setColor(Color.BLACK);
+      }
     }
   }
 }

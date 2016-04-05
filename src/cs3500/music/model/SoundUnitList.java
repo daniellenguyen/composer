@@ -89,5 +89,9 @@ public interface SoundUnitList<T> {
 
   void setLastNote(Note newLastNote);
 
+  void setCurrentBeat(Integer newBeat);
+
+  Integer getCurrentBeat();
+
   Note getLastNote();
 }

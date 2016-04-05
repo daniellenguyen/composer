@@ -26,6 +26,7 @@ public class MusicEditorController implements ActionListener {
   private ConsoleViewImpl consoleView;
   private NoteAdderView noteAdderView;
 
+
   public MusicEditorController(SoundUnitList model, GuiViewFrame guiView, MidiViewImpl midiView, ConsoleViewImpl consoleView) {
     this.model = model;
     this.guiView = guiView;
@@ -34,6 +35,7 @@ public class MusicEditorController implements ActionListener {
     configureKeyBoardListener();
     this.guiView.addActionListener(this);
     this.guiView.initialize();
+    model.setCurrentBeat(0);
 
     /*
     try {
@@ -55,13 +57,19 @@ public class MusicEditorController implements ActionListener {
       }
     });
 
-    keyTypes.put(' ', new Runnable() {
+    keyTypes.put('p', new Runnable() {
       public void run() {
         System.out.println("Play Song From Begin\n");
         playFromBeggining();
       }
     });
 
+    keyTypes.put(' ', new Runnable() {
+      public void run() {
+        System.out.println("Play Song From Current Beat\n");
+        playFromCurrentBeat();
+      }
+    });
 
     KeyboardListener kbd = new KeyboardListener();
     kbd.setKeyTypedMap(keyTypes);
@@ -79,12 +87,36 @@ public class MusicEditorController implements ActionListener {
   }
 
   private void playFromBeggining(){
-    try {
-      this.midiView.playSong(this.model);
-    } catch (InvalidMidiDataException e) {
-      e.printStackTrace();
+    this.model.setCurrentBeat(0);
+    playFromCurrentBeat();
+  }
+
+  private void playFromCurrentBeat(){
+    for (int i = this.model.getCurrentBeat(); i < this.model.songLength(); i++) {
+
+      //Play Beat
+      try {
+        this.midiView.playBeat(this.model, i);
+      } catch (InvalidMidiDataException e) {
+        continue;
+      }
+
+      /*
+      //guiView = new GuiViewFrame(model);
+      guiView.refresh(model);
+      guiView.resetFocus();
+      guiView.addActionListener(this);
+      configureKeyBoardListener();*/
+
+      //Delay for an amount of time
+      try {
+        Thread.sleep(this.model.getTempo() / 1000);
+      } catch (InterruptedException ex) {
+        Thread.currentThread().interrupt();
+      }
     }
   }
+
 
   @Override
   public void actionPerformed(ActionEvent e) {

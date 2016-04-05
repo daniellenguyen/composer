@@ -12,6 +12,8 @@ public class NoteList implements SoundUnitList<Note> {
 
   private Note lastNote;
 
+  private Integer currentBeat;
+
   public NoteList() {
     this.map = new TreeMap<>();
     this.set = new TreeSet<>();
@@ -20,6 +22,7 @@ public class NoteList implements SoundUnitList<Note> {
     lastNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR,0,1);
     lastNote.setVolume(100);
     lastNote.setInstrument(1);
+    currentBeat = 0;
   }
 
   @Override
@@ -123,6 +126,16 @@ public class NoteList implements SoundUnitList<Note> {
   @Override
   public Note getLastNote(){
     return lastNote;
+  }
+
+  @Override
+  public void setCurrentBeat(Integer newBeat){
+    this.currentBeat = newBeat;
+  }
+
+  @Override
+  public Integer getCurrentBeat(){
+    return this.currentBeat;
   }
 
 }
