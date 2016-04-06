@@ -168,7 +168,6 @@ public class MusicEditorController implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    // TODO Auto-generated method stub
     switch (e.getActionCommand()) {
       //read from the input textfield
       case "Set Note Button":
