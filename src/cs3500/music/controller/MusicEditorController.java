@@ -2,7 +2,6 @@ package cs3500.music.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -10,9 +9,7 @@ import java.util.TimerTask;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import cs3500.music.MusicEditor;
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
@@ -88,7 +85,7 @@ public class MusicEditorController implements ActionListener {
       }
     });
 
-    KeyboardListener kbd = new KeyboardListener();
+    KeyboardHandler kbd = new KeyboardHandler();
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);
@@ -156,7 +153,7 @@ public class MusicEditorController implements ActionListener {
   }
 
   private void arrowRight(){
-    this.model.setCurrentBeat(this.model.getCurrentBeat()+1);
+    this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
     guiView.Render(model);
   }
 
