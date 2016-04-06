@@ -113,7 +113,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     }
 
     g.setColor(Color.WHITE);
-    g.fillRect(0, 0, 40, 800);
+    g.fillRect(0, 0, 40, separation * rangeOfSong + 30);
     g.setColor(Color.BLACK);
     //Iterate Through the Range to create Side Header with Pitch Values of Range
     for (int i = rangeOfSong; i >= 0; i--) {

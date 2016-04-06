@@ -50,7 +50,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   @Override
   public void Render(SoundUnitList listOfNote) {
     displayPanel = new ConcreteGuiViewPanel(listOfNote);
-    displayPanel.setPreferredSize(new Dimension(listOfNote.songLength() * 25 + 100,
+    /*displayPanel.setPreferredSize(new Dimension(listOfNote.songLength() * 25 + 100,
             (listOfNote.getHighestNote().getMIDIPitch() -
                     listOfNote.getLowestNote().getMIDIPitch()) * 15 + 50));
 
@@ -58,6 +58,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(scroller);
+    */
+    this.add(displayPanel);
     this.pack();
 
   }
