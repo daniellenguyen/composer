@@ -34,6 +34,7 @@ public class MusicEditor {
     ///////GuiViewFrame GuiView = new GuiViewFrame(inputSong);
     //GuiView.initialize();
 
+
     ConsoleViewImpl consoleView = (ConsoleViewImpl) ViewCreator.create(ViewCreator.
             ViewType.CONSOLE, inputSong);
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.
