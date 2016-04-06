@@ -16,9 +16,6 @@ import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.NoteAdderView;
 
-/**
- * Created by Justin Hynes-Bruell on 3/31/2016.
- */
 public class MusicEditorController implements ActionListener {
 
   private SoundUnitList model;
@@ -32,7 +29,8 @@ public class MusicEditorController implements ActionListener {
   private boolean songPlaying;
 
 
-  public MusicEditorController(SoundUnitList model, GuiViewFrame guiView, MidiViewImpl midiView, ConsoleViewImpl consoleView) {
+  public MusicEditorController(SoundUnitList model, GuiViewFrame guiView,
+                               MidiViewImpl midiView, ConsoleViewImpl consoleView) {
     this.model = model;
     this.guiView = guiView;
     this.midiView = midiView;
