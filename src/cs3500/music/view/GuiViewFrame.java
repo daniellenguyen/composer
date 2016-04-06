@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import cs3500.music.controller.MouseListener;
 import cs3500.music.controller.MusicEditorController;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
@@ -61,6 +62,9 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     */
     this.add(displayPanel);
     this.pack();
+  }
 
+  public void addNewMouseListener(MouseListener listener){
+    displayPanel.addMouseListener(listener);
   }
 }

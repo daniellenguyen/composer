@@ -1,7 +1,6 @@
 package cs3500.music.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -28,7 +27,8 @@ public class MusicEditorController implements ActionListener {
 
   private boolean songPlaying;
 
-
+  //TODO change views to view interface
+  //TODO allow controller to do previous functionality
   public MusicEditorController(SoundUnitList model, GuiViewFrame guiView,
                                MidiViewImpl midiView, ConsoleViewImpl consoleView) {
     this.model = model;
@@ -36,11 +36,17 @@ public class MusicEditorController implements ActionListener {
     this.midiView = midiView;
     this.consoleView = consoleView;
     configureKeyBoardListener();
+    configureMouseListener();
     this.guiView.addActionListener(this);
     this.guiView.initialize();
     model.setCurrentBeat(0);
     musicTimer = new Timer();
     songPlaying = false;
+  }
+
+  private void configureMouseListener(){
+    MouseListener listener = new MouseListener(this);
+    guiView.addNewMouseListener(listener);
   }
 
   private void configureKeyBoardListener() {

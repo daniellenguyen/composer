@@ -7,8 +7,10 @@ import java.awt.event.MouseEvent;
  */
 public class MouseListener implements java.awt.event.MouseListener {
 
-  public MouseListener(){
+  MusicEditorController controller;
 
+  public MouseListener(MusicEditorController controller){
+    this.controller = controller;
   }
 
   @Override
