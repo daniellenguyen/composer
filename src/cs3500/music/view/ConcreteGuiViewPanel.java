@@ -45,14 +45,6 @@ public class ConcreteGuiViewPanel extends JPanel {
     int rangeOfSong = noteList.getHighestNote().getMIDIPitch() -
             noteList.getLowestNote().getMIDIPitch();
 
-    //Iterate Through the Range to create Side Header with Pitch Values of Range
-    for (int i = rangeOfSong; i >= 0; i--) {
-      SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1) {
-      };
-      rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
-      g.drawString(rangeNote.toString(), 15 - moveOverForBeat, separation * i + 30);
-    }
-
 
     //For each Beat in the song Draws the Notes
     for (int BeatNumber = 0; BeatNumber < noteList.songLength(); BeatNumber++) {
@@ -119,5 +111,17 @@ public class ConcreteGuiViewPanel extends JPanel {
         g.setColor(Color.BLACK);
       }
     }
+
+    g.setColor(Color.WHITE);
+    g.fillRect(0, 0, 40, 800);
+    g.setColor(Color.BLACK);
+    //Iterate Through the Range to create Side Header with Pitch Values of Range
+    for (int i = rangeOfSong; i >= 0; i--) {
+      SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1) {
+      };
+      rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
+      g.drawString(rangeNote.toString(), 15, separation * i + 30);
+    }
+
   }
 }
