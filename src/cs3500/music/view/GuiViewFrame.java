@@ -23,24 +23,13 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
    * Creates new GuiView
    */
   public GuiViewFrame(SoundUnitList inputSong) {
-    this.displayPanel = new ConcreteGuiViewPanel(inputSong);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    this.getContentPane().add(displayPanel);
-    //JScrollPane newScroll = new JScrollPane(displayPanel);
-    //this.getContentPane().add(newScroll);
-    this.pack();
+    Render(inputSong);
   }
 
   //@Override
   public void initialize(){
     this.setVisible(true);
-  }
-
-  public void refresh(SoundUnitList inputSong){
-    //this.setVisible(false);
-    //this.displayPanel = new ConcreteGuiViewPanel(inputSong);
-    paintComponents(getGraphics());
-    //  this.setVisible(true);
   }
 
   public void resetFocus() {
@@ -51,6 +40,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   @Override
   public Dimension getPreferredSize(){
     return new Dimension(1600, 800);
+    //return new Dimension(displayPanel.getWidth(), displayPanel.getHeight());
+
   }
 
   public void addActionListener(ActionListener actionListener) {
@@ -58,9 +49,17 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
 
   @Override
   public void Render(SoundUnitList listOfNote) {
-    this.displayPanel = new ConcreteGuiViewPanel(listOfNote);
-    this.getContentPane().add(displayPanel);
+
+    displayPanel = new ConcreteGuiViewPanel(listOfNote);
+    displayPanel.setPreferredSize(new Dimension(listOfNote.songLength() * 25 + 100, (listOfNote.getHighestNote().getMIDIPitch() -
+            listOfNote.getLowestNote().getMIDIPitch())*15 + 50));
+
+    JScrollPane scroller = new JScrollPane(displayPanel);
+    scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    this.add(scroller);
     this.pack();
+
   }
 
 
