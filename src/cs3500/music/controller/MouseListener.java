@@ -34,16 +34,27 @@ public class MouseListener implements java.awt.event.MouseListener {
     mousePoint = e.getPoint();
     noteFound = controller.CheckForNote(mousePoint);
     if (noteFound == true){
-      System.out.println("Note Pressed!\n");
+      //System.out.println("Note Pressed!\n");
     }
     else {
-      System.out.println("Note NOT Pressed!\n");
+      //System.out.println("Note NOT Pressed!\n");
     }
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
+    switch(e.getButton()) {
 
+
+      case MouseEvent.BUTTON1:
+        int separation = e.getX() - mousePoint.x;
+        controller.addNote(mousePoint, separation);
+        break;
+
+      case MouseEvent.BUTTON3:
+        controller.deleteNote(e.getPoint());
+        break;
+    }
   }
 
   @Override

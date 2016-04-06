@@ -197,11 +197,11 @@ public class MusicEditorController implements ActionListener {
   }
 
   public void deleteNote(Point mousePoint){
-    //If there is a Note there
+    //If there is in Note Space
     if(CheckForNote(mousePoint)){
       //If note is Not Blank
       try{
-        if(!NotePressed(mousePoint).toString().equals(new Note(SoundUnit.Pitch.B, SoundUnit.Octave.ELEVEN, 99, 100))){
+        if(!NotePressed(mousePoint).toString().equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))){
           System.out.println(NotePressed(mousePoint).toString());
           model.delete(NotePressed(mousePoint));
           guiView.Render(model);
@@ -209,6 +209,30 @@ public class MusicEditorController implements ActionListener {
       }catch (IllegalArgumentException e){
 
       }
+    }
+  }
+
+  public void addNote(Point Begin, int separation){
+    //If there is in Note Space
+    if(CheckForNote(Begin)){
+
+      try{
+        if(!NotePressed(Begin).toString().equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))){
+          //Determine What note it is
+          Note newNote = NotePressed(Begin);
+
+          int Duration = separation/25;
+
+          System.out.println(Duration + "\n");
+
+          newNote.setEnd(NotePressed(Begin).getStart() + Duration + 1);
+
+          System.out.println(NotePressed(Begin).toString());
+
+          model.add(newNote);
+          guiView.Render(model);
+        }
+      }catch (IllegalArgumentException e){ }
     }
   }
 
@@ -234,9 +258,11 @@ public class MusicEditorController implements ActionListener {
 
         SoundUnitList PossibleSaveNote = new NoteList();
 
+
         //Check if a note is Starting or Continuing
         for (int j = 0; j < ListOfNotesAtBeat.size(); j++) {
           if (rangeNote.getMIDIPitch() == ListOfNotesAtBeat.get(j).getMIDIPitch()) {
+
             if (ListOfNotesAtBeat.get(j).getStart() == BeatNumber) {
               noteStarts = true;
               PossibleSaveNote.add(ListOfNotesAtBeat.get(j));
@@ -246,6 +272,16 @@ public class MusicEditorController implements ActionListener {
             }
           }
         }
+
+        if(!noteStarts && !noteContinues){
+          noteStarts = true;
+          rangeNote.setEnd(BeatNumber+1);
+          rangeNote.setStart(BeatNumber);
+          PossibleSaveNote.add(rangeNote);
+        }
+
+        /*
+        //rangeNote.setStart();*/
 
         //If a Note is Starting then Fill it! This takes Priority over the Continue
         if (noteStarts) {
@@ -263,7 +299,7 @@ public class MusicEditorController implements ActionListener {
         }
       }
     }
-    return new Note(SoundUnit.Pitch.B, SoundUnit.Octave.ELEVEN, 99, 100);
+    return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
   }
 
   @Override
@@ -311,5 +347,6 @@ public class MusicEditorController implements ActionListener {
     guiView.resetFocus();
     guiView.addActionListener(this);
     configureKeyBoardListener();
+    configureMouseListener();
   }
 }
