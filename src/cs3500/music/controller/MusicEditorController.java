@@ -201,13 +201,13 @@ public class MusicEditorController implements ActionListener {
     if(CheckForNote(mousePoint)){
       //If note is Not Blank
       try{
-        if(!NotePressed(mousePoint).toString().equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))){
-          System.out.println(NotePressed(mousePoint).toString());
-          model.delete(NotePressed(mousePoint));
-          guiView.Render(model);
-        }
+        Note newNote = NotePressed(mousePoint);
+        model.delete(newNote);
+        System.out.println(newNote.toString() + " Deleted");
+        System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
+        guiView.Render(model);
       }catch (IllegalArgumentException e){
-
+        System.out.println(e.toString());
       }
     }
   }
@@ -217,7 +217,7 @@ public class MusicEditorController implements ActionListener {
     if(CheckForNote(Begin)){
 
       try{
-        if(!NotePressed(Begin).toString().equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))){
+        if(!NotePressed(Begin).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))){
           //Determine What note it is
           Note newNote = NotePressed(Begin);
 
@@ -227,9 +227,9 @@ public class MusicEditorController implements ActionListener {
 
           newNote.setEnd(NotePressed(Begin).getStart() + Duration + 1);
 
-          System.out.println(NotePressed(Begin).toString());
-
           model.add(newNote);
+          System.out.println(NotePressed(Begin).toString() + " Added!");
+          System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
           guiView.Render(model);
         }
       }catch (IllegalArgumentException e){ }

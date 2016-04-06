@@ -23,10 +23,10 @@ public class MusicEditor {
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
 
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
-    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
+    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
-    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
     GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.

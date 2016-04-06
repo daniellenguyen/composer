@@ -20,25 +20,19 @@ public class MouseListener implements java.awt.event.MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-
+/*
     //Delete Note on Right Click
     switch (e.getButton()) {
       case MouseEvent.BUTTON3:
         controller.deleteNote(e.getPoint());
         break;
-    }
+    }*/
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
     mousePoint = e.getPoint();
     noteFound = controller.CheckForNote(mousePoint);
-    if (noteFound == true){
-      //System.out.println("Note Pressed!\n");
-    }
-    else {
-      //System.out.println("Note NOT Pressed!\n");
-    }
   }
 
   @Override
