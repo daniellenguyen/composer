@@ -28,7 +28,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   }
 
   //@Override
-  public void initialize(){
+  public void initialize() {
     this.setVisible(true);
   }
 
@@ -38,7 +38,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   }
 
   @Override
-  public Dimension getPreferredSize(){
+  public Dimension getPreferredSize() {
     return new Dimension(1600, 800);
     //return new Dimension(displayPanel.getWidth(), displayPanel.getHeight());
 
@@ -51,8 +51,9 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   public void Render(SoundUnitList listOfNote) {
 
     displayPanel = new ConcreteGuiViewPanel(listOfNote);
-    displayPanel.setPreferredSize(new Dimension(listOfNote.songLength() * 25 + 100, (listOfNote.getHighestNote().getMIDIPitch() -
-            listOfNote.getLowestNote().getMIDIPitch())*15 + 50));
+    displayPanel.setPreferredSize(new Dimension(listOfNote.songLength() * 25 + 100,
+            (listOfNote.getHighestNote().getMIDIPitch() -
+                    listOfNote.getLowestNote().getMIDIPitch()) * 15 + 50));
 
     JScrollPane scroller = new JScrollPane(displayPanel);
     scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
