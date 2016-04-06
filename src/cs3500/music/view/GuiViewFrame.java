@@ -49,7 +49,6 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
 
   @Override
   public void Render(SoundUnitList listOfNote) {
-
     displayPanel = new ConcreteGuiViewPanel(listOfNote);
     displayPanel.setPreferredSize(new Dimension(listOfNote.songLength() * 25 + 100,
             (listOfNote.getHighestNote().getMIDIPitch() -
@@ -62,6 +61,4 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     this.pack();
 
   }
-
-
 }
