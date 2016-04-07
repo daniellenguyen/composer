@@ -29,18 +29,14 @@ public class MockConsole implements View {
     PrintStream ps = new PrintStream(baos);
     PrintStream old = System.out;
     System.setOut(ps);
-    c.consoleRender(list);
+    c.consoleRender();
     System.out.flush();
     System.setOut(old);
     mockConsoleOutput.append(baos.toString());
   }
 
-  public void outputConsole() {
-    System.out.println(mockConsoleOutput.toString());
-  }
-
   @Override
-  public void Render(SoundUnitList listOfNote) {
-    createSong(listOfNote);
+  public void render() {
+    createSong(list);
   }
 }

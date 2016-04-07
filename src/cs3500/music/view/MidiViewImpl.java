@@ -17,10 +17,12 @@ import cs3500.music.model.SoundUnitList;
  * A skeleton for MIDI playback
  */
 public class MidiViewImpl implements View {
+  SoundUnitList soundUnitList;
   private Synthesizer synth;
   private Receiver receiver;
 
-  public MidiViewImpl() {
+  public MidiViewImpl(SoundUnitList soundUnitList) {
+    this.soundUnitList = soundUnitList;
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
@@ -36,9 +38,9 @@ public class MidiViewImpl implements View {
 
   public Receiver getMockReciever() { return receiver; }
 
-  public void playBeat(SoundUnitList noteList, int BeatNumber) throws InvalidMidiDataException {
+  public void playBeat(int BeatNumber) throws InvalidMidiDataException {
 
-    Set<SoundUnit> Notes = noteList.getAllAtTime(BeatNumber);
+    Set<SoundUnit> Notes = soundUnitList.getAllAtTime(BeatNumber);
 
     Iterator<SoundUnit> i = Notes.iterator();
 
@@ -77,20 +79,18 @@ public class MidiViewImpl implements View {
       }
     }
   }
-  //this.receiver.close(); // Only call this once you're done playing *all* notes
 
-
-  public void playSong(SoundUnitList inputSong) throws InvalidMidiDataException {
-    for (int i = 0; i < inputSong.songLength(); i++) {
+  public void playSong() throws InvalidMidiDataException {
+    for (int i = 0; i < soundUnitList.songLength(); i++) {
 
       try {
-        playBeat(inputSong, i);
+        playBeat(i);
       } catch (IllegalArgumentException e) {
         continue;
       }
 
       try {
-        Thread.sleep(inputSong.getTempo() / 1000);
+        Thread.sleep(soundUnitList.getTempo() / 1000);
       } catch (InterruptedException ex) {
         Thread.currentThread().interrupt();
       }
@@ -100,7 +100,7 @@ public class MidiViewImpl implements View {
   public void fillMockReceiver(SoundUnitList inputSong) {
     for (int i = 0; i < inputSong.songLength(); i++) {
       try {
-        playBeat(inputSong, i);
+        playBeat(i);
       } catch (IllegalArgumentException e) {
         continue;
       } catch (InvalidMidiDataException e) {
@@ -110,9 +110,9 @@ public class MidiViewImpl implements View {
   }
 
   @Override
-  public void Render(SoundUnitList listOfNote) {
+  public void render() {
     try {
-      playSong(listOfNote);
+      playSong();
     } catch (InvalidMidiDataException e) {
     }
   }

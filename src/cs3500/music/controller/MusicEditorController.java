@@ -3,8 +3,6 @@ package cs3500.music.controller;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,9 +13,7 @@ import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.view.CompositeView;
-import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
-import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.NoteAdderView;
 
 public class MusicEditorController implements ActionListener {
@@ -30,7 +26,6 @@ public class MusicEditorController implements ActionListener {
 
   private boolean songPlaying;
 
-  //TODO change views to view interface
   //TODO allow controller to do previous functionality
   public MusicEditorController(SoundUnitList model, CompositeView compositeView)   {
     this.model = model;
@@ -45,56 +40,69 @@ public class MusicEditorController implements ActionListener {
     playFromBeginning();
   }
 
+  /**
+   * A TimerTask to synchronize playback of multiple views
+   */
+  class timerTask extends TimerTask {
+
+    private MusicEditorController controller;
+
+    public timerTask(MusicEditorController controller) {
+      this.controller = controller;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Playing a Beat\n");
+      controller.RenderNewBeat();
+      if (IsSongOver()) {
+        this.cancel();
+      }
+    }
+  }
+
   private void configureMouseListener() {
     MouseHandler listener = new MouseHandler(this);
     this.compositeView.getGuiView().addNewMouseListener(listener);
   }
 
   private void configureKeyBoardListener() {
-    Map<Character, Runnable> keyTypes = new HashMap<>();
-    Map<Integer, Runnable> keyPresses = new HashMap<>();
-    Map<Integer, Runnable> keyReleases = new HashMap<>();
+    KeyboardHandler kbd = new KeyboardHandler();
 
-    keyTypes.put('a', new Runnable() {
+    kbd.getKeyTypedMap().put('a', new Runnable() {
       public void run() {
         System.out.println("Set Note Button Pressed:\n");
         noteAdderViewCreator();
       }
     });
 
-    keyTypes.put('>', new Runnable() {
+    kbd.getKeyTypedMap().put('>', new Runnable() {
       public void run() {
         System.out.println("Right Arrow Key Pressed:\n");
         arrowRight();
       }
     });
 
-    keyTypes.put('<', new Runnable() {
+    kbd.getKeyTypedMap().put('<', new Runnable() {
       public void run() {
         System.out.println("Left Arrow Key Pressed:\n");
         arrowLeft();
       }
     });
 
-    keyTypes.put('p', new Runnable() {
+    kbd.getKeyTypedMap().put('p', new Runnable() {
       public void run() {
         System.out.println("Play Song From Begin\n");
         playFromBeginning();
       }
     });
 
-    keyTypes.put(' ', new Runnable() {
+    kbd.getKeyTypedMap().put(' ', new Runnable() {
       public void run() {
         System.out.println("Play Song From Current Beat / Stop Song\n");
         playFromCurrentBeat();
       }
     });
-
-    KeyboardHandler kbd = new KeyboardHandler();
-    kbd.setKeyTypedMap(keyTypes);
-    kbd.setKeyPressedMap(keyPresses);
-    kbd.setKeyReleasedMap(keyReleases);
-
     compositeView.getGuiView().addKeyListener(kbd);
   }
 
@@ -122,24 +130,6 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
-  class timerTask extends TimerTask {
-
-    private MusicEditorController controller;
-
-    public timerTask(MusicEditorController controller) {
-      this.controller = controller;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Playing a Beat\n");
-      controller.RenderNewBeat();
-      if (IsSongOver()) {
-        this.cancel();
-      }
-    }
-  }
-
   public boolean IsSongOver() {
     if (this.model.getCurrentBeat() >= this.model.songLength()) {
       return true;
@@ -150,7 +140,7 @@ public class MusicEditorController implements ActionListener {
 
   public void RenderNewBeat() {
     try {
-      this.compositeView.getMidiView().playBeat(this.model, this.model.getCurrentBeat());
+      this.compositeView.getMidiView().playBeat(this.model.getCurrentBeat());
       arrowRight();
     } catch (InvalidMidiDataException e) {
       //arrowRight();
@@ -159,12 +149,12 @@ public class MusicEditorController implements ActionListener {
 
   private void arrowRight() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
-    this.compositeView.getGuiView().Render(model);
+    this.compositeView.getGuiView().render();
   }
 
   private void arrowLeft() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() - 1);
-    this.compositeView.getGuiView().Render(model);
+    this.compositeView.getGuiView().render();
   }
 
   public boolean CheckForNote(Point mousePoint) {
@@ -176,7 +166,8 @@ public class MusicEditorController implements ActionListener {
       return false;
     }
     //if After the Grid
-    else if (mousePoint.getX() > 40 + (25 * model.songLength()) - model.getCurrentBeat() * 25) {
+    else if (mousePoint.getX() > 40 + (25 * model.songLength())
+            - model.getCurrentBeat() * 25) {
       return false;
     }
     //if Above the Grid
@@ -200,7 +191,7 @@ public class MusicEditorController implements ActionListener {
         model.delete(newNote);
         System.out.println(newNote.toString() + " Deleted");
         System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
-        this.compositeView.getGuiView().Render(model);
+        this.compositeView.getGuiView().render();
       } catch (IllegalArgumentException e) {
         System.out.println(e.toString());
       }
@@ -211,8 +202,10 @@ public class MusicEditorController implements ActionListener {
     if (CheckForNote(Start)) {
       if (CheckForNote(End)) {
         try {
-          if (!NotePressed(Start).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))) {
-            if (!NotePressed(End).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))) {
+          if (!NotePressed(Start).equals(new Note(SoundUnit.Pitch.C,
+                  SoundUnit.Octave.FOUR, 999, 1000))) {
+            if (!NotePressed(End).equals(new Note(SoundUnit.Pitch.C,
+                    SoundUnit.Octave.FOUR, 999, 1000))) {
               //Determine What note it is
               int MoveX = xSeparation / 25;
               int MoveY = ySeparation / 25;
@@ -237,8 +230,9 @@ public class MusicEditorController implements ActionListener {
               model.add(copyNote);
 
               System.out.println(copyNote.toString() + " Added!");
-              System.out.println("Start: " + copyNote.getStart() + " End: " + copyNote.getEnd());
-              this.compositeView.getGuiView().Render(model);
+              System.out.println("Start: " + copyNote.getStart()
+                      + " End: " + copyNote.getEnd());
+              this.compositeView.getGuiView().render();
             }
           }
         } catch (IllegalArgumentException e) {
@@ -253,7 +247,8 @@ public class MusicEditorController implements ActionListener {
     if (CheckForNote(Begin)) {
 
       try {
-        if (!NotePressed(Begin).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))) {
+        if (!NotePressed(Begin).equals(new Note(SoundUnit.Pitch.C,
+                SoundUnit.Octave.FOUR, 999, 1000))) {
           //Determine What note it is
           Note newNote = SpacePressed(Begin);
 
@@ -266,7 +261,7 @@ public class MusicEditorController implements ActionListener {
           model.add(newNote);
           System.out.println(SpacePressed(Begin).toString() + " Added!");
           System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
-          this.compositeView.getGuiView().Render(model);
+          this.compositeView.getGuiView().render();
         }
       } catch (IllegalArgumentException e) {
         System.out.println(e.toString());
@@ -323,14 +318,20 @@ public class MusicEditorController implements ActionListener {
 
         //If a Note is Starting then Fill it! This takes Priority over the Continue
         if (noteStarts) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+          if (mousePoint.getX() > 40 + (25 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber)
+                  - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY()
+                    < ((separation * i)) + 15 + 15) {
               return PossibleSaveNote.getHighestNote();
             }
           }
         } else if (noteContinues) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+          if (mousePoint.getX() > 40 + (25 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX()
+                  < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i))
+                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
               return PossibleSaveNote.getHighestNote();
             }
           }
@@ -374,14 +375,20 @@ public class MusicEditorController implements ActionListener {
 
         //If a Note is Starting then Fill it! This takes Priority over the Continue
         if (noteStarts) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+          if (mousePoint.getX() > 40 + (25 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX() < 40
+                  + (25 * BeatNumber) - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i))
+                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
               return PossibleSaveNote.getHighestNote();
             }
           }
         } else if (noteContinues) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+          if (mousePoint.getX() > 40 + (25 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber)
+                  - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i))
+                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
               return PossibleSaveNote.getHighestNote();
             }
           }
@@ -412,7 +419,8 @@ public class MusicEditorController implements ActionListener {
 
 
         Note noteToAdd = new Note(noteAdderView.getInputPitchEnum(),
-                noteAdderView.getInputOctaveEnum(), Integer.valueOf(noteAdderView.getInputStart()),
+                noteAdderView.getInputOctaveEnum(),
+                Integer.valueOf(noteAdderView.getInputStart()),
                 Integer.valueOf(noteAdderView.getInputDuration())
                         + Integer.valueOf(noteAdderView.getInputStart()));
         noteToAdd.setVolume(Integer.valueOf(noteAdderView.getInputVolume().toString()));

@@ -26,5 +26,5 @@ public interface View {
    * the extension that the GUI interface must have in order to hold additional
    * methods irrelevant to the other two views.
    */
-  void Render(SoundUnitList listOfNote);
+  void render();
 }

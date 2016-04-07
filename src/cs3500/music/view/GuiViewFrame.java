@@ -6,24 +6,26 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import cs3500.music.controller.MouseHandler;
+import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
 public class GuiViewFrame extends javax.swing.JFrame implements View {
+  SoundUnitList soundUnitList;
 
-  private JPanel displayPanel; // You may want to refine this to a subtype of JPanel
+  private JPanel displayPanel;
 
   /**
    * Creates new GuiView
    */
-  public GuiViewFrame(SoundUnitList inputSong) {
+  public GuiViewFrame(SoundUnitList soundUnitList) {
+    this.soundUnitList = soundUnitList;
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    Render(inputSong);
+    render();
   }
 
-  //@Override
   public void initialize() {
     this.setVisible(true);
   }
@@ -36,30 +38,20 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
   @Override
   public Dimension getPreferredSize() {
     return new Dimension(1600, 800);
-    //return new Dimension(displayPanel.getWidth(), displayPanel.getHeight());
-
   }
 
   public void addActionListener(ActionListener actionListener) {
+
   }
 
   @Override
-  public void Render(SoundUnitList listOfNote) {
-    displayPanel = new ConcreteGuiViewPanel(listOfNote);
-    /*displayPanel.setPreferredSize(new Dimension(listOfNote.songLength() * 25 + 100,
-            (listOfNote.getHighestNote().getMIDIPitch() -
-                    listOfNote.getLowestNote().getMIDIPitch()) * 15 + 50));
-
-    JScrollPane scroller = new JScrollPane(displayPanel);
-    scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    this.add(scroller);
-    */
+  public void render() {
+    displayPanel = new ConcreteGuiViewPanel(soundUnitList);
     this.add(displayPanel);
     this.pack();
   }
 
-  public void addNewMouseListener(MouseHandler listener){
+  public void addNewMouseListener(MouseHandler listener) {
     displayPanel.addMouseListener(listener);
   }
 }

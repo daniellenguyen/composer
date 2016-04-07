@@ -28,7 +28,7 @@ public class CompositeView implements View {
   }
 
   @Override
-  public void Render(SoundUnitList listOfNote) {
+  public void render() {
 
   }
 }

@@ -10,23 +10,27 @@ import java.util.*;
  * Returns in the console a view of how all the notes are played
  */
 public class ConsoleViewImpl implements View {
+  SoundUnitList soundUnitList;
+
+  public ConsoleViewImpl(SoundUnitList soundUnitList) {
+    this.soundUnitList = soundUnitList;
+  }
 
   /**
    * Returns a list containing the range of notes to be played, including gaps
    * where there is no note in the song itself.
    *
-   * @param list the list of notes to be played
    * @return a list representing the range of notes to be played.
    */
-  public ArrayList<SoundUnit> makeTopRow(SoundUnitList list) {
+  public ArrayList<SoundUnit> makeTopRow() {
 
-    int rangeOfSong = list.getHighestNote().getMIDIPitch()
-            - list.getLowestNote().getMIDIPitch();
+    int rangeOfSong = soundUnitList.getHighestNote().getMIDIPitch()
+            - soundUnitList.getLowestNote().getMIDIPitch();
     ArrayList<SoundUnit> finalList = new ArrayList<>();
     //Iterate Through the Range to create Header
     for (int i = rangeOfSong; i >= 0; i--) {
       SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
-      rangeNote.setPitchAndOctaveFromMIDI(list.getHighestNote().getMIDIPitch() - i);
+      rangeNote.setPitchAndOctaveFromMIDI(soundUnitList.getHighestNote().getMIDIPitch() - i);
       finalList.add(rangeNote);
     }
     return finalList;
@@ -54,17 +58,16 @@ public class ConsoleViewImpl implements View {
   /**
    * Renders the console view of the given list of notes
    *
-   * @param list the list of notes to be rendered
    * @throws IllegalArgumentException if the NoteList is empty
    */
-  public void consoleRender(SoundUnitList list) {
-    if (list.size() == 0) {
+  public void consoleRender() {
+    if (soundUnitList.size() == 0) {
       throw new IllegalArgumentException("Nothing to render");
     }
-    ArrayList<SoundUnit> pitchRow = this.makeTopRow(list);
+    ArrayList<SoundUnit> pitchRow = this.makeTopRow();
     HashMap<SoundUnit.Octave, HashSet<SoundUnit.Pitch>> onRightNow = new HashMap<>();
     String finalConsoleRender = this.renderTopRow(pitchRow) + "\n";
-    for (int i = 0; i <= list.songLength(); i++) {
+    for (int i = 0; i <= soundUnitList.songLength(); i++) {
       String finalRow;
       if (i < 10) {
         finalRow = "   " + Integer.toString(i) + "  ";
@@ -75,9 +78,9 @@ public class ConsoleViewImpl implements View {
       } else {
         finalRow = Integer.toString(i) + "  ";
       }
-      if (list.hasNotesAtTime(i)) {
+      if (soundUnitList.hasNotesAtTime(i)) {
         for (int j = 0; j < pitchRow.size(); j++) {
-          Iterator iterator = list.getAllAtTime(i).iterator();
+          Iterator iterator = soundUnitList.getAllAtTime(i).iterator();
           boolean wasAnythingAdded = false;
           while (iterator.hasNext()) {
             SoundUnit n = (Note) iterator.next();
@@ -120,7 +123,7 @@ public class ConsoleViewImpl implements View {
   }
 
   @Override
-  public void Render(SoundUnitList listOfNote) {
-    consoleRender(listOfNote);
+  public void render() {
+    consoleRender();
   }
 }
