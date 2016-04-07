@@ -14,6 +14,7 @@ import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
+import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
@@ -22,9 +23,7 @@ import cs3500.music.view.NoteAdderView;
 public class MusicEditorController implements ActionListener {
 
   private SoundUnitList model;
-  private GuiViewFrame guiView;
-  private MidiViewImpl midiView;
-  private ConsoleViewImpl consoleView;
+  private CompositeView compositeView;
   private NoteAdderView noteAdderView;
 
   private Timer musicTimer;
@@ -33,24 +32,22 @@ public class MusicEditorController implements ActionListener {
 
   //TODO change views to view interface
   //TODO allow controller to do previous functionality
-  public MusicEditorController(SoundUnitList model, GuiViewFrame guiView,
-                               MidiViewImpl midiView, ConsoleViewImpl consoleView) {
+  public MusicEditorController(SoundUnitList model, CompositeView compositeView)   {
     this.model = model;
-    this.guiView = guiView;
-    this.midiView = midiView;
-    this.consoleView = consoleView;
+    this.compositeView = compositeView;
     configureKeyBoardListener();
     configureMouseListener();
-    this.guiView.addActionListener(this);
-    this.guiView.initialize();
+    this.compositeView.getGuiView().addActionListener(this);
+    this.compositeView.getGuiView().initialize();
     model.setCurrentBeat(0);
     musicTimer = new Timer();
     songPlaying = false;
+    playFromBeginning();
   }
 
   private void configureMouseListener() {
     MouseListener listener = new MouseListener(this);
-    guiView.addNewMouseListener(listener);
+    this.compositeView.getGuiView().addNewMouseListener(listener);
   }
 
   private void configureKeyBoardListener() {
@@ -98,11 +95,11 @@ public class MusicEditorController implements ActionListener {
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);
 
-    guiView.addKeyListener(kbd);
+    compositeView.getGuiView().addKeyListener(kbd);
   }
 
   private void noteAdderViewCreator() {
-    guiView.setVisible(false);
+    this.compositeView.getGuiView().setVisible(false);
     noteAdderView = new NoteAdderView(model.getLastNote());
     noteAdderView.resetFocus();
     noteAdderView.addActionListener(this);
@@ -153,7 +150,7 @@ public class MusicEditorController implements ActionListener {
 
   public void RenderNewBeat() {
     try {
-      this.midiView.playBeat(this.model, this.model.getCurrentBeat());
+      this.compositeView.getMidiView().playBeat(this.model, this.model.getCurrentBeat());
       arrowRight();
     } catch (InvalidMidiDataException e) {
       //arrowRight();
@@ -162,14 +159,13 @@ public class MusicEditorController implements ActionListener {
 
   private void arrowRight() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
-    guiView.Render(model);
+    this.compositeView.getGuiView().Render(model);
   }
 
   private void arrowLeft() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() - 1);
-    guiView.Render(model);
+    this.compositeView.getGuiView().Render(model);
   }
-
 
   public boolean CheckForNote(Point mousePoint) {
     int separation = 15;
@@ -204,7 +200,7 @@ public class MusicEditorController implements ActionListener {
         model.delete(newNote);
         System.out.println(newNote.toString() + " Deleted");
         System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
-        guiView.Render(model);
+        this.compositeView.getGuiView().Render(model);
       } catch (IllegalArgumentException e) {
         System.out.println(e.toString());
       }
@@ -242,7 +238,7 @@ public class MusicEditorController implements ActionListener {
 
               System.out.println(copyNote.toString() + " Added!");
               System.out.println("Start: " + copyNote.getStart() + " End: " + copyNote.getEnd());
-              guiView.Render(model);
+              this.compositeView.getGuiView().Render(model);
             }
           }
         } catch (IllegalArgumentException e) {
@@ -270,7 +266,7 @@ public class MusicEditorController implements ActionListener {
           model.add(newNote);
           System.out.println(SpacePressed(Begin).toString() + " Added!");
           System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
-          guiView.Render(model);
+          this.compositeView.getGuiView().Render(model);
         }
       } catch (IllegalArgumentException e) {
         System.out.println(e.toString());
@@ -343,7 +339,6 @@ public class MusicEditorController implements ActionListener {
     }
     return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
   }
-
 
   public Note SpacePressed(Point mousePoint) {
     int moveOverForBeat = model.getCurrentBeat() * 25;
@@ -436,10 +431,10 @@ public class MusicEditorController implements ActionListener {
 
   private void exitFromNoteAdder() {
     noteAdderView.setVisible(false);
-    guiView = new GuiViewFrame(model);
-    guiView.initialize();
-    guiView.resetFocus();
-    guiView.addActionListener(this);
+    this.compositeView.setGuiView(new GuiViewFrame(model));
+    this.compositeView.getGuiView().initialize();
+    this.compositeView.getGuiView().resetFocus();
+    this.compositeView.getGuiView().addActionListener(this);
     configureKeyBoardListener();
     configureMouseListener();
   }

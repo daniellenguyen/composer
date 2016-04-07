@@ -3,6 +3,7 @@ package cs3500.music;
 import cs3500.music.controller.MusicEditorController;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.util.MusicReader;
+import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
@@ -33,8 +34,9 @@ public class MusicEditor {
             ViewType.GUI, inputSong);
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.
             ViewType.MIDI, inputSong);
+    CompositeView newCompositeView = new CompositeView(GuiView, midiView);
 
-   MusicEditorController asd = new MusicEditorController(inputSong, GuiView, midiView, null);
+   MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
 
   }
 }
