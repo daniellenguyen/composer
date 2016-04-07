@@ -31,27 +31,6 @@ public class KeyboardHandler implements KeyListener {
   }
 
   /**
-   * Set the map for key typed events. Key typed events in Java Swing are characters
-   */
-  public void setKeyTypedMap(Map<Character, Runnable> map) {
-    keyTypedMap = map;
-  }
-
-  /**
-   * Set the map for key pressed events. Key pressed events in Java Swing are integer codes
-   */
-  public void setKeyPressedMap(Map<Integer, Runnable> map) {
-    keyPressedMap = map;
-  }
-
-  /**
-   * Set the map for key released events. Key released events in Java Swing are integer codes
-   */
-  public void setKeyReleasedMap(Map<Integer, Runnable> map) {
-    keyReleasedMap = map;
-  }
-
-  /**
    * Get the map for key typed events. Key typed events in Java Swing are characters
    */
   public Map<Character, Runnable> getKeyTypedMap() {

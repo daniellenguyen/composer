@@ -23,13 +23,20 @@ public class MockKeyboardHandler implements KeyListener {
   }
 
   /**
+   * Sets StringBuilder
+   */
+  public void setStringBuilder(String s) {
+    mockKeyboardLog.append(s);
+  }
+
+  /**
    * This is called when the view detects that a key has been typed. Find if anything has been
    * mapped to this key character and if so, execute it
    */
   @Override
   public void keyTyped(KeyEvent e) {
-    if (keyboardHandler.getKeyTypedMap().containsKey(e.getKeyChar()))
-      mockKeyboardLog.append(keyboardHandler.getKeyTypedMap().get(e.getKeyChar()));
+    if (keyboardHandler.getKeyTypedMap().containsKey(e.getKeyCode()))
+      mockKeyboardLog.append(keyboardHandler.getKeyTypedMap().get(e.getKeyCode()));
   }
 
   /**

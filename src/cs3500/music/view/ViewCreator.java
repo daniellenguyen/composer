@@ -7,7 +7,7 @@ import cs3500.music.model.SoundUnitList;
  */
 public class ViewCreator {
 
-  public enum ViewType {GUI, MIDI, CONSOLE}
+  public enum ViewType {GUI, MIDI, CONSOLE, COMPOSITE}
 
   public ViewCreator(){
   }
@@ -18,8 +18,11 @@ public class ViewCreator {
     }else if (type == ViewType.MIDI) {
       return new MidiViewImpl(inputSong);
     }
-    else {
+    else if (type == ViewType.CONSOLE){
       return new ConsoleViewImpl(inputSong);
+    }
+    else {
+      return new CompositeView(inputSong);
     }
   }
 
