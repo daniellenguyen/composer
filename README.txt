@@ -46,6 +46,14 @@ TODO:
 5. Give View things to have??? (Justin)
 
 
+* Add Interface for Controller
+* Mock Controller Test
+* Mock Mouse
+* Mock KeyBoard
+* Special Interface for Composite View
+* Make an Abstract Mock Class
+* Make all Views Symmetric
+
 Questions for TA:
 1.  Should we change the type T in the CompositionBuilder interface to type NoteList?
 2.  If there are no notes in the list of notes, what should the console view return?
