@@ -30,11 +30,8 @@ public class MusicEditor {
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
-    GuiViewFrame GuiView = (GuiViewFrame) ViewCreator.create(ViewCreator.
-            ViewType.GUI, inputSong);
-    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.
-            ViewType.MIDI, inputSong);
-    CompositeView newCompositeView = new CompositeView(GuiView, midiView);
+    CompositeView newCompositeView = (CompositeView)
+            ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
    MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
 

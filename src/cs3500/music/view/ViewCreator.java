@@ -22,7 +22,9 @@ public class ViewCreator {
       return new ConsoleViewImpl(inputSong);
     }
     else {
-      return new CompositeView(inputSong);
+      return new CompositeView((GuiViewFrame) ViewCreator.create(ViewCreator.
+              ViewType.GUI, inputSong), ((MidiViewImpl) ViewCreator.create(ViewCreator.
+              ViewType.MIDI, inputSong)));
     }
   }
 

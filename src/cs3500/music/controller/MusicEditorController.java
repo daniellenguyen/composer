@@ -40,6 +40,10 @@ public class MusicEditorController implements ActionListener {
     playFromBeginning();
   }
 
+  public CompositeView getCompositeView() {
+    return compositeView;
+  }
+
   /**
    * A TimerTask to synchronize playback of multiple views
    */
@@ -61,12 +65,12 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
-  private void configureMouseListener() {
+  public void configureMouseListener() {
     MouseHandler listener = new MouseHandler(this);
     this.compositeView.getGuiView().addNewMouseListener(listener);
   }
 
-  private void configureKeyBoardListener() {
+  public void configureKeyBoardListener() {
     KeyboardHandler kbd = new KeyboardHandler();
 
     kbd.getKeyTypedMap().put('a', new Runnable() {
@@ -106,19 +110,19 @@ public class MusicEditorController implements ActionListener {
     compositeView.getGuiView().addKeyListener(kbd);
   }
 
-  private void noteAdderViewCreator() {
+  public void noteAdderViewCreator() {
     this.compositeView.getGuiView().setVisible(false);
     noteAdderView = new NoteAdderView(model.getLastNote());
     noteAdderView.resetFocus();
     noteAdderView.addActionListener(this);
   }
 
-  private void playFromBeginning() {
+  public void playFromBeginning() {
     this.model.setCurrentBeat(0);
     playFromCurrentBeat();
   }
 
-  private void playFromCurrentBeat() {
+  public void playFromCurrentBeat() {
     if (songPlaying) {
       musicTimer.cancel();
       songPlaying = false;
@@ -147,12 +151,12 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
-  private void arrowRight() {
+  public void arrowRight() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
     this.compositeView.getGuiView().render();
   }
 
-  private void arrowLeft() {
+  public void arrowLeft() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() - 1);
     this.compositeView.getGuiView().render();
   }
@@ -437,7 +441,7 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
-  private void exitFromNoteAdder() {
+  public void exitFromNoteAdder() {
     noteAdderView.setVisible(false);
     this.compositeView.setGuiView(new GuiViewFrame(model));
     this.compositeView.getGuiView().initialize();
