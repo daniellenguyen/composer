@@ -2,15 +2,10 @@ package cs3500.music.view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
-import cs3500.music.controller.MouseListener;
-import cs3500.music.controller.MusicEditorController;
-import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
-import cs3500.music.model.SoundUnit;
+import cs3500.music.controller.MouseHandler;
 import cs3500.music.model.SoundUnitList;
 
 /**
@@ -64,7 +59,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements View {
     this.pack();
   }
 
-  public void addNewMouseListener(MouseListener listener){
+  public void addNewMouseListener(MouseHandler listener){
     displayPanel.addMouseListener(listener);
   }
 }

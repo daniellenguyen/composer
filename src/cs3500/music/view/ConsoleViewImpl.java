@@ -84,11 +84,8 @@ public class ConsoleViewImpl implements View {
             SoundUnit.Pitch nPitch = pitchRow.get(j).getPitch();
             SoundUnit.Octave nOctave = pitchRow.get(j).getOctave();
             if (nPitch.equals(n.getPitch()) && nOctave.equals(n.getOctave())) {
-              if (!(onRightNow.containsKey(nOctave)) && n.getStart() == n.getEnd() - 1) {
-                finalRow = finalRow + "  X  ";
-                wasAnythingAdded = true;
-              }
-              else if (onRightNow.containsKey(nOctave) && n.getStart() == n.getEnd() - 1) {
+              if (!(onRightNow.containsKey(nOctave)) && n.getStart() == n.getEnd() - 1 ||
+                      onRightNow.containsKey(nOctave) && n.getStart() == n.getEnd() - 1) {
                 finalRow = finalRow + "  X  ";
                 wasAnythingAdded = true;
               }else if (!(onRightNow.containsKey(nOctave))) {

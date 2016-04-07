@@ -34,7 +34,7 @@ public class MusicEditor {
     MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.
             ViewType.MIDI, inputSong);
 
-   MusicEditorController asd = new MusicEditorController(inputSong, GuiView, midiView, null);
+   MusicEditorController asd = new MusicEditorController(inputSong, compositeView);
 
   }
 }

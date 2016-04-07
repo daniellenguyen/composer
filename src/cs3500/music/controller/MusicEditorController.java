@@ -49,7 +49,7 @@ public class MusicEditorController implements ActionListener {
   }
 
   private void configureMouseListener() {
-    MouseListener listener = new MouseListener(this);
+    MouseHandler listener = new MouseHandler(this);
     guiView.addNewMouseListener(listener);
   }
 

@@ -6,14 +6,14 @@ import java.awt.event.MouseEvent;
 /**
  * Created by Justin Hynes-Bruell on 4/5/2016.
  */
-public class MouseListener implements java.awt.event.MouseListener {
+public class MouseHandler implements java.awt.event.MouseListener {
 
   MusicEditorController controller;
 
   Point mousePoint;
   boolean noteFound;
 
-  public MouseListener(MusicEditorController controller){
+  public MouseHandler(MusicEditorController controller){
     this.controller = controller;
     noteFound = false;
   }

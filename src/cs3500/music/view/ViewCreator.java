@@ -16,10 +16,10 @@ public class ViewCreator {
     if (type == ViewType.GUI) {
       return new GuiViewFrame(inputSong);
     }else if (type == ViewType.MIDI) {
-      return new MidiViewImpl();
+      return new MidiViewImpl(inputSong);
     }
     else {
-      return new ConsoleViewImpl();
+      return new ConsoleViewImpl(inputSong);
     }
   }
 
