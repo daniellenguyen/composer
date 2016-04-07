@@ -48,7 +48,7 @@ public class MusicEditorController implements ActionListener {
     songPlaying = false;
   }
 
-  private void configureMouseListener(){
+  private void configureMouseListener() {
     MouseListener listener = new MouseListener(this);
     guiView.addNewMouseListener(listener);
   }
@@ -101,27 +101,26 @@ public class MusicEditorController implements ActionListener {
     guiView.addKeyListener(kbd);
   }
 
-  private void noteAdderViewCreator(){
+  private void noteAdderViewCreator() {
     guiView.setVisible(false);
     noteAdderView = new NoteAdderView(model.getLastNote());
     noteAdderView.resetFocus();
     noteAdderView.addActionListener(this);
   }
 
-  private void playFromBeginning(){
+  private void playFromBeginning() {
     this.model.setCurrentBeat(0);
     playFromCurrentBeat();
   }
 
-  private void playFromCurrentBeat(){
-    if(songPlaying){
+  private void playFromCurrentBeat() {
+    if (songPlaying) {
       musicTimer.cancel();
       songPlaying = false;
       musicTimer = new Timer();
-    }
-    else {
+    } else {
       songPlaying = true;
-      int Delay = (this.model.getTempo()/1000);
+      int Delay = (this.model.getTempo() / 1000);
       musicTimer.schedule(new timerTask(this), 0, Delay);
     }
   }
@@ -129,29 +128,30 @@ public class MusicEditorController implements ActionListener {
   class timerTask extends TimerTask {
 
     private MusicEditorController controller;
-    public timerTask(MusicEditorController controller){
+
+    public timerTask(MusicEditorController controller) {
       this.controller = controller;
     }
+
     @Override
     public void run() {
       System.out.println("Playing a Beat\n");
       controller.RenderNewBeat();
-      if(IsSongOver()){
+      if (IsSongOver()) {
         this.cancel();
       }
     }
   }
 
-  public boolean IsSongOver(){
-    if(this.model.getCurrentBeat() >= this.model.songLength()){
+  public boolean IsSongOver() {
+    if (this.model.getCurrentBeat() >= this.model.songLength()) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
-  public void RenderNewBeat(){
+  public void RenderNewBeat() {
     try {
       this.midiView.playBeat(this.model, this.model.getCurrentBeat());
       arrowRight();
@@ -160,84 +160,126 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
-  private void arrowRight(){
+  private void arrowRight() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
     guiView.Render(model);
   }
 
-  private void arrowLeft(){
-    this.model.setCurrentBeat(this.model.getCurrentBeat()-1);
+  private void arrowLeft() {
+    this.model.setCurrentBeat(this.model.getCurrentBeat() - 1);
     guiView.Render(model);
   }
 
 
-  public boolean CheckForNote(Point mousePoint){
+  public boolean CheckForNote(Point mousePoint) {
     int separation = 15;
     int rangeOfSong = model.getHighestNote().getMIDIPitch() -
             model.getLowestNote().getMIDIPitch();
     //If before the Grid
-    if(mousePoint.getX() < 40){
+    if (mousePoint.getX() < 40) {
       return false;
     }
     //if After the Grid
-    else if(mousePoint.getX() > 40 + (25 * model.songLength()) - model.getCurrentBeat()*25){
+    else if (mousePoint.getX() > 40 + (25 * model.songLength()) - model.getCurrentBeat() * 25) {
       return false;
     }
     //if Above the Grid
-    else if(mousePoint.getY() < 15){
+    else if (mousePoint.getY() < 15) {
       return false;
     }
     //if Below the Grid
-    else if(mousePoint.getY() > separation * rangeOfSong + 30){
+    else if (mousePoint.getY() > separation * rangeOfSong + 30) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
 
-  public void deleteNote(Point mousePoint){
+  public void deleteNote(Point mousePoint) {
     //If there is in Note Space
-    if(CheckForNote(mousePoint)){
+    if (CheckForNote(mousePoint)) {
       //If note is Not Blank
-      try{
+      try {
         Note newNote = NotePressed(mousePoint);
         model.delete(newNote);
         System.out.println(newNote.toString() + " Deleted");
         System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
         guiView.Render(model);
-      }catch (IllegalArgumentException e){
+      } catch (IllegalArgumentException e) {
         System.out.println(e.toString());
       }
     }
   }
 
-  public void addNote(Point Begin, int separation){
-    //If there is in Note Space
-    if(CheckForNote(Begin)){
+  public void moveNote(Point Start, Point End, int xSeparation, int ySeparation) {
+    if (CheckForNote(Start)) {
+      if (CheckForNote(End)) {
+        try {
+          if (!NotePressed(Start).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))) {
+            if (!NotePressed(End).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))) {
+              //Determine What note it is
+              int MoveX = xSeparation / 25;
+              int MoveY = ySeparation / 25;
 
-      try{
-        if(!NotePressed(Begin).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))){
-          //Determine What note it is
-          Note newNote = NotePressed(Begin);
+              System.out.println("X: " + MoveX + " Y: " + MoveY + "\n");
 
-          int Duration = separation/25;
+              //Find Old Note
+              Note OldNote = NotePressed(Start);
 
-          System.out.println(Duration + "\n");
+              //Find New Note
+              Note newNote = NotePressed(End);
 
-          newNote.setEnd(NotePressed(Begin).getStart() + Duration + 1);
+              //Copy Note
+              Note copyNote = new Note(newNote.getPitch(), newNote.getOctave(),
+                      OldNote.getStart() + MoveX, OldNote.getEnd() + MoveX);
+              copyNote.setInstrument(OldNote.getInstrument());
+              copyNote.setVolume(OldNote.getVolume());
 
-          model.add(newNote);
-          System.out.println(NotePressed(Begin).toString() + " Added!");
-          System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
-          guiView.Render(model);
+              //Delete Old Note
+              model.delete(OldNote);
+
+              model.add(copyNote);
+
+              System.out.println(copyNote.toString() + " Added!");
+              System.out.println("Start: " + copyNote.getStart() + " End: " + copyNote.getEnd());
+              guiView.Render(model);
+            }
+          }
+        } catch (IllegalArgumentException e) {
+          System.out.println(e.toString());
         }
-      }catch (IllegalArgumentException e){ }
+      }
     }
   }
 
-  public Note NotePressed(Point mousePoint){
-    int moveOverForBeat = model.getCurrentBeat()*25;
+  public void addNote(Point Begin, int separation) {
+    //If there is in Note Space
+    if (CheckForNote(Begin)) {
+
+      try {
+        if (!NotePressed(Begin).equals(new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000))) {
+          //Determine What note it is
+          Note newNote = SpacePressed(Begin);
+
+          int Duration = separation / 25;
+
+          System.out.println(Duration + "\n");
+
+          newNote.setEnd(SpacePressed(Begin).getStart() + Duration + 1);
+
+          model.add(newNote);
+          System.out.println(SpacePressed(Begin).toString() + " Added!");
+          System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
+          guiView.Render(model);
+        }
+      } catch (IllegalArgumentException e) {
+        System.out.println(e.toString());
+      }
+    }
+  }
+
+  public Note NotePressed(Point mousePoint) {
+    int moveOverForBeat = model.getCurrentBeat() * 25;
 
     int separation = 15;
 
@@ -273,9 +315,9 @@ public class MusicEditorController implements ActionListener {
           }
         }
 
-        if(!noteStarts && !noteContinues){
+        if (!noteStarts && !noteContinues) {
           noteStarts = true;
-          rangeNote.setEnd(BeatNumber+1);
+          rangeNote.setEnd(BeatNumber + 1);
           rangeNote.setStart(BeatNumber);
           PossibleSaveNote.add(rangeNote);
         }
@@ -285,14 +327,66 @@ public class MusicEditorController implements ActionListener {
 
         //If a Note is Starting then Fill it! This takes Priority over the Continue
         if (noteStarts) {
-          if(mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25){
-            if(mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15){
+          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
               return PossibleSaveNote.getHighestNote();
             }
           }
         } else if (noteContinues) {
-          if(mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25){
-            if(mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15){
+          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+              return PossibleSaveNote.getHighestNote();
+            }
+          }
+        }
+      }
+    }
+    return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
+  }
+
+
+  public Note SpacePressed(Point mousePoint) {
+    int moveOverForBeat = model.getCurrentBeat() * 25;
+
+    int separation = 15;
+
+    int rangeOfSong = model.getHighestNote().getMIDIPitch() -
+            model.getLowestNote().getMIDIPitch();
+    //For each Beat in the song Draws the Notes
+    for (int BeatNumber = 0; BeatNumber < model.songLength(); BeatNumber++) {
+      ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
+      ListOfNotesAtBeat.addAll(model.getAllAtTime(BeatNumber));
+
+      //Create a Column of Notes
+      for (int i = rangeOfSong; i >= 0; i--) {
+        SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
+        rangeNote.setPitchAndOctaveFromMIDI(model.getHighestNote().getMIDIPitch() - i);
+
+        boolean noteStarts = false;
+        boolean noteContinues = false;
+
+        SoundUnitList PossibleSaveNote = new NoteList();
+
+
+
+          noteStarts = true;
+          rangeNote.setEnd(BeatNumber + 1);
+          rangeNote.setStart(BeatNumber);
+          PossibleSaveNote.add(rangeNote);
+
+        /*
+        //rangeNote.setStart();*/
+
+        //If a Note is Starting then Fill it! This takes Priority over the Continue
+        if (noteStarts) {
+          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+              return PossibleSaveNote.getHighestNote();
+            }
+          }
+        } else if (noteContinues) {
+          if (mousePoint.getX() > 40 + (25 * BeatNumber) - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
+            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
               return PossibleSaveNote.getHighestNote();
             }
           }
@@ -323,9 +417,9 @@ public class MusicEditorController implements ActionListener {
 
 
         Note noteToAdd = new Note(noteAdderView.getInputPitchEnum(),
-              noteAdderView.getInputOctaveEnum(), Integer.valueOf(noteAdderView.getInputStart()),
-              Integer.valueOf(noteAdderView.getInputDuration())
-                      +Integer.valueOf(noteAdderView.getInputStart()));
+                noteAdderView.getInputOctaveEnum(), Integer.valueOf(noteAdderView.getInputStart()),
+                Integer.valueOf(noteAdderView.getInputDuration())
+                        + Integer.valueOf(noteAdderView.getInputStart()));
         noteToAdd.setVolume(Integer.valueOf(noteAdderView.getInputVolume().toString()));
         noteToAdd.setInstrument(Integer.valueOf(noteAdderView.getInputInstrument().toString()));
         model.add(noteToAdd);
@@ -340,7 +434,7 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
-  private void exitFromNoteAdder(){
+  private void exitFromNoteAdder() {
     noteAdderView.setVisible(false);
     guiView = new GuiViewFrame(model);
     guiView.initialize();

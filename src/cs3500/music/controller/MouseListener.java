@@ -45,6 +45,12 @@ public class MouseListener implements java.awt.event.MouseListener {
         controller.addNote(mousePoint, separation);
         break;
 
+      case MouseEvent.BUTTON2:
+        int xSeparation = e.getX() - mousePoint.x;
+        int ySeparation = e.getY() - mousePoint.y;
+        controller.moveNote(mousePoint, e.getPoint(), xSeparation, ySeparation);
+        break;
+
       case MouseEvent.BUTTON3:
         controller.deleteNote(e.getPoint());
         break;
