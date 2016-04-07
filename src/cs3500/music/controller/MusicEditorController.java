@@ -26,8 +26,12 @@ public class MusicEditorController implements ActionListener {
 
   private boolean songPlaying;
 
-  //TODO allow controller to do previous functionality
-  public MusicEditorController(SoundUnitList model, CompositeView compositeView)   {
+  /**
+   * Constructor for the controller. Does not begin playing. Press "Space" to begin playing song.
+   * @param model
+   * @param compositeView
+   */
+  public MusicEditorController(SoundUnitList model, CompositeView compositeView) {
     this.model = model;
     this.compositeView = compositeView;
     configureKeyBoardListener();
@@ -37,15 +41,11 @@ public class MusicEditorController implements ActionListener {
     model.setCurrentBeat(0);
     musicTimer = new Timer();
     songPlaying = false;
-    playFromBeginning();
-  }
-
-  public CompositeView getCompositeView() {
-    return compositeView;
   }
 
   /**
-   * A TimerTask to synchronize playback of multiple views
+   * A TimerTask to synchronize playback of multiple views Is called by playFromCurrentBeat or
+   * playFrom Beginning
    */
   class timerTask extends TimerTask {
 
@@ -65,11 +65,17 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Sets up the Mouse Listeners
+   */
   public void configureMouseListener() {
     MouseHandler listener = new MouseHandler(this);
     this.compositeView.getGuiView().addNewMouseListener(listener);
   }
 
+  /**
+   * Configure the Keyboard listeners
+   */
   public void configureKeyBoardListener() {
     KeyboardHandler kbd = new KeyboardHandler();
 
@@ -110,6 +116,11 @@ public class MusicEditorController implements ActionListener {
     compositeView.getGuiView().addKeyListener(kbd);
   }
 
+  /**
+   * Creates a new view for adding very specific notes. This allows for notes out of the range of
+   * the current gui pitch and length to be created. As well as specific notes of instrument and
+   * volume
+   */
   public void noteAdderViewCreator() {
     this.compositeView.getGuiView().setVisible(false);
     noteAdderView = new NoteAdderView(model.getLastNote());
@@ -117,11 +128,17 @@ public class MusicEditorController implements ActionListener {
     noteAdderView.addActionListener(this);
   }
 
+  /**
+   * Sets Beat to zero and starts timer to Begin playing the song
+   */
   public void playFromBeginning() {
     this.model.setCurrentBeat(0);
     playFromCurrentBeat();
   }
 
+  /**
+   * Starts timer from current beat
+   */
   public void playFromCurrentBeat() {
     if (songPlaying) {
       musicTimer.cancel();
@@ -134,6 +151,11 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Checks if the song is at it's last beat
+   *
+   * @return true if over
+   */
   public boolean IsSongOver() {
     if (this.model.getCurrentBeat() >= this.model.songLength()) {
       return true;
@@ -142,6 +164,9 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Updates the Gui and Midi View for a new beat
+   */
   public void RenderNewBeat() {
     try {
       this.compositeView.getMidiView().playBeat(this.model.getCurrentBeat());
@@ -151,16 +176,27 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Updates the Gui to the Right
+   */
   public void arrowRight() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
     this.compositeView.getGuiView().render();
   }
 
+  /**
+   * Updates to Gui to the left
+   */
   public void arrowLeft() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() - 1);
     this.compositeView.getGuiView().render();
   }
 
+  /**
+   * Checks to ensure that the area pressed in within the range of the gui
+   *
+   * @return true if in a viable area
+   */
   public boolean CheckForNote(Point mousePoint) {
     int separation = 15;
     int rangeOfSong = model.getHighestNote().getMIDIPitch() -
@@ -186,6 +222,9 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Deletes a Note from the model that is detected from the gui
+   */
   public void deleteNote(Point mousePoint) {
     //If there is in Note Space
     if (CheckForNote(mousePoint)) {
@@ -202,6 +241,9 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Moves the Note from one Pitch or Starting point to another, accounting for Duration
+   */
   public void moveNote(Point Start, Point End, int xSeparation, int ySeparation) {
     if (CheckForNote(Start)) {
       if (CheckForNote(End)) {
@@ -246,6 +288,10 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Adds to the model the pitch of the note pressed at that starting point. If dragged will create
+   * a longer note.
+   */
   public void addNote(Point Begin, int separation) {
     //If there is in Note Space
     if (CheckForNote(Begin)) {
@@ -273,135 +319,28 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Determines what note was pressed based on it's area in the gui
+   * @param mousePoint
+   * @return
+   */
   public Note NotePressed(Point mousePoint) {
-    int moveOverForBeat = model.getCurrentBeat() * 25;
-
-    int separation = 15;
-
-    int rangeOfSong = model.getHighestNote().getMIDIPitch() -
-            model.getLowestNote().getMIDIPitch();
-    //For each Beat in the song Draws the Notes
-    for (int BeatNumber = 0; BeatNumber < model.songLength(); BeatNumber++) {
-      ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
-      ListOfNotesAtBeat.addAll(model.getAllAtTime(BeatNumber));
-
-      //Create a Column of Notes
-      for (int i = rangeOfSong; i >= 0; i--) {
-        SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
-        rangeNote.setPitchAndOctaveFromMIDI(model.getHighestNote().getMIDIPitch() - i);
-
-        boolean noteStarts = false;
-        boolean noteContinues = false;
-
-        SoundUnitList PossibleSaveNote = new NoteList();
-
-
-        //Check if a note is Starting or Continuing
-        for (int j = 0; j < ListOfNotesAtBeat.size(); j++) {
-          if (rangeNote.getMIDIPitch() == ListOfNotesAtBeat.get(j).getMIDIPitch()) {
-
-            if (ListOfNotesAtBeat.get(j).getStart() == BeatNumber) {
-              noteStarts = true;
-              PossibleSaveNote.add(ListOfNotesAtBeat.get(j));
-            } else {
-              noteContinues = true;
-              PossibleSaveNote.add(ListOfNotesAtBeat.get(j));
-            }
-          }
-        }
-
-        if (!noteStarts && !noteContinues) {
-          noteStarts = true;
-          rangeNote.setEnd(BeatNumber + 1);
-          rangeNote.setStart(BeatNumber);
-          PossibleSaveNote.add(rangeNote);
-        }
-
-        /*
-        //rangeNote.setStart();*/
-
-        //If a Note is Starting then Fill it! This takes Priority over the Continue
-        if (noteStarts) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber)
-                  - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber)
-                  - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i)) + 15 && mousePoint.getY()
-                    < ((separation * i)) + 15 + 15) {
-              return PossibleSaveNote.getHighestNote();
-            }
-          }
-        } else if (noteContinues) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber)
-                  - moveOverForBeat && mousePoint.getX()
-                  < 40 + (25 * BeatNumber) - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i))
-                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
-              return PossibleSaveNote.getHighestNote();
-            }
-          }
-        }
-      }
-    }
-    return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
+    return compositeView.NotePressed(mousePoint, model);
   }
 
+  /**
+   * Determines what space (note or Potential Note) was pressed based on area pressed on the gui
+   * @param mousePoint
+   * @return
+   */
   public Note SpacePressed(Point mousePoint) {
-    int moveOverForBeat = model.getCurrentBeat() * 25;
-
-    int separation = 15;
-
-    int rangeOfSong = model.getHighestNote().getMIDIPitch() -
-            model.getLowestNote().getMIDIPitch();
-    //For each Beat in the song Draws the Notes
-    for (int BeatNumber = 0; BeatNumber < model.songLength(); BeatNumber++) {
-      ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
-      ListOfNotesAtBeat.addAll(model.getAllAtTime(BeatNumber));
-
-      //Create a Column of Notes
-      for (int i = rangeOfSong; i >= 0; i--) {
-        SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
-        rangeNote.setPitchAndOctaveFromMIDI(model.getHighestNote().getMIDIPitch() - i);
-
-        boolean noteStarts = false;
-        boolean noteContinues = false;
-
-        SoundUnitList PossibleSaveNote = new NoteList();
-
-
-
-          noteStarts = true;
-          rangeNote.setEnd(BeatNumber + 1);
-          rangeNote.setStart(BeatNumber);
-          PossibleSaveNote.add(rangeNote);
-
-        /*
-        //rangeNote.setStart();*/
-
-        //If a Note is Starting then Fill it! This takes Priority over the Continue
-        if (noteStarts) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber)
-                  - moveOverForBeat && mousePoint.getX() < 40
-                  + (25 * BeatNumber) - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i))
-                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
-              return PossibleSaveNote.getHighestNote();
-            }
-          }
-        } else if (noteContinues) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber)
-                  - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber)
-                  - moveOverForBeat + 25) {
-            if (mousePoint.getY() > ((separation * i))
-                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
-              return PossibleSaveNote.getHighestNote();
-            }
-          }
-        }
-      }
-    }
-    return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
+    return compositeView.SpacePressed(mousePoint, model);
   }
 
+  /**
+   * Used for Buttons on the add Note Gui
+   * @param e
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
@@ -441,6 +380,9 @@ public class MusicEditorController implements ActionListener {
     }
   }
 
+  /**
+   * Closes the adder gui and returns to a refreshed gui view.
+   */
   public void exitFromNoteAdder() {
     noteAdderView.setVisible(false);
     this.compositeView.setGuiView(new GuiViewFrame(model));
@@ -449,5 +391,13 @@ public class MusicEditorController implements ActionListener {
     this.compositeView.getGuiView().addActionListener(this);
     configureKeyBoardListener();
     configureMouseListener();
+  }
+
+  /**
+   * Gives back composite view. (For testing)
+   * @return composite view of the controller
+   */
+  public CompositeView getCompositeView() {
+    return compositeView;
   }
 }
