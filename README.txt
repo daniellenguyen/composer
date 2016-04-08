@@ -25,20 +25,37 @@ Functionality:
 
 Changes:
 
-  ***Changes 5/6/2016***
+  ***Changes 4/7/2016***
+
+  The factory class was modified to accommodate the addition of the composite view.
+  All view constructors now take in a model - there were inconsistencies with regards
+  to this before. A method called render() was added to the view interface. A NoteAdderView
+  was added in order to accommodate the visual interface through which to add,
+  delete, and change notes.
+
+  The interfaces of the model now have each only one implementing class, so
+  all the methods from the implementing classes were added to the interface
+  so that as much indirection as possible could be had from the model's clients.
+  A field for the last note in a piece of music and the current beat being played
+  were added to the NoteList class.
+
+  ***Changes 4/6/2016***
+
   There are no notable changes. More functionality was added without changing previous
   functionality in any notable way
 
+  The Note class was changed to accommodate fields necessary for the MIDI view.
+
   ***Previous Changes***
-  The Note class was changed to accomodate fields necessary for the MIDI view.
+
   The getter-setter pattern was also applied here.
 
-  The NoteList class was changed to accomodate that the given txt files'
+  The NoteList class was changed to accommodate that the given txt files'
   definition of the end of a note. The original model assumed that the 
   end time was the last timestamp the note would play, but the txt file
   assumes that the end time is the first timestamp where the note doesn't
   play. The add, delete, and contains method with accompanying unit tests
-  were changed to accomodate this. 
+  were changed to accommodate this.
  
   The NoteList class was also changed so that if a user tried to get all notes 
   at a certain timestamp and that timestamp did not happen to be recorded in 
@@ -55,9 +72,3 @@ Changes:
   view that makes the whole program slower - the view is currently trying to 
   compensate for the fact that HashSets' elements are not ordered from least
   to greatest.
-
-Questions for TA:
-1.  Should we change the type T in the CompositionBuilder interface to type NoteList?
-2.  If there are no notes in the list of notes, what should the console view return?
-    Currently it throws an exception.
-3.  Is there a specific format Desired for midi-transcript.txt

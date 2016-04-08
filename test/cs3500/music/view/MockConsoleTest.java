@@ -2,17 +2,15 @@ package cs3500.music.view;
 
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
-import cs3500.music.model.SoundUnitList;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by daniellenguyen on 3/22/16.
+ * Tests the MockConsole
  */
 public class MockConsoleTest {
-
 
   /**
    * Test calls to the method consoleRender
@@ -25,7 +23,7 @@ public class MockConsoleTest {
     m.createSong(l);
     assertEquals(m.getStringBuilderAsString(), "");
   }
-/*
+
   @Test
   public void testOneNoteOneBeatAtStartRender() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
@@ -171,5 +169,5 @@ public class MockConsoleTest {
             "   9  \n" +
             "  10                                                                X  \n" +
             "  11                                                                |  \n" + "\n");
-  }*/
+  }
 }
