@@ -113,6 +113,23 @@ public class MusicEditorController implements ActionListener {
         playFromCurrentBeat();
       }
     });
+
+    //Home Key Pressed
+    kbd.getKeyTypedMap().put((char)24, new Runnable() {
+      public void run() {
+        System.out.println("Goto Home\n");
+        gotoEnd();
+      }
+    });
+
+    //End Key Pressed
+    kbd.getKeyTypedMap().put((char)23, new Runnable() {
+      public void run() {
+        System.out.println("Goto End\n");
+        gotoHome();
+      }
+    });
+
     compositeView.getGuiView().addKeyListener(kbd);
   }
 
@@ -391,6 +408,22 @@ public class MusicEditorController implements ActionListener {
     this.compositeView.getGuiView().addActionListener(this);
     configureKeyBoardListener();
     configureMouseListener();
+  }
+
+  /**
+   * Goes to End of Piece
+   */
+  public void gotoEnd(){
+    this.model.setCurrentBeat(this.model.songLength());
+    this.compositeView.getGuiView().render();
+  }
+
+  /**
+   * Goes to Start of Piece
+   */
+  public void gotoHome(){
+    this.model.setCurrentBeat(0);
+    this.compositeView.getGuiView().render();
   }
 
   /**
