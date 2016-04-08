@@ -34,6 +34,7 @@ To Run from using the command line:
   java -jar MusicEditor.jar mary-little-lamb.txt console
   java -jar MusicEditor.jar mary-little-lamb.txt midi
   java -jar MusicEditor.jar mary-little-lamb.txt gui
+  java -jar MusicEditor.jar mary-little-lamb.txt composite
 
 TODO:
 

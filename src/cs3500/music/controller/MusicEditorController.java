@@ -275,7 +275,7 @@ public class MusicEditorController implements ActionListener {
 
               model.add(copyNote);
 
-              System.out.println(copyNote.toString() + " Added!");
+              System.out.println(copyNote.toString() + " Moved!");
               System.out.println("Start: " + copyNote.getStart()
                       + " End: " + copyNote.getEnd());
               this.compositeView.getGuiView().render();
