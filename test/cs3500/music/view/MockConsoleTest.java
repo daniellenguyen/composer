@@ -2,6 +2,8 @@ package cs3500.music.view;
 
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
+import cs3500.music.model.SoundUnitList;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,7 +17,7 @@ public class MockConsoleTest {
   /**
    * Test calls to the method consoleRender
    */
-/*
+
   @Test (expected = IllegalArgumentException.class)
   public void testEmptyListRender() {
     NoteList l = new NoteList();
@@ -23,7 +25,7 @@ public class MockConsoleTest {
     m.createSong(l);
     assertEquals(m.getStringBuilderAsString(), "");
   }
-
+/*
   @Test
   public void testOneNoteOneBeatAtStartRender() {
     Note n1 = new Note(Note.Pitch.C, Note.Octave.FOUR, 0, 1);
@@ -32,7 +34,8 @@ public class MockConsoleTest {
     MockConsole m = new MockConsole();
     m.createSong(l);
     assertEquals(m.getStringBuilderAsString(), "        C4   \n" +
-            "   0    X  \n" + "\n");
+            "   0    X  \n" +
+            "\n");
   }
 
   @Test

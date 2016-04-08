@@ -44,7 +44,7 @@ public class MusicEditor {
     }
     else if(Objects.equals(args[1], "gui")){
       GuiViewFrame newGuiView = new GuiViewFrame(inputSong);
-      newGuiView.render();
+      newGuiView.initialize();
     }
     else if(Objects.equals(args[1], "midi")){
       MidiViewImpl newMidiView = new MidiViewImpl(inputSong);

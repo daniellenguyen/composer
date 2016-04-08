@@ -1,9 +1,35 @@
 README:
 
-The purpose of this program is to create a product where users can interact with compositions of music.
+The purpose of this program is to create a product where users can interact with
+compositions of music.
+
+To Run from using the command line:
+  java -jar MusicEditor.jar mary-little-lamb.txt console
+  java -jar MusicEditor.jar mary-little-lamb.txt midi
+  java -jar MusicEditor.jar mary-little-lamb.txt gui
+  java -jar MusicEditor.jar mary-little-lamb.txt composite
+
+Functionality:
+**PLEASE NOTE THAT Cuing Bar is the edge of the screen like Guitar hero**
+* Press "left mouse button" where you would like to create a note.
+* To create a longer note, after pressing the "left mouse button", drag the mouse to the right for
+    the desired length
+* Press "Right Mouse button" on a note to delete it
+* Press "Middle mouse button" on a Note and Drag it to move a note.
+* Press "Space Bar" to Play the Song from Where you are Currently
+* Press "p" to play the song from the beginning
+* Press "a" to goto customAddNoteView where you can add notes of specific Instrument and Volume
+    Outside the current range and pitch of the song.
+* Press "<" to Move Backwards in Song
+* Press ">" to Move Forwards in Song
 
 Changes:
 
+  ***Changes 5/6/2016***
+  There are no notable changes. More functionality was added without changing previous
+  functionality in any notable way
+
+  ***Previous Changes***
   The Note class was changed to accomodate fields necessary for the MIDI view.
   The getter-setter pattern was also applied here.
 
@@ -29,31 +55,6 @@ Changes:
   view that makes the whole program slower - the view is currently trying to 
   compensate for the fact that HashSets' elements are not ordered from least
   to greatest.
-
-To Run from using the command line:
-  java -jar MusicEditor.jar mary-little-lamb.txt console
-  java -jar MusicEditor.jar mary-little-lamb.txt midi
-  java -jar MusicEditor.jar mary-little-lamb.txt gui
-  java -jar MusicEditor.jar mary-little-lamb.txt composite
-
-TODO:
-
-1.  cut down giant methods in the view to make them smaller,
-    especially if the same exact thing is copied into multiple places
-2.  abstract common functionality to the interface level.
-    record what functionalities were abstracted in the readme.
-3. Consider adding a MessageCloseFunction (Written by Justin)
-4. Make sure EVERYTHING has Public Constructors (Justin)
-5. Give View things to have??? (Justin)
-
-
-* Add Interface for Controller
-* Mock Controller Test
-* Mock Mouse
-* Mock KeyBoard
-* Special Interface for Composite View
-* Make an Abstract Mock Class
-* Make all Views Symmetric
 
 Questions for TA:
 1.  Should we change the type T in the CompositionBuilder interface to type NoteList?
