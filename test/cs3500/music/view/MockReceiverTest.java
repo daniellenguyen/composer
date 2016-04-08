@@ -30,7 +30,8 @@ public class MockReceiverTest {
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //NoteList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
-    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI,
+            inputSong);
     midiView.setMockReciever(new MockReceiver());
     midiView.fillMockReceiver(inputSong);
 
@@ -50,7 +51,8 @@ public class MockReceiverTest {
     newNote.setInstrument(1);
     inputSong.add(newNote);
 
-    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI,
+            inputSong);
     midiView.setMockReciever(new MockReceiver());
     midiView.fillMockReceiver(inputSong);
 
@@ -75,7 +77,8 @@ public class MockReceiverTest {
     inputSong.add(newNote2);
 
 
-    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI,
+            inputSong);
     midiView.setMockReciever(new MockReceiver());
     midiView.fillMockReceiver(inputSong);
 
@@ -131,7 +134,8 @@ public class MockReceiverTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
 
-    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI, inputSong);
+    MidiViewImpl midiView = (MidiViewImpl) ViewCreator.create(ViewCreator.ViewType.MIDI,
+            inputSong);
     midiView.setMockReciever(new MockReceiver());
     midiView.fillMockReceiver(inputSong);
 

@@ -342,7 +342,8 @@ public class NoteAdderView extends JFrame {
   }
 
   public String getInputPitch() {
-    for (Enumeration<AbstractButton> buttons = pitchButton.getElements(); buttons.hasMoreElements(); ) {
+    for (Enumeration<AbstractButton> buttons = pitchButton.getElements();
+         buttons.hasMoreElements(); ) {
       AbstractButton button = buttons.nextElement();
 
       if (button.isSelected()) {
@@ -353,7 +354,8 @@ public class NoteAdderView extends JFrame {
   }
 
   public String getInputOctave() {
-    for (Enumeration<AbstractButton> buttons = octaveButton.getElements(); buttons.hasMoreElements(); ) {
+    for (Enumeration<AbstractButton> buttons = octaveButton.getElements();
+         buttons.hasMoreElements(); ) {
       AbstractButton button = buttons.nextElement();
 
       if (button.isSelected()) {
@@ -364,7 +366,8 @@ public class NoteAdderView extends JFrame {
   }
 
   public SoundUnit.Pitch getInputPitchEnum() {
-    for (Enumeration<AbstractButton> buttons = pitchButton.getElements(); buttons.hasMoreElements(); ) {
+    for (Enumeration<AbstractButton> buttons = pitchButton.getElements();
+         buttons.hasMoreElements(); ) {
       AbstractButton button = buttons.nextElement();
 
       if (button.isSelected()) {
@@ -411,7 +414,8 @@ public class NoteAdderView extends JFrame {
   }
 
   public SoundUnit.Octave getInputOctaveEnum() {
-    for (Enumeration<AbstractButton> buttons = octaveButton.getElements(); buttons.hasMoreElements(); ) {
+    for (Enumeration<AbstractButton> buttons = octaveButton.getElements();
+         buttons.hasMoreElements(); ) {
       AbstractButton button = buttons.nextElement();
 
       if (button.isSelected()) {
