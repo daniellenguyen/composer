@@ -1,14 +1,11 @@
 package cs3500.music.view2;
 
-import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Position;
 
-import cs3500.music.model.IPlayerModel;
+import cs3500.music.model2.IPlayerModel;
 
 /**
  * Created by James on 4/1/16.

@@ -1,4 +1,6 @@
 package cs3500.music.model;
+import cs3500.music.model2.IPlayerModel;
+
 import java.util.Set;
 
 /**

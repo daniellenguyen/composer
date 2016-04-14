@@ -6,9 +6,9 @@ import java.util.Map;
 
 import javax.sound.midi.*;
 
-import cs3500.music.model.IPlayerModel;
+import cs3500.music.model2.IPlayerModel;
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteComparatorStartTime;
+import cs3500.music.model2.NoteComparatorStartTime;
 
 /**
  * A skeleton for MIDI playback

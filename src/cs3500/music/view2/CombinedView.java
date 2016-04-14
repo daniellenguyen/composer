@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
-import cs3500.music.model.IPlayerModel;
+import cs3500.music.model2.IPlayerModel;
 
 /**
  * Represents the View created by combining the GuiVIew and the Midi

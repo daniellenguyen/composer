@@ -25,6 +25,10 @@ Functionality:
 
 Changes:
 
+  ***Comments on new view code received***
+  Pitch enum was not at interface level, had to ask partners to change it to be
+  interface level.
+
   ***Changes 4/7/2016***
 
   The factory class was modified to accommodate the addition of the composite view.
