@@ -1,4 +1,4 @@
-package cs3500.music.view;
+package cs3500.music.view2;
 
 import cs3500.music.model.IPlayerModel;
 

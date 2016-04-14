@@ -1,4 +1,4 @@
-package cs3500.music.model;
+package cs3500.music.model2;
 
 /**
  * Created by James on 3/22/16.

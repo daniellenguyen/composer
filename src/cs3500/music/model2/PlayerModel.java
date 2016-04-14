@@ -1,12 +1,10 @@
-package cs3500.music.model;
+package cs3500.music.model2;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.lang.Object;
 import java.util.*;
-/**
- * Created by James on 3/4/16.
- */
+
+
 
 /**
  * Key things to Know:

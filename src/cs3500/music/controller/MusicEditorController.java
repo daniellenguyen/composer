@@ -2,14 +2,12 @@ package cs3500.music.controller;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.sound.midi.InvalidMidiDataException;
 
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.view.CompositeView;

@@ -1,10 +1,10 @@
-package cs3500.music.view;
+package cs3500.music.view2;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.*;
 
-import cs3500.music.controller.KeyBoardHandler;
+//import cs3500.music.controller.KeyBoardHandler;
 import cs3500.music.model.IPlayerModel;
 
 /**

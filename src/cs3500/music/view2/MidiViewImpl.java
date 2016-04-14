@@ -1,4 +1,4 @@
-package cs3500.music.view;
+package cs3500.music.view2;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +14,7 @@ import cs3500.music.model.NoteComparatorStartTime;
  * A skeleton for MIDI playback
  */
 
-public class MidiViewImpl implements IMidiImpl {
+public class MidiViewImpl implements IMidiViewImpl {
   private MidiDevice synth; // creates the sounds
   private Receiver receiver; // gets the sounds
   private IPlayerModel inputModel;
