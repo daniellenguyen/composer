@@ -16,6 +16,10 @@ public class SoundUnitToINoteAdapter implements INote {
     ObjectAdaptorNote.setInstrument(instrumenti);
   }
 
+  public SoundUnitToINoteAdapter(){
+
+  }
+
 
   @Override
   public int getInstrument() {
@@ -91,6 +95,21 @@ public class SoundUnitToINoteAdapter implements INote {
   @Override
   public int convertToMidiNumber() {
     return ObjectAdaptorNote.getMIDIPitch();
+  }
+
+  public SoundUnit ConvertINoteToSoundUnit(INote inputNote){
+    SoundUnit newNote = new Note(convertPitchINoteToSoundUnit(inputNote.getPitch()),
+            (Octave)intToOctave(inputNote.getOctave()), inputNote.getStart(),
+            inputNote.getStart()+inputNote.getEnd());
+    newNote.setVolume(inputNote.getVolume());
+    newNote.setInstrument(inputNote.getInstrument());
+    return newNote;
+  }
+  public INote ConvertSoundUnitToINote(SoundUnit inputNote){
+    INote newNote = new SoundUnitToINoteAdapter(convertOctaveSoundUnitToINote(inputNote.getOctave()),
+            convertPitchSoundUnitToINote(inputNote.getPitch()), (inputNote.getEnd()-inputNote.getStart()),
+            inputNote.getStart(), inputNote.getVolume(), inputNote.getInstrument());
+    return newNote;
   }
 
 
@@ -224,7 +243,7 @@ public class SoundUnitToINoteAdapter implements INote {
   }
 
 
-  protected SoundUnit.Octave intToOctave(int ioctave){
+  private SoundUnit.Octave intToOctave(int ioctave){
     //Determine ENUM for Octave
     Octave a = Octave.FOUR;
     switch (ioctave) {
