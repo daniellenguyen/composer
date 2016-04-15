@@ -3,6 +3,7 @@ package cs3500.music;
 import cs3500.music.controller.MusicEditorController;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
+import cs3500.music.model2.INote;
 import cs3500.music.model2.Note;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
@@ -10,6 +11,7 @@ import cs3500.music.view.ConsoleViewImpl;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.ViewCreator;
+import cs3500.music.view2.IGuiView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,12 +45,15 @@ public class MusicEditor {
     List<cs3500.music.model2.INote> ListOfINote = new ArrayList<>();
     ListOfINote = convertedInputSong.SoundUnitListConverter2(inputSong);
     for(int i = 0; i < ListOfINote.size(); i++){
+      System.out.println(ListOfINote.get(i).getNoteAsString() + " " + ListOfINote.get(i).getStart() + " " + ListOfINote.get(i).getEnd());
       convertedInputSong.addNoteInterface(ListOfINote.get(i));
     }
 
     System.out.println(ListOfINote.size() + "\n");
 
     System.out.println(convertedInputSong.outputModel());
+
+    //IGuiView newGuiView = new cs3500.music.view2.GuiViewFrame(convertedInputSong);
 
     /*
     if(Objects.equals(args[1], "composite")){
