@@ -2,6 +2,8 @@ package cs3500.music;
 
 import cs3500.music.controller.MusicEditorController;
 import cs3500.music.model.SoundUnitList;
+import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
+import cs3500.music.model2.Note;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConsoleViewImpl;
@@ -10,6 +12,8 @@ import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.ViewCreator;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -21,22 +25,32 @@ public class MusicEditor {
 
     MusicReader ReaderOfText = new MusicReader();
 
-    System.out.println(args[0] + " " + args[1]);
-
     //args = new String[2];
     //args[0] = "mary-little-lamb.txt";
     //args[1] = "console";
 
-    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
+    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
 
-    //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
+    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
+    SoundUnitListToIPlayerModelAdapter convertedInputSong = new SoundUnitListToIPlayerModelAdapter("SampleSong");
 
+    List<cs3500.music.model2.INote> ListOfINote = new ArrayList<>();
+    ListOfINote = convertedInputSong.SoundUnitListConverter2(inputSong);
+    for(int i = 0; i < ListOfINote.size(); i++){
+      convertedInputSong.addNoteInterface(ListOfINote.get(i));
+    }
+
+    System.out.println(ListOfINote.size() + "\n");
+
+    System.out.println(convertedInputSong.outputModel());
+
+    /*
     if(Objects.equals(args[1], "composite")){
       CompositeView newCompositeView = (CompositeView)
               ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
@@ -54,7 +68,7 @@ public class MusicEditor {
       ConsoleViewImpl newConsoleView = new ConsoleViewImpl(inputSong);
       newConsoleView.render();
     }
-
+    */
     /*
     CompositeView newCompositeView = (CompositeView)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);

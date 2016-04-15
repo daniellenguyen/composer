@@ -24,9 +24,8 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
   String songname;
 
   public SoundUnitListToIPlayerModelAdapter(String inputSongName) {
-    //theModel = new ArrayList<cs3500.music.model2.Note>();
     songname = inputSongName;
-    ObjectAdaptorSongList.setCurrentBeat(0);
+    ObjectAdaptorSongList = new NoteList();
     ObjectAdaptorSongList.setTempo(0);
   }
 
@@ -57,6 +56,10 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
     ObjectAdaptorSongList.add(new SoundUnitToINoteAdapter().ConvertINoteToSoundUnit(inputNote));
   }
 
+  public void addNoteInterface(cs3500.music.model2.INote inputNote) {
+    ObjectAdaptorSongList.add(new SoundUnitToINoteAdapter().ConvertINoteToSoundUnit(inputNote));
+  }
+
 
   /**
    * Outputs the model as a String
@@ -84,21 +87,53 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
     return baos.toString();
   }
 
+  public List<cs3500.music.model2.INote> SoundUnitListConverter2(SoundUnitList inputSongList){
+    List<cs3500.music.model2.INote> ListOfINote = new ArrayList<>();
 
-  /**
-   * Outputs the model as a List
-   * @return List of notes representing all of the notes in the song
-   */
-  //TODO THIS NEEDS TO BE REVIEWED AND MADE PERFECT
-  public List<cs3500.music.model2.Note> outputModelAsList() {
+    //Add Tons of Notes to the song (there are Repeats)
+    for(int beat = 0; beat < inputSongList.songLength(); beat++){
+      //If there are notes at this beat
+      if(inputSongList.hasNotesAtTime(beat)){
+        ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
+        ListOfNotesAtBeat.addAll(inputSongList.getAllAtTime(beat));
+        for(int i = 0; i < ListOfNotesAtBeat.size(); i++){
+          ListOfINote.add(new SoundUnitToINoteAdapter().ConvertSoundUnitToINote(ListOfNotesAtBeat.get(i)));
+        }
+      }
+    }
+
+    //Remove Repeats
+    for(int i = 0; i < ListOfINote.size(); i++){
+      for(int j = 0; j < ListOfINote.size(); j++){
+        //If Pitch is the Same
+        if(ListOfINote.get(i).getPitch() == ListOfINote.get(j).getPitch()){
+          if(ListOfINote.get(i).getOctave() == ListOfINote.get(j).getOctave()){
+            if(ListOfINote.get(i).getStart() == ListOfINote.get(j).getStart()){
+              if(ListOfINote.get(i).getEnd() == ListOfINote.get(j).getEnd()){
+                if(ListOfINote.get(i).getVolume() == ListOfINote.get(j).getVolume()){
+                  if(ListOfINote.get(i).getInstrument() == ListOfINote.get(j).getInstrument()){
+                    //If Everything Matches Remove the Note
+                    ListOfINote.remove(ListOfINote.get(i));
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return ListOfINote;
+  }
+
+  public List<cs3500.music.model2.Note> SoundUnitListConverter(SoundUnitList inputSongList){
     List<cs3500.music.model2.Note> ListOfINote = new ArrayList<>();
 
     //Add Tons of Notes to the song (there are Repeats)
-    for(int beat = 0; beat < ObjectAdaptorSongList.songLength(); beat++){
+    for(int beat = 0; beat < inputSongList.songLength(); beat++){
       //If there are notes at this beat
-      if(ObjectAdaptorSongList.hasNotesAtTime(beat)){
+      if(inputSongList.hasNotesAtTime(beat)){
         ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
-        ListOfNotesAtBeat.addAll(ObjectAdaptorSongList.getAllAtTime(beat));
+        ListOfNotesAtBeat.addAll(inputSongList.getAllAtTime(beat));
         for(int i = 0; i < ListOfNotesAtBeat.size(); i++){
           ListOfINote.add((cs3500.music.model2.Note) new SoundUnitToINoteAdapter().ConvertSoundUnitToINote(ListOfNotesAtBeat.get(i)));
         }
@@ -128,12 +163,21 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
     return ListOfINote;
   }
 
+  /**
+   * Outputs the model as a List
+   * @return List of notes representing all of the notes in the song
+   */
+  //TODO THIS NEEDS TO BE REVIEWED AND MADE PERFECT
+  public List<cs3500.music.model2.Note> outputModelAsList() {
+    return SoundUnitListConverter(ObjectAdaptorSongList);
+  }
+
 
   /**
    * Outputs the model as a Map
    * @return List of notes represented as a map
    */
-  //TODO
+
   public Map<Integer, List<cs3500.music.model2.Note>> outputModelAsMap() {
 
     if (this.outputModelAsList().size() <= 0) {
