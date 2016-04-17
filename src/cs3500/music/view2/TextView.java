@@ -1,9 +1,9 @@
-package cs3500.music.view2;
+package cs3500.music.view;
 
 import java.io.IOException;
-//import java.util.Scanner;
+import java.util.Scanner;
 
-import cs3500.music.model2.IPlayerModel;
+import cs3500.music.model.IPlayerModel;
 
 /**
  * Created by James on 3/22/16.
@@ -16,7 +16,7 @@ import cs3500.music.model2.IPlayerModel;
 public class TextView implements IView {
 
   private IPlayerModel inputModel;
-  //Scanner theScanner = new Scanner(System.in);
+  Scanner theScanner = new Scanner(System.in);
   Appendable ap = System.out;
 
   /**

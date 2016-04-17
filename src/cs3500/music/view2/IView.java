@@ -1,4 +1,4 @@
-package cs3500.music.view2;
+package cs3500.music.view;
 
 /**
  * Created by James on 3/21/16.

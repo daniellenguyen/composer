@@ -1,11 +1,11 @@
-package cs3500.music.view2;
+package cs3500.music.view;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.*;
 
-//import cs3500.music.controller.KeyBoardHandler;
-import cs3500.music.model2.IPlayerModel;
+import cs3500.music.controller.KeyBoardHandler;
+import cs3500.music.model.IPlayerModel;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing

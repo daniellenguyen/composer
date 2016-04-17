@@ -1,5 +1,5 @@
 
-package cs3500.music.model2;
+package cs3500.music.model;
 
 /**
  * To Know: Start includes in duration
@@ -21,56 +21,6 @@ public class Note implements INote{ //implements Comparable<Note>{
   /**
    * Enum which represents the pitch of a note
    */
-
-  public enum Pitch {
-    C, CS, D, DS, E, F, FS, G, GS, A, AS, B;
-    private static Pitch[] vals = values();
-
-    /**
-     * method which converts a pitch into a String
-     *
-     * @return String indicative of the Pitch
-     */
-
-    public String convertPitchToString() {
-      if (this == C) {
-        return "C";
-      } else if (this == CS) {
-        return "C#";
-      } else if (this == D) {
-        return "D";
-      } else if (this == DS) {
-        return "D#";
-      } else if (this == E) {
-        return "E";
-      } else if (this == F) {
-        return "F";
-      } else if (this == FS) {
-        return "F#";
-      } else if (this == G) {
-        return "G";
-      } else if (this == GS) {
-        return "G#";
-      } else if (this == A) {
-        return "A";
-      } else if (this == AS) {
-        return "A#";
-      } else if (this == B) {
-        return "B";
-      } else {
-        return "error";
-      }
-    }
-
-    public Pitch getNext() {
-      return vals[(this.ordinal() + 1) % vals.length];
-    }
-
-    public Pitch getPrev() {
-      return vals[(this.ordinal() + 11) % vals.length];
-    }
-  }
-
 
   // representative of the pitch the note has
   private int octave;
@@ -237,7 +187,7 @@ public class Note implements INote{ //implements Comparable<Note>{
    * @param newPitch -> the enum Pitch you want the note to be set to
    */
 
-  public void setPitch(Note.Pitch newPitch) {
+  public void setPitch(Pitch newPitch) {
     this.pitch = newPitch;
   }
 
@@ -290,11 +240,12 @@ public class Note implements INote{ //implements Comparable<Note>{
    * @return value -> indicative of whether they are the same
    */
 
-  public int pitchOctaveComparator(Note o) {
+  public int pitchOctaveComparator(INote o) {
 
-    if (this.octave < o.octave) {
+    if (this.octave < o.getOctave()) {
+
       return -1;
-    } else if (this.octave > o.octave) {
+    } else if (this.octave > o.getOctave()) {
       return 1;
     } else {
       if (this.pitch.compareTo(o.getPitch()) > 0) {
@@ -316,31 +267,31 @@ public class Note implements INote{ //implements Comparable<Note>{
 
   public int convertToMidiNumber() {
     int count = 0;
-    Note.Pitch myPitch = this.getPitch();
+    Pitch myPitch = this.getPitch();
     int octave = this.getOctave();
 
     count += octave * 12;
-    if (myPitch.compareTo(Note.Pitch.C) == 0) {
+    if (myPitch.compareTo(Pitch.C) == 0) {
       count += 0;
-    } else if (myPitch.compareTo(Note.Pitch.CS) == 0) {
+    } else if (myPitch.compareTo(Pitch.CS) == 0) {
       count += 1;
-    } else if (myPitch.compareTo(Note.Pitch.D) == 0) {
+    } else if (myPitch.compareTo(Pitch.D) == 0) {
       count += 2;
-    } else if (myPitch.compareTo(Note.Pitch.DS) == 0) {
+    } else if (myPitch.compareTo(Pitch.DS) == 0) {
       count += 3;
-    } else if (myPitch.compareTo(Note.Pitch.E) == 0) {
+    } else if (myPitch.compareTo(Pitch.E) == 0) {
       count += 4;
-    } else if (myPitch.compareTo(Note.Pitch.F) == 0) {
+    } else if (myPitch.compareTo(Pitch.F) == 0) {
       count += 5;
-    } else if (myPitch.compareTo(Note.Pitch.FS) == 0) {
+    } else if (myPitch.compareTo(Pitch.FS) == 0) {
       count += 6;
-    } else if (myPitch.compareTo(Note.Pitch.G) == 0) {
+    } else if (myPitch.compareTo(Pitch.G) == 0) {
       count += 7;
-    } else if (myPitch.compareTo(Note.Pitch.GS) == 0) {
+    } else if (myPitch.compareTo(Pitch.GS) == 0) {
       count += 8;
-    } else if (myPitch.compareTo(Note.Pitch.A) == 0) {
+    } else if (myPitch.compareTo(Pitch.A) == 0) {
       count += 9;
-    } else if (myPitch.compareTo(Note.Pitch.AS) == 0) {
+    } else if (myPitch.compareTo(Pitch.AS) == 0) {
       count += 10;
     } else {
       count += 11;

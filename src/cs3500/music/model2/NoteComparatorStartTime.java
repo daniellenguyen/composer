@@ -1,4 +1,4 @@
-package cs3500.music.model2;
+package cs3500.music.model;
 
 import java.util.Comparator;
 
