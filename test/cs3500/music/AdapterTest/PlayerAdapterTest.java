@@ -41,6 +41,7 @@ public class PlayerAdapterTest {
     assertEquals(inputSong.size(), inputListOfINote.size());
     assertEquals(inputSong.size(), inputListOfINote.size());
 
+
     System.out.println(inputListOfINote.size() + "\n");
 
     PlayerModelAdapted.outputModelAsList();
