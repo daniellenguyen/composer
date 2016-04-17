@@ -149,11 +149,11 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
         SoundUnitToINoteAdapter ADAPT = new SoundUnitToINoteAdapter();
         ListOfINotesAtBeat.add(ADAPT.ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
       }
-      //////TEST CODE///////////////
+      /*//////TEST CODE///////////////
       for(int i = 0; i < ListOfINotesAtBeat.size(); i++){
-        System.out.println("Note: " + ListOfINotesAtBeat.get(i).toString() + "\n");
+        System.out.println("Note: " + ListOfINotesAtBeat.get(i).getNoteAsString() + "\n");
       }
-      /////////////////////////
+      /////////////////////////*/
       map.put(BeatNumber, ListOfINotesAtBeat);
     }
     return map;

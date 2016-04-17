@@ -33,7 +33,7 @@ public class SoundUnitToINoteAdapter implements INote {
 
   @Override
   public int getOctave() {
-    return 0;
+    return convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave());
   }
 
   @Override

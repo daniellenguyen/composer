@@ -22,12 +22,16 @@ public class NoteAdapterTest {
 
     SoundUnitToINoteAdapter newINote = new SoundUnitToINoteAdapter(5, Pitch.DS, 3, 1, 1, 70);
 
+    assertEquals(Pitch.DS, newINote.getPitch());
+    assertEquals(5, newINote.getOctave());
+    assertEquals(1, newINote.getStart());
+
     INote adaptedINote = newINote.ConvertSoundUnitToINote(newSoundUnit);
 
-    assertEquals(adaptedINote.getOctave(), 4);
+    assertEquals(4, adaptedINote.getOctave());
     assertEquals(adaptedINote.getPitch(), Pitch.CS);
-    //assertEquals(adaptedINote.getOctave(), 4);
-    //assertEquals(adaptedINote.getOctave(), 4);
+    assertEquals(adaptedINote.getStart(), 0);
+    assertEquals(adaptedINote.getEnd(), 5);
   }
 
 
