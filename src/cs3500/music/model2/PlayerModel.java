@@ -2,9 +2,11 @@ package cs3500.music.model2;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.Object;
 import java.util.*;
-
-
+/**
+ * Created by James on 3/4/16.
+ */
 
 /**
  * Key things to Know:
@@ -19,7 +21,8 @@ import java.util.*;
 public class PlayerModel implements IPlayerModel {
 
 
-  private List<Note> theModel;
+  private List<INote> theModelList;
+  private Map<Integer, List<INote>> theModelMap;
   private String songname;
   private int currentBeat;
   private int tempo;
@@ -30,10 +33,11 @@ public class PlayerModel implements IPlayerModel {
    */
 
   public PlayerModel(String inputSongName) {
-    theModel = new ArrayList<Note>();
+    theModelList = new ArrayList<INote>();
     songname = inputSongName;
     currentBeat = 0;
     tempo = 0;
+    theModelMap = setModelAsMap();
   }
 
 
@@ -41,11 +45,12 @@ public class PlayerModel implements IPlayerModel {
    * Creates a PlayerModel with songName and inputNotes passed in
    */
 
-  public PlayerModel(String inputSongName, List<Note> inputNotes){
+  public PlayerModel(String inputSongName, List<INote> inputNotes){
     songname = inputSongName;
-    theModel = inputNotes;
+    theModelList = inputNotes;
     currentBeat = 0;
     tempo = 0;
+    theModelMap = setModelAsMap();
   }
 
 
@@ -53,11 +58,12 @@ public class PlayerModel implements IPlayerModel {
    * Creates a PlayerModel with all fields passed in except CurrentBeat
    */
 
-  public PlayerModel(String inputSongName, List<Note> inputNotes, int tempoi){
+  public PlayerModel(String inputSongName, List<INote> inputNotes, int tempoi){
     songname = inputSongName;
-    theModel = inputNotes;
+    theModelList = inputNotes;
     currentBeat = 0;
     tempo = tempoi;
+    theModelMap = setModelAsMap();
   }
 
 
@@ -145,8 +151,8 @@ public class PlayerModel implements IPlayerModel {
    * @return list of Notes
    */
 
-  public List<Note> outputModelAsList() {
-    return this.theModel;
+  public List<INote> outputModelAsList() {
+    return this.theModelList;
   }
 
 
@@ -157,14 +163,27 @@ public class PlayerModel implements IPlayerModel {
    */
 
 
-  public void addNote(Note inputNote) throws IllegalArgumentException {
+  public void addNote(INote inputNote) throws IllegalArgumentException {
     NoteComparatorTextView nc1 = new NoteComparatorTextView();
-    for (Note x : this.theModel) {
+    for (INote x : this.theModelList) {
       if (nc1.compare(inputNote, x) == 0) {
         throw new IllegalArgumentException("You cannot do that");
       }
     }
-    this.theModel.add(inputNote);
+    this.theModelList.add(inputNote);
+
+    int i = 0;
+    while (i < inputNote.getEnd()){
+      boolean hasKey = theModelMap.containsKey(i);
+      if (hasKey){
+        theModelMap.get(i).add(inputNote);
+      }
+      else {
+        theModelMap.put(i, new ArrayList<INote>());
+        theModelMap.get(i).add(inputNote);
+      }
+      i+=1;
+    }
   }
 
 
@@ -174,22 +193,22 @@ public class PlayerModel implements IPlayerModel {
    * @return Map of Notes with Key being a beat
    */
 
-  public Map<Integer, List<Note>> outputModelAsMap() {
+  private Map<Integer, List<INote>> setModelAsMap() {
 
     if (this.outputModelAsList().size() <= 0) {
-      return Collections.emptyMap();
+      return new HashMap<>();
     }
 
-    List<Note> theNotes = this.outputModelAsList();
+    List<INote> theNotes = this.outputModelAsList();
     Collections.sort(theNotes, new NoteComparatorTextView());
     int endPoint = this.finalBeat();
-    Map<Integer, List<Note>> dataMap = new HashMap<Integer, List<Note>>();
+    Map<Integer, List<INote>> dataMap = new HashMap<Integer, List<INote>>();
 
-    for (int i = 0; i <= endPoint; i++) {
-      dataMap.put(i, new ArrayList<Note>());
+    for (int i = 0; i < endPoint; i++) {
+      dataMap.put(i, new ArrayList<INote>());
     }
 
-    for (Note aNote : theNotes) {
+    for (INote aNote : theNotes) {
       int curr = aNote.getStart();
       int end = aNote.getEnd();
       while (curr < end) {
@@ -203,25 +222,31 @@ public class PlayerModel implements IPlayerModel {
 
 
   /**
+   * Converts the inputted list of notes into a Map
+   *
+   * @return Map of Notes with Key being a beat
+   */
+
+  public Map<Integer, List<INote>> outputModelAsMap() {
+    return this.theModelMap;
+  }
+
+
+  /**
    * removes a Note from the Model
    *
    * @param inputNote indicates the note that you want to have removed
    */
 
   public void removeNote(INote inputNote) throws IllegalArgumentException {
-    if (theModel.size() <= 0) {
+    if (theModelList.size() <= 0) {
       throw new IllegalArgumentException("You have no notes");
     }
 
     int index = -1;
-    for (int i = 0; i < theModel.size(); i++) {
-      if (inputNote.getOctave() == theModel.get(i).getOctave() &&
-              inputNote.getPitch() == theModel.get(i).getPitch() &&
-              inputNote.getDuration() == theModel.get(i).getDuration() &&
-              inputNote.getStart() == theModel.get(i).getStart() &&
-              inputNote.getEnd() == theModel.get(i).getEnd() &&
-              inputNote.getInstrument() == theModel.get(i).getInstrument() &&
-              inputNote.getVolume() == theModel.get(i).getVolume()) {
+    NoteComparatorSameNote nc1 = new NoteComparatorSameNote();
+    for (int i = 0; i < theModelList.size(); i++) {
+      if (nc1.compare(inputNote, theModelList.get(i)) == 0){
         index = i;
         break;
       }
@@ -230,7 +255,23 @@ public class PlayerModel implements IPlayerModel {
     if (index == -1) {
       throw new IllegalArgumentException("That note is not in the list");
     } else {
-      theModel.remove(index);
+      // get the specific note you want
+      INote yourNote = theModelList.get(index);
+      // remove from list
+      theModelList.remove(index);
+      // we now remove from Map
+      int start = yourNote.getStart();
+
+      int end = yourNote.getEnd();
+      while (start < end) {
+        List<INote> yourNotes = theModelMap.get(start);
+        for (int i = 0; i < yourNotes.size(); i++) {
+          if (nc1.compare(inputNote, yourNotes.get(i)) == 0) {
+            yourNotes.remove(i);
+          }
+        }
+        start += 1;
+      }
     }
   }
 
@@ -245,7 +286,7 @@ public class PlayerModel implements IPlayerModel {
   public String[][] outputAsMatrix() {
 
     int max = this.finalBeat();
-    List<Note> loNotes = this.outputModelAsList();
+    List<INote> loNotes = this.outputModelAsList();
     List<String> pitchesPlayed = outputPitchesOctaves();
     String[][] matrixRep = new String[max+1][pitchesPlayed.size()];
 
@@ -256,7 +297,7 @@ public class PlayerModel implements IPlayerModel {
     }
 
 
-    for (Note x : loNotes) {
+    for (INote x : loNotes) {
 
       int indexOfNote = pitchesPlayed.indexOf(x.getNoteAsString()); // problem is with index of
       // note C0
@@ -286,7 +327,7 @@ public class PlayerModel implements IPlayerModel {
 
   public String outputModel() {
 
-    List<Note> yourModel = this.outputModelAsList();
+    List<INote> yourModel = this.outputModelAsList();
     Collections.sort(yourModel, new NoteComparatorStartTime());
     String outputString = "";
     //List<String> notesPlayed = new ArrayList<>();
@@ -332,7 +373,7 @@ public class PlayerModel implements IPlayerModel {
       }
 
 
-//    for (Note x : this.theModel) {
+//    for (Note x : this.theModelList) {
 //      int indexOfNote = notesPlayed.indexOf(x.getNoteAsString());
 //      int counterStart = x.getStart();
 //      while (counterStart < x.getEnd()) {
@@ -393,7 +434,7 @@ public class PlayerModel implements IPlayerModel {
 
   public int finalBeat() {
     int endPoint = 0;
-    for (Note x : outputModelAsList()) {
+    for (INote x : outputModelAsList()) {
       if (x.getEnd() > endPoint) {
         endPoint = x.getEnd();
       }
@@ -411,14 +452,14 @@ public class PlayerModel implements IPlayerModel {
 
   public List<String> outputPitchesOctaves() {
     List<String> notesPlayed = new ArrayList<>();
-    List<Note> noteList = this.outputModelAsList();
+    List<INote> noteList = this.outputModelAsList();
     Collections.sort(noteList, new NoteComparatorTextView());
     if (noteList.size() == 0) {
       return notesPlayed;
     } else {
-      Note noteBegin = noteList.get(0);
-      Note noteEnd = noteList.get(noteList.size() - 1);
-      Note traversalNote = new Note(noteBegin.getOctave(), noteBegin.getPitch(),
+      INote noteBegin = noteList.get(0);
+      INote noteEnd = noteList.get(noteList.size() - 1);
+      INote traversalNote = new Note(noteBegin.getOctave(), noteBegin.getPitch(),
               noteBegin.getDuration(), noteBegin.getStart(), noteBegin.getInstrument(),
               noteBegin.getVolume());
 
@@ -426,8 +467,8 @@ public class PlayerModel implements IPlayerModel {
               traversalNote.pitchOctaveComparator(noteEnd) <= 0) {
         notesPlayed.add(traversalNote.getNoteAsString());
 
-        Note.Pitch newP = traversalNote.getPitch().getNext();
-        if (newP.compareTo(Note.Pitch.C) == 0) {
+        Pitch newP = traversalNote.getPitch().getNext();
+        if (newP.compareTo(Pitch.C) == 0) {
           traversalNote.setOctave(traversalNote.getOctave() + 1);
         }
         traversalNote.setPitch(newP);

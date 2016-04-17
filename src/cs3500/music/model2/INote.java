@@ -22,7 +22,7 @@ public interface INote {
    * @return outputPitch -> the pitch of the Note
    */
 
-  Note.Pitch getPitch();
+  Pitch getPitch();
 
 
   /**
@@ -130,7 +130,7 @@ public interface INote {
    * @param inputPitch -> value of the Pitch of the Note
    */
 
-  void setPitch(Note.Pitch inputPitch);
+  void setPitch(Pitch inputPitch);
 
 
   /**
@@ -141,6 +141,8 @@ public interface INote {
 
   int convertToMidiNumber();
 
+  int pitchOctaveComparator(INote o);
 
+  void setDuration(int iduration);
 }
 

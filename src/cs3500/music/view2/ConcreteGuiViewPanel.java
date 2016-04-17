@@ -6,8 +6,9 @@ import java.util.List;
 
 import javax.swing.*;
 
+import cs3500.music.model2.INote;
 import cs3500.music.model2.IPlayerModel;
-import cs3500.music.model2.Note;
+import cs3500.music.model.Note;
 
 /**
  * // keep track of reverselists -> lists for view for Pitches are inverted
@@ -52,9 +53,9 @@ public class ConcreteGuiViewPanel extends JPanel {
     this.setPreferredSize(new Dimension(width, height));
 
 
-    List<Note> listOfNotes = inputModel.outputModelAsList();
+    List<INote> listOfNotes = inputModel.outputModelAsList();
     // gets each individual note
-    for (Note nz: listOfNotes){
+    for (INote nz: listOfNotes){
 
       int currspoty = 25;
       for (int j = 0; allPitches.get(j).compareTo(nz.getNoteAsString()) != 0;

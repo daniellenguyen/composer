@@ -20,7 +20,7 @@ public interface IPlayerModel {
    * @param inputNote  indicates the note that you want to add
    */
 
-  void addNote(Note inputNote);
+  void addNote(INote inputNote);
 
 
   /**
@@ -36,7 +36,7 @@ public interface IPlayerModel {
    * @return List of notes representing all of the notes in the song
    */
 
-  List<Note> outputModelAsList();
+  List<INote> outputModelAsList();
 
 
   /**
@@ -44,7 +44,7 @@ public interface IPlayerModel {
    * @return List of notes represented as a map
    */
 
-  Map<Integer, List<Note>> outputModelAsMap();
+  Map<Integer, List<INote>> outputModelAsMap();
 
 
   /**
