@@ -189,7 +189,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
             ObjectAdaptorSongList.getLowestNote().getMIDIPitch();
 
     //Iterate Through the Range to create Side Header with Pitch Values of Range
-    for (int i = 0; i < rangeOfSong; i++) {
+    for (int i = 0; i <= rangeOfSong; i++) {
       SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1) {};
       rangeNote.setPitchAndOctaveFromMIDI(ObjectAdaptorSongList.getLowestNote().getMIDIPitch() + i);
       ListOfNotes.add(rangeNote.toString());

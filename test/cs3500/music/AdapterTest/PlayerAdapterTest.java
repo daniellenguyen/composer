@@ -43,7 +43,7 @@ public class PlayerAdapterTest {
   }
 
   @Test
-  public void PlayerAdapterTest2(){
+  public void PlayerAdapterTestRange(){
     //Get Song Using my Util
     MusicReader ReaderOfText = new MusicReader();
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
@@ -52,6 +52,12 @@ public class PlayerAdapterTest {
     SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
 
     PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
+
+    List<String> RangeOfSong = PlayerModelAdapted.outputPitchesOctaves();
+    for(int i = 0; i < RangeOfSong.size(); i++){
+      System.out.println(RangeOfSong.get(i) + "\n");
+    }
+
 
     //System.out.println(PlayerModelAdapted.outputModel());
   }
