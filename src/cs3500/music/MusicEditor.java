@@ -1,6 +1,7 @@
 package cs3500.music;
 
 import cs3500.music.controller.MusicEditorController;
+import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
 import cs3500.music.model2.INote;
@@ -58,7 +59,8 @@ public class MusicEditor {
 
     System.out.println("Original Size: " + inputSong.size() + " inputSize: " + inputListOfINote.size() + " Output Size: " + outputListOfINote.size());
 
-    //System.out.println(convertedInputSong.outputModel());
+    convertedInputSong.outputModelAsList();
+    System.out.println(convertedInputSong.outputModel());
 
 
     //IGuiView newGuiView = new cs3500.music.view2.GuiViewFrame(convertedInputSong);
