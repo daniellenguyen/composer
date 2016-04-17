@@ -41,7 +41,6 @@ public class SoundUnitToINoteAdapter implements INote {
     return (ObjectAdaptorNote.getEnd() - ObjectAdaptorNote.getStart());
   }
 
-  //TODO may want to review this
   @Override
   public boolean getAudible() {
     return true;
@@ -97,10 +96,22 @@ public class SoundUnitToINoteAdapter implements INote {
     return ObjectAdaptorNote.getMIDIPitch();
   }
 
-  //TODO Find out what this needs
   @Override
   public int pitchOctaveComparator(INote o) {
-    return 0;
+    if (convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave()) < o.getOctave()) {
+
+      return -1;
+    } else if (convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave()) > o.getOctave()) {
+      return 1;
+    } else {
+      if (convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch()).compareTo(o.getPitch()) > 0) {
+        return 1;
+      } else if (convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch()).compareTo(o.getPitch()) < 0) {
+        return -1;
+      }  else {
+        return 0;
+      }
+    }
   }
 
   @Override

@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * An adapter class from SoundUnitList to IPlayerModel
@@ -124,7 +125,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
    * Outputs the model as a List
    * @return List of notes representing all of the notes in the song
    */
-  //TODO THIS NEEDS TO BE REVIEWED AND MADE PERFECT
+
   public List<INote> outputModelAsList() {
     return SoundUnitListConverter(ObjectAdaptorSongList);
   }
@@ -137,7 +138,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
   public Map<Integer, List<cs3500.music.model2.INote>> outputModelAsMap() {
 
-    Map<Integer, List<cs3500.music.model2.INote>> map = null;
+    Map<Integer, List<cs3500.music.model2.INote>> map = new TreeMap<>();
 
     for (int BeatNumber = 0; BeatNumber < ObjectAdaptorSongList.songLength(); BeatNumber++) {
       List<SoundUnit> ListOfSoundUnitsAtBeat = new ArrayList<>();
@@ -149,11 +150,6 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
         SoundUnitToINoteAdapter ADAPT = new SoundUnitToINoteAdapter();
         ListOfINotesAtBeat.add(ADAPT.ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
       }
-      /*//////TEST CODE///////////////
-      for(int i = 0; i < ListOfINotesAtBeat.size(); i++){
-        System.out.println("Note: " + ListOfINotesAtBeat.get(i).getNoteAsString() + "\n");
-      }
-      /////////////////////////*/
       map.put(BeatNumber, ListOfINotesAtBeat);
     }
     return map;
