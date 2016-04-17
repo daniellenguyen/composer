@@ -93,9 +93,10 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
       }
     }
 
+    int sizeOfList = ListOfINote.size();
     //Remove Repeats
-    for(int i = 0; i < ListOfINote.size(); i++){
-      for(int j = 0; j < ListOfINote.size(); j++){
+    for(int i = 0; i < sizeOfList; i++){
+      for(int j = i+1; j < sizeOfList; j++){
         //If Pitch is the Same
         if(ListOfINote.get(i).getPitch() == ListOfINote.get(j).getPitch()){
           if(ListOfINote.get(i).getOctave() == ListOfINote.get(j).getOctave()){
@@ -104,7 +105,9 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
                 if(ListOfINote.get(i).getVolume() == ListOfINote.get(j).getVolume()){
                   if(ListOfINote.get(i).getInstrument() == ListOfINote.get(j).getInstrument()){
                     //If Everything Matches Remove the Note
-                    ListOfINote.remove(ListOfINote.get(i));
+                    ListOfINote.remove(ListOfINote.get(j));
+                    j--;
+                    sizeOfList--;
                   }
                 }
               }
@@ -137,9 +140,17 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
     Map<Integer,  List<cs3500.music.model2.INote>> map = null;
 
     for (int BeatNumber = 0; BeatNumber < ObjectAdaptorSongList.songLength(); BeatNumber++) {
-      ArrayList<INote> ListOfNotesAtBeat = new ArrayList<>();
-      ListOfNotesAtBeat.addAll(ObjectAdaptorSongList.getAllAtTime(BeatNumber));
-      map.put(BeatNumber, ListOfNotesAtBeat);
+      ArrayList<SoundUnit> ListOfSoundUnitsAtBeat = new ArrayList<>();
+      ListOfSoundUnitsAtBeat.addAll(ObjectAdaptorSongList.getAllAtTime(BeatNumber));
+
+
+      ArrayList<INote> ListOfINotesAtBeat = new ArrayList<>();
+      for(int i = 0; i < ListOfSoundUnitsAtBeat.size(); i++){
+        ListOfINotesAtBeat.add(new SoundUnitToINoteAdapter().ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
+      }
+
+
+      map.put(BeatNumber, ListOfINotesAtBeat);
     }
     return map;
   }

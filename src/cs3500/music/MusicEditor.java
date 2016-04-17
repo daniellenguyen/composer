@@ -11,6 +11,8 @@ import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.ViewCreator;
 import cs3500.music.view2.IGuiView;
+import cs3500.music.view2.IMidiImpl;
+import cs3500.music.view2.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,20 +41,30 @@ public class MusicEditor {
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
+    //Adaptor Song
     SoundUnitListToIPlayerModelAdapter convertedInputSong = new SoundUnitListToIPlayerModelAdapter("SampleSong");
 
-    List<cs3500.music.model2.INote> ListOfINote = new ArrayList<>();
-    ListOfINote = convertedInputSong.SoundUnitListConverter(inputSong);
-    for(int i = 0; i < ListOfINote.size(); i++){
-      System.out.println(ListOfINote.get(i).getNoteAsString() + " " + ListOfINote.get(i).getStart() + " " + ListOfINote.get(i).getEnd());
-      convertedInputSong.addNote(ListOfINote.get(i));
+
+    List<cs3500.music.model2.INote> inputListOfINote = new ArrayList<>();
+    inputListOfINote = convertedInputSong.SoundUnitListConverter(inputSong);
+    for(int i = 0; i < inputListOfINote.size(); i++){
+      System.out.println(inputListOfINote.get(i).getNoteAsString() + " " + inputListOfINote.get(i).getStart() + " " + inputListOfINote.get(i).getEnd());
+      convertedInputSong.addNote(inputListOfINote.get(i));
     }
 
-    System.out.println(ListOfINote.size() + "\n");
+    System.out.println(inputListOfINote.size() + "\n");
 
-    System.out.println(convertedInputSong.outputModel());
+    List<cs3500.music.model2.INote> outputListOfINote = convertedInputSong.outputModelAsList();
+
+    System.out.println("Original Size: " + inputSong.size() + " inputSize: " + inputListOfINote.size() + " Output Size: " + outputListOfINote.size());
+
+    //System.out.println(convertedInputSong.outputModel());
+
 
     //IGuiView newGuiView = new cs3500.music.view2.GuiViewFrame(convertedInputSong);
+
+    //IMidiImpl newMidiView = new cs3500.music.view2.MidiViewImpl(convertedInputSong);
+    //newMidiView.playNote();
 
     /*
     if(Objects.equals(args[1], "composite")){
