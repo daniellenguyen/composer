@@ -130,7 +130,7 @@ public class SoundUnitToINoteAdapter implements INote {
   public INote ConvertSoundUnitToINote(SoundUnit inputNote){
     INote newNote = new SoundUnitToINoteAdapter(convertOctaveSoundUnitToINote(inputNote.getOctave()),
             convertPitchSoundUnitToINote(inputNote.getPitch()), (inputNote.getEnd()-inputNote.getStart()),
-            inputNote.getStart(), inputNote.getVolume(), inputNote.getInstrument());
+            inputNote.getStart(), inputNote.getInstrument(), inputNote.getVolume());
     return newNote;
   }
 
