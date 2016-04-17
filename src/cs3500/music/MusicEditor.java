@@ -4,7 +4,6 @@ import cs3500.music.controller.MusicEditorController;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
 import cs3500.music.model2.INote;
-import cs3500.music.model2.Note;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConsoleViewImpl;
@@ -43,10 +42,10 @@ public class MusicEditor {
     SoundUnitListToIPlayerModelAdapter convertedInputSong = new SoundUnitListToIPlayerModelAdapter("SampleSong");
 
     List<cs3500.music.model2.INote> ListOfINote = new ArrayList<>();
-    ListOfINote = convertedInputSong.SoundUnitListConverter2(inputSong);
+    ListOfINote = convertedInputSong.SoundUnitListConverter(inputSong);
     for(int i = 0; i < ListOfINote.size(); i++){
       System.out.println(ListOfINote.get(i).getNoteAsString() + " " + ListOfINote.get(i).getStart() + " " + ListOfINote.get(i).getEnd());
-      convertedInputSong.addNoteInterface(ListOfINote.get(i));
+      convertedInputSong.addNote(ListOfINote.get(i));
     }
 
     System.out.println(ListOfINote.size() + "\n");

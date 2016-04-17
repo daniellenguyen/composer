@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package cs3500.music.model;
+=======
+package cs3500.music.model2;
+>>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
 
 public enum Pitch {
   C, CS, D, DS, E, F, FS, G, GS, A, AS, B;

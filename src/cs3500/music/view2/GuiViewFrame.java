@@ -4,8 +4,12 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.*;
 
+<<<<<<< HEAD
 import cs3500.music.controller.KeyBoardHandler;
 import cs3500.music.model.IPlayerModel;
+=======
+import cs3500.music.model2.IPlayerModel;
+>>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
 
 /**
  * A skeleton Frame (i.e., a window) in Swing

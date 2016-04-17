@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package cs3500.music.view;
+=======
+package cs3500.music.view2;
+>>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
 
 import java.util.Collections;
 import java.util.List;
@@ -6,10 +10,15 @@ import java.util.Map;
 
 import javax.sound.midi.*;
 
+<<<<<<< HEAD
 import cs3500.music.model.INote;
 import cs3500.music.model.IPlayerModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteComparatorStartTime;
+=======
+import cs3500.music.model2.INote;
+import cs3500.music.model2.IPlayerModel;
+>>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
 
 /**
  * A skeleton for MIDI playback

@@ -10,7 +10,7 @@ public class SoundUnitToINoteAdapter implements INote {
 
   Note ObjectAdaptorNote;
 
-  public SoundUnitToINoteAdapter(int ioctave, cs3500.music.model2.Note.Pitch ipitch, int iduration, int istart, int instrumenti, int volumei) {
+  public SoundUnitToINoteAdapter(int ioctave, cs3500.music.model2.Pitch ipitch, int iduration, int istart, int instrumenti, int volumei) {
     ObjectAdaptorNote = new Note(convertPitchINoteToSoundUnit(ipitch), (Octave)intToOctave(ioctave), istart, istart+iduration);
     ObjectAdaptorNote.setVolume(volumei);
     ObjectAdaptorNote.setInstrument(instrumenti);
@@ -27,7 +27,7 @@ public class SoundUnitToINoteAdapter implements INote {
   }
 
   @Override
-  public cs3500.music.model2.Note.Pitch getPitch() {
+  public cs3500.music.model2.Pitch getPitch() {
     return convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch());
   }
 
@@ -88,13 +88,24 @@ public class SoundUnitToINoteAdapter implements INote {
   }
 
   @Override
-  public void setPitch(cs3500.music.model2.Note.Pitch inputPitch) {
+  public void setPitch(cs3500.music.model2.Pitch inputPitch) {
     ObjectAdaptorNote.setPitch(convertPitchINoteToSoundUnit(inputPitch));
   }
 
   @Override
   public int convertToMidiNumber() {
     return ObjectAdaptorNote.getMIDIPitch();
+  }
+
+  //TODO Find out what this needs
+  @Override
+  public int pitchOctaveComparator(INote o) {
+    return 0;
+  }
+
+  @Override
+  public void setDuration(int iduration) {
+    ObjectAdaptorNote.setEnd(ObjectAdaptorNote.getStart()+iduration);
   }
 
   public SoundUnit ConvertINoteToSoundUnit(INote inputNote){
@@ -115,7 +126,7 @@ public class SoundUnitToINoteAdapter implements INote {
 
   /////////////////////CONVERTERS/////////////////////////////
 
-  private SoundUnit.Pitch convertPitchINoteToSoundUnit(cs3500.music.model2.Note.Pitch inputPitch){
+  private SoundUnit.Pitch convertPitchINoteToSoundUnit(cs3500.music.model2.Pitch inputPitch){
     SoundUnit.Pitch newPitch = Pitch.C;
     switch (inputPitch) {
       case C:
@@ -158,45 +169,45 @@ public class SoundUnitToINoteAdapter implements INote {
     return newPitch;
   }
 
-  private cs3500.music.model2.Note.Pitch convertPitchSoundUnitToINote(SoundUnit.Pitch inputPitch){
-    cs3500.music.model2.Note.Pitch newPitch;
-    newPitch = cs3500.music.model2.Note.Pitch.C;
+  private cs3500.music.model2.Pitch convertPitchSoundUnitToINote(SoundUnit.Pitch inputPitch){
+    cs3500.music.model2.Pitch newPitch;
+    newPitch = cs3500.music.model2.Pitch.C;
     switch (inputPitch) {
       case C:
-        newPitch = cs3500.music.model2.Note.Pitch.C;
+        newPitch = cs3500.music.model2.Pitch.C;
         break;
       case C2:
-        newPitch = cs3500.music.model2.Note.Pitch.CS;
+        newPitch = cs3500.music.model2.Pitch.CS;
         break;
       case D:
-        newPitch = cs3500.music.model2.Note.Pitch.D;
+        newPitch = cs3500.music.model2.Pitch.D;
         break;
       case D2:
-        newPitch = cs3500.music.model2.Note.Pitch.DS;
+        newPitch = cs3500.music.model2.Pitch.DS;
         break;
       case E:
-        newPitch = cs3500.music.model2.Note.Pitch.E;
+        newPitch = cs3500.music.model2.Pitch.E;
         break;
       case F:
-        newPitch = cs3500.music.model2.Note.Pitch.F;
+        newPitch = cs3500.music.model2.Pitch.F;
         break;
       case F2:
-        newPitch = cs3500.music.model2.Note.Pitch.FS;
+        newPitch = cs3500.music.model2.Pitch.FS;
         break;
       case G:
-        newPitch = cs3500.music.model2.Note.Pitch.G;
+        newPitch = cs3500.music.model2.Pitch.G;
         break;
       case G2:
-        newPitch = cs3500.music.model2.Note.Pitch.GS;
+        newPitch = cs3500.music.model2.Pitch.GS;
         break;
       case A:
-        newPitch = cs3500.music.model2.Note.Pitch.A;
+        newPitch = cs3500.music.model2.Pitch.A;
         break;
       case A2:
-        newPitch = cs3500.music.model2.Note.Pitch.AS;
+        newPitch = cs3500.music.model2.Pitch.AS;
         break;
       case B:
-        newPitch = cs3500.music.model2.Note.Pitch.B;
+        newPitch = cs3500.music.model2.Pitch.B;
         break;
     }
     return newPitch;
