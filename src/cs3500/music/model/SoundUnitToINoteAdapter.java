@@ -11,7 +11,7 @@ public class SoundUnitToINoteAdapter implements INote {
   Note ObjectAdaptorNote;
 
   public SoundUnitToINoteAdapter(int ioctave, cs3500.music.model2.Pitch ipitch, int iduration, int istart, int instrumenti, int volumei) {
-    ObjectAdaptorNote = new Note(convertPitchINoteToSoundUnit(ipitch), (Octave)intToOctave(ioctave), istart, istart+iduration);
+    ObjectAdaptorNote = new Note(convertPitchINoteToSoundUnit(ipitch), intToOctave(ioctave), istart, istart+iduration);
     ObjectAdaptorNote.setVolume(volumei);
     ObjectAdaptorNote.setInstrument(instrumenti);
   }
@@ -110,7 +110,7 @@ public class SoundUnitToINoteAdapter implements INote {
 
   public SoundUnit ConvertINoteToSoundUnit(INote inputNote){
     SoundUnit newNote = new Note(convertPitchINoteToSoundUnit(inputNote.getPitch()),
-            (Octave)intToOctave(inputNote.getOctave()), inputNote.getStart(),
+            intToOctave(inputNote.getOctave()), inputNote.getStart(),
             inputNote.getStart()+inputNote.getEnd());
     newNote.setVolume(inputNote.getVolume());
     newNote.setInstrument(inputNote.getInstrument());

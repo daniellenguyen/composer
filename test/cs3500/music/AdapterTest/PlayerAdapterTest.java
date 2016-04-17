@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class PlayerAdapterTest {
 
   @Test
-  public void PlayerAdapterTest(){
+  public void PlayerAdapterTestModelSize(){
     //Get Song Using my Util
     MusicReader ReaderOfText = new MusicReader();
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
@@ -39,13 +39,20 @@ public class PlayerAdapterTest {
     List<cs3500.music.model2.INote> outputListOfINote = PlayerModelAdapted.outputModelAsList();
 
     assertEquals(inputSong.size(), inputListOfINote.size());
-    assertEquals(inputSong.size(), inputListOfINote.size());
-
-
-    System.out.println(inputListOfINote.size() + "\n");
-
-    PlayerModelAdapted.outputModelAsList();
-    System.out.println(PlayerModelAdapted.outputModel());
+    assertEquals(inputSong.size(), outputListOfINote.size());
   }
 
+  @Test
+  public void PlayerAdapterTest2(){
+    //Get Song Using my Util
+    MusicReader ReaderOfText = new MusicReader();
+    SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
+
+    //Create Adapter
+    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
+
+    PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
+
+    //System.out.println(PlayerModelAdapted.outputModel());
+  }
 }

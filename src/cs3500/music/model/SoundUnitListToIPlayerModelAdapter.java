@@ -137,19 +137,23 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
   public Map<Integer, List<cs3500.music.model2.INote>> outputModelAsMap() {
 
-    Map<Integer,  List<cs3500.music.model2.INote>> map = null;
+    Map<Integer, List<cs3500.music.model2.INote>> map = null;
 
     for (int BeatNumber = 0; BeatNumber < ObjectAdaptorSongList.songLength(); BeatNumber++) {
-      ArrayList<SoundUnit> ListOfSoundUnitsAtBeat = new ArrayList<>();
+      List<SoundUnit> ListOfSoundUnitsAtBeat = new ArrayList<>();
       ListOfSoundUnitsAtBeat.addAll(ObjectAdaptorSongList.getAllAtTime(BeatNumber));
 
 
-      ArrayList<INote> ListOfINotesAtBeat = new ArrayList<>();
+      List<INote> ListOfINotesAtBeat = new ArrayList<>();
       for(int i = 0; i < ListOfSoundUnitsAtBeat.size(); i++){
-        ListOfINotesAtBeat.add(new SoundUnitToINoteAdapter().ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
+        SoundUnitToINoteAdapter ADAPT = new SoundUnitToINoteAdapter();
+        ListOfINotesAtBeat.add(ADAPT.ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
       }
-
-
+      //////TEST CODE///////////////
+      for(int i = 0; i < ListOfINotesAtBeat.size(); i++){
+        System.out.println("Note: " + ListOfINotesAtBeat.get(i).toString() + "\n");
+      }
+      /////////////////////////
       map.put(BeatNumber, ListOfINotesAtBeat);
     }
     return map;
@@ -257,5 +261,10 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
   public int getTempo() {
     return ObjectAdaptorSongList.getTempo();
+  }
+
+
+  public void setPlayerModelFromSongList(SoundUnitList inputSoundUnitList){
+    ObjectAdaptorSongList = inputSoundUnitList;
   }
 }
