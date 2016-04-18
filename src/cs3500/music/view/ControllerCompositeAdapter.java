@@ -6,10 +6,9 @@ import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
-import cs3500.music.view2.IGuiView;
 
 /**
- * Created by Justin Hynes-Bruell on 4/17/2016.
+ * To adapt the Controller to new Views
  */
 public class ControllerCompositeAdapter extends CompositeView {
 
@@ -42,7 +41,6 @@ public class ControllerCompositeAdapter extends CompositeView {
   public void RenderNewBeat(){
 
   }
-
 
   public Note NotePressed(Point mousePoint, SoundUnitList model) {
     return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
