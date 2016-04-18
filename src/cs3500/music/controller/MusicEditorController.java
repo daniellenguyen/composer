@@ -25,9 +25,10 @@ public class MusicEditorController implements Controller {
   private boolean songPlaying;
 
   /**
-   * Constructor for the controller. Does not begin playing. Press "Space" to begin playing song.
-   * @param model
-   * @param compositeView
+   * Constructor for the controller. Does not begin playing.
+   * Press "Space" to begin playing song.
+   * @param model the input song
+   * @param compositeView the input composite view
    */
   public MusicEditorController(SoundUnitList model, CompositeView compositeView) {
     this.model = model;
@@ -42,8 +43,8 @@ public class MusicEditorController implements Controller {
   }
 
   /**
-   * A TimerTask to synchronize playback of multiple views Is called by playFromCurrentBeat or
-   * playFrom Beginning
+   * A TimerTask to synchronize playback of multiple views
+   * Is called by {@code playFromCurrentBeat} or {@code playFromBeginning}
    */
   class timerTask extends TimerTask {
 
@@ -63,17 +64,13 @@ public class MusicEditorController implements Controller {
     }
   }
 
-  /**
-   * Sets up the Mouse Listeners
-   */
+  @Override
   public void configureMouseListener() {
     MouseHandler listener = new MouseHandler(this);
     this.compositeView.getGuiView().addNewMouseListener(listener);
   }
 
-  /**
-   * Configure the Keyboard listeners
-   */
+  @Override
   public void configureKeyBoardListener() {
     KeyboardHandler kbd = new KeyboardHandler();
 
@@ -131,11 +128,7 @@ public class MusicEditorController implements Controller {
     compositeView.getGuiView().addKeyListener(kbd);
   }
 
-  /**
-   * Creates a new view for adding very specific notes. This allows for notes out of the range of
-   * the current gui pitch and length to be created. As well as specific notes of instrument and
-   * volume
-   */
+  @Override
   public void noteAdderViewCreator() {
     this.compositeView.getGuiView().setVisible(false);
     noteAdderView = new NoteAdderView(model.getLastNote());
@@ -143,17 +136,13 @@ public class MusicEditorController implements Controller {
     noteAdderView.addActionListener(this);
   }
 
-  /**
-   * Sets Beat to zero and starts timer to Begin playing the song
-   */
+  @Override
   public void playFromBeginning() {
     this.model.setCurrentBeat(0);
     playFromCurrentBeat();
   }
 
-  /**
-   * Starts timer from current beat
-   */
+  @Override
   public void playFromCurrentBeat() {
     if (songPlaying) {
       musicTimer.cancel();
@@ -166,22 +155,12 @@ public class MusicEditorController implements Controller {
     }
   }
 
-  /**
-   * Checks if the song is at it's last beat
-   *
-   * @return true if over
-   */
+  @Override
   public boolean IsSongOver() {
-    if (this.model.getCurrentBeat() >= this.model.songLength()) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.model.getCurrentBeat() >= this.model.songLength();
   }
 
-  /**
-   * Updates the Gui and Midi View for a new beat
-   */
+  @Override
   public void RenderNewBeat() {
     try {
       this.compositeView.getMidiView().playBeat(this.model.getCurrentBeat());
@@ -191,55 +170,31 @@ public class MusicEditorController implements Controller {
     }
   }
 
-  /**
-   * Updates the Gui to the Right
-   */
+  @Override
   public void arrowRight() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
     this.compositeView.getGuiView().render();
   }
 
-  /**
-   * Updates to Gui to the left
-   */
+  @Override
   public void arrowLeft() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() - 1);
     this.compositeView.getGuiView().render();
   }
 
-  /**
-   * Checks to ensure that the area pressed in within the range of the gui
-   *
-   * @return true if in a viable area
-   */
+  @Override
   public boolean CheckForNote(Point mousePoint) {
     int separation = 15;
     int rangeOfSong = model.getHighestNote().getMIDIPitch() -
             model.getLowestNote().getMIDIPitch();
-    //If before the Grid
-    if (mousePoint.getX() < 40) {
-      return false;
-    }
-    //if After the Grid
-    else if (mousePoint.getX() > 40 + (25 * model.songLength())
-            - model.getCurrentBeat() * 25) {
-      return false;
-    }
-    //if Above the Grid
-    else if (mousePoint.getY() < 15) {
-      return false;
-    }
-    //if Below the Grid
-    else if (mousePoint.getY() > separation * rangeOfSong + 30) {
-      return false;
-    } else {
-      return true;
-    }
+    // If before, after, above, or below the grid, return false
+    return !(mousePoint.getX() > 40 + (25 * model.songLength()) - model.getCurrentBeat() * 25 ||
+            mousePoint.getX() < 40 ||
+            mousePoint.getY() < 15 ||
+            mousePoint.getY() > separation * rangeOfSong + 30);
   }
 
-  /**
-   * Deletes a Note from the model that is detected from the gui
-   */
+  @Override
   public void deleteNote(Point mousePoint) {
     //If there is in Note Space
     if (CheckForNote(mousePoint)) {
@@ -256,16 +211,13 @@ public class MusicEditorController implements Controller {
     }
   }
 
-  /**
-   * Moves the Note from one Pitch or Starting point to another, accounting for Duration
-   */
+  @Override
   public void moveNote(Point Start, Point End, int xSeparation, int ySeparation) {
-    if (CheckForNote(Start)) {
-      if (CheckForNote(End)) {
+    if (CheckForNote(Start) && CheckForNote(End)) {
         try {
           if (!NotePressed(Start).equals(new Note(SoundUnit.Pitch.C,
-                  SoundUnit.Octave.FOUR, 999, 1000))) {
-            if (!NotePressed(End).equals(new Note(SoundUnit.Pitch.C,
+                  SoundUnit.Octave.FOUR, 999, 1000)) &&
+                  !NotePressed(End).equals(new Note(SoundUnit.Pitch.C,
                     SoundUnit.Octave.FOUR, 999, 1000))) {
               //Determine What note it is
               int MoveX = xSeparation / 25;
@@ -296,21 +248,16 @@ public class MusicEditorController implements Controller {
               this.compositeView.getGuiView().render();
             }
           }
-        } catch (IllegalArgumentException e) {
+         catch (IllegalArgumentException e) {
           System.out.println(e.toString());
         }
       }
     }
-  }
 
-  /**
-   * Adds to the model the pitch of the note pressed at that starting point. If dragged will create
-   * a longer note.
-   */
+  @Override
   public void addNote(Point Begin, int separation) {
     //If there is in Note Space
     if (CheckForNote(Begin)) {
-
       try {
         if (!NotePressed(Begin).equals(new Note(SoundUnit.Pitch.C,
                 SoundUnit.Octave.FOUR, 999, 1000))) {
@@ -334,20 +281,12 @@ public class MusicEditorController implements Controller {
     }
   }
 
-  /**
-   * Determines what note was pressed based on it's area in the gui
-   * @param mousePoint
-   * @return
-   */
+  @Override
   public Note NotePressed(Point mousePoint) {
     return compositeView.NotePressed(mousePoint, model);
   }
 
-  /**
-   * Determines what space (note or Potential Note) was pressed based on area pressed on the gui
-   * @param mousePoint
-   * @return
-   */
+  @Override
   public Note SpacePressed(Point mousePoint) {
     return compositeView.SpacePressed(mousePoint, model);
   }
@@ -391,9 +330,7 @@ public class MusicEditorController implements Controller {
     }
   }
 
-  /**
-   * Closes the adder gui and returns to a refreshed gui view.
-   */
+  @Override
   public void exitFromNoteAdder() {
     noteAdderView.setVisible(false);
     this.compositeView.setGuiView(new GuiViewFrame(model));
@@ -404,27 +341,16 @@ public class MusicEditorController implements Controller {
     configureMouseListener();
   }
 
-  /**
-   * Goes to End of Piece
-   */
+  @Override
   public void gotoEnd(){
     this.model.setCurrentBeat(this.model.songLength());
     this.compositeView.getGuiView().render();
   }
 
-  /**
-   * Goes to Start of Piece
-   */
+  @Override
   public void gotoHome(){
     this.model.setCurrentBeat(0);
     this.compositeView.getGuiView().render();
   }
 
-  /**
-   * Gives back composite view. (For testing)
-   * @return composite view of the controller
-   */
-  public CompositeView getCompositeView() {
-    return compositeView;
-  }
 }

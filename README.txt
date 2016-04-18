@@ -25,6 +25,11 @@ Functionality:
 
 Changes:
 
+  ***Things we had to change to adapt our model and controller***
+  Moved new view and new model to different package.
+  Put adapter classes in own model and controller packages.
+  Created a controller interface.
+
   ***Comments on new view code received***
   Pitch enum was not at interface level, had to ask partners to change it to be
   interface level.
