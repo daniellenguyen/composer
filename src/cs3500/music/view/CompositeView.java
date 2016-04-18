@@ -157,6 +157,9 @@ public class CompositeView implements View, ICompositeView{
   public Note SpacePressed(Point mousePoint, SoundUnitList model) {
     int moveOverForBeat = model.getCurrentBeat() * 25;
 
+    //UpdateMousePoint (4/18/16)
+    mousePoint.setLocation(mousePoint.getX(), mousePoint.getY()-45);
+
     int separation = 15;
 
     int rangeOfSong = model.getHighestNote().getMIDIPitch() -
