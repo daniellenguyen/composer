@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-package cs3500.music.view;
-
-import cs3500.music.model.IPlayerModel;
-=======
 package cs3500.music.view2;
 
 import cs3500.music.model2.IPlayerModel;
->>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
+
+
 
 /**
  * Created by James on 3/23/16.

@@ -1,5 +1,5 @@
 
-package cs3500.music.model;
+package cs3500.music.model2;
 
 /**
  * To Know: Start includes in duration

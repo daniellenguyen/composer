@@ -1,9 +1,9 @@
-package cs3500.music.view;
+package cs3500.music.view2;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-import cs3500.music.model.IPlayerModel;
+import cs3500.music.model2.IPlayerModel;
 
 /**
  * Created by James on 3/22/16.

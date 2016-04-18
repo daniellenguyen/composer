@@ -1,4 +1,4 @@
-package cs3500.music.view;
+package cs3500.music.view2;
 
 import java.awt.*;
 import java.util.Collections;
@@ -6,14 +6,8 @@ import java.util.List;
 
 import javax.swing.*;
 
-<<<<<<< HEAD
-import cs3500.music.model.INote;
-import cs3500.music.model.IPlayerModel;
-=======
 import cs3500.music.model2.INote;
 import cs3500.music.model2.IPlayerModel;
->>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
-import cs3500.music.model.Note;
 
 /**
  * // keep track of reverselists -> lists for view for Pitches are inverted

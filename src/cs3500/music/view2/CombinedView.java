@@ -1,25 +1,17 @@
-<<<<<<< HEAD
-package cs3500.music.view;
-=======
 package cs3500.music.view2;
->>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
-<<<<<<< HEAD
-import cs3500.music.model.IPlayerModel;
-=======
 import cs3500.music.model2.IPlayerModel;
->>>>>>> d5b4df49ca8d85a5dc57316cd5138ae8e63c6dd4
 
 /**
  * Represents the View created by combining the GuiVIew and the Midi
  */
 
-public class CombinedView implements IGuiView{
+public class CombinedView implements IGuiView {
 
   private IGuiView yourView;
   private MidiViewImpl yourMidi;

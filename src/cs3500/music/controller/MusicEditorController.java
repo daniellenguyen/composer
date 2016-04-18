@@ -14,7 +14,7 @@ import cs3500.music.view.CompositeView;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.NoteAdderView;
 
-public class MusicEditorController implements ActionListener {
+public class MusicEditorController implements Controller {
 
   private SoundUnitList model;
   private CompositeView compositeView;
@@ -352,10 +352,6 @@ public class MusicEditorController implements ActionListener {
     return compositeView.SpacePressed(mousePoint, model);
   }
 
-  /**
-   * Used for Buttons on the add Note Gui
-   * @param e
-   */
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
