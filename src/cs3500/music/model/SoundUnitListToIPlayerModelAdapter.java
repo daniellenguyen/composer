@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * An adapter class from SoundUnitList to IPlayerModel
@@ -124,7 +125,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
    * Outputs the model as a List
    * @return List of notes representing all of the notes in the song
    */
-  //TODO THIS NEEDS TO BE REVIEWED AND MADE PERFECT
+
   public List<INote> outputModelAsList() {
     return SoundUnitListConverter(ObjectAdaptorSongList);
   }
@@ -137,19 +138,18 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
   public Map<Integer, List<cs3500.music.model2.INote>> outputModelAsMap() {
 
-    Map<Integer,  List<cs3500.music.model2.INote>> map = null;
+    Map<Integer, List<cs3500.music.model2.INote>> map = new TreeMap<>();
 
     for (int BeatNumber = 0; BeatNumber < ObjectAdaptorSongList.songLength(); BeatNumber++) {
-      ArrayList<SoundUnit> ListOfSoundUnitsAtBeat = new ArrayList<>();
+      List<SoundUnit> ListOfSoundUnitsAtBeat = new ArrayList<>();
       ListOfSoundUnitsAtBeat.addAll(ObjectAdaptorSongList.getAllAtTime(BeatNumber));
 
 
-      ArrayList<INote> ListOfINotesAtBeat = new ArrayList<>();
+      List<INote> ListOfINotesAtBeat = new ArrayList<>();
       for(int i = 0; i < ListOfSoundUnitsAtBeat.size(); i++){
-        ListOfINotesAtBeat.add(new SoundUnitToINoteAdapter().ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
+        SoundUnitToINoteAdapter ADAPT = new SoundUnitToINoteAdapter();
+        ListOfINotesAtBeat.add(ADAPT.ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
       }
-
-
       map.put(BeatNumber, ListOfINotesAtBeat);
     }
     return map;
@@ -189,7 +189,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
             ObjectAdaptorSongList.getLowestNote().getMIDIPitch();
 
     //Iterate Through the Range to create Side Header with Pitch Values of Range
-    for (int i = 0; i < rangeOfSong; i++) {
+    for (int i = 0; i <= rangeOfSong; i++) {
       SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1) {};
       rangeNote.setPitchAndOctaveFromMIDI(ObjectAdaptorSongList.getLowestNote().getMIDIPitch() + i);
       ListOfNotes.add(rangeNote.toString());
@@ -257,5 +257,10 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
   public int getTempo() {
     return ObjectAdaptorSongList.getTempo();
+  }
+
+
+  public void setPlayerModelFromSongList(SoundUnitList inputSoundUnitList){
+    ObjectAdaptorSongList = inputSoundUnitList;
   }
 }

@@ -1,6 +1,7 @@
 package cs3500.music;
 
 import cs3500.music.controller.MusicEditorController;
+import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
 import cs3500.music.model2.INote;
@@ -41,30 +42,20 @@ public class MusicEditor {
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
-    //Adaptor Song
-    SoundUnitListToIPlayerModelAdapter convertedInputSong = new SoundUnitListToIPlayerModelAdapter("SampleSong");
+
+    //Create Adapter
+    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
+
+    PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
+
+    TextView newTextView = new TextView(PlayerModelAdapted);
+    //newTextView.outputView();
 
 
-    List<cs3500.music.model2.INote> inputListOfINote = new ArrayList<>();
-    inputListOfINote = convertedInputSong.SoundUnitListConverter(inputSong);
-    for(int i = 0; i < inputListOfINote.size(); i++){
-      System.out.println(inputListOfINote.get(i).getNoteAsString() + " " + inputListOfINote.get(i).getStart() + " " + inputListOfINote.get(i).getEnd());
-      convertedInputSong.addNote(inputListOfINote.get(i));
-    }
+    IGuiView newGuiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
 
-    System.out.println(inputListOfINote.size() + "\n");
-
-    List<cs3500.music.model2.INote> outputListOfINote = convertedInputSong.outputModelAsList();
-
-    System.out.println("Original Size: " + inputSong.size() + " inputSize: " + inputListOfINote.size() + " Output Size: " + outputListOfINote.size());
-
-    //System.out.println(convertedInputSong.outputModel());
-
-
-    //IGuiView newGuiView = new cs3500.music.view2.GuiViewFrame(convertedInputSong);
-
-    //IMidiImpl newMidiView = new cs3500.music.view2.MidiViewImpl(convertedInputSong);
-    //newMidiView.playNote();
+    //IMidiImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
+    //newMidiView.outputView();
 
     /*
     if(Objects.equals(args[1], "composite")){
