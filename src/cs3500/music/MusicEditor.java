@@ -1,29 +1,14 @@
 package cs3500.music;
 
 import cs3500.music.controller.MusicEditorController;
-import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
-import cs3500.music.model2.INote;
 import cs3500.music.util.MusicReader;
-import cs3500.music.view.CompositeView;
-import cs3500.music.view.ConsoleViewImpl;
-import cs3500.music.view.ControllerCompositeAdapter;
-import cs3500.music.view.GuiViewFrame;
-import cs3500.music.view.MidiViewImpl;
-import cs3500.music.view.View;
-import cs3500.music.view.ViewCreator;
-import cs3500.music.view2.CombinedView;
-import cs3500.music.view2.ICompositeView;
+import cs3500.music.view.CompositeViewAdapter;
 import cs3500.music.view2.IGuiView;
 import cs3500.music.view2.IMidiImpl;
-import cs3500.music.view2.IView;
-import cs3500.music.view2.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -65,7 +50,7 @@ public class MusicEditor {
     //newMidiView.outputView();
 
     //COMPOSITE VIEW
-    cs3500.music.view.ICompositeView newControllerCompositeAdapter = new ControllerCompositeAdapter(newGuiView, newMidiView);
+    cs3500.music.view.ICompositeView newControllerCompositeAdapter = new CompositeViewAdapter(newGuiView, newMidiView);
 
     //Begin Controller with Adapted Composite View
     MusicEditorController AdaotedInternalsController = new MusicEditorController(inputSong, newControllerCompositeAdapter);
