@@ -110,6 +110,17 @@ public class CompositeView implements View, ICompositeView{
     return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
   }
 
+
+  @Override
+  public void setGuiView(View guiView) {
+    //NOTHING
+  }
+
+  @Override
+  public void setMidiView(View midiView) {
+    //NOTHING
+  }
+
   @Override
   public void addNewMouseListener(MouseListener listener) {
     guiViewFrame.addMouseListener(listener);

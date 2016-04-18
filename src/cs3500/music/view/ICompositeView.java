@@ -17,9 +17,9 @@ public interface ICompositeView {
 
   //MidiViewImpl getMidiView();
 
-  //void setGuiView(GuiViewFrame guiView);
+  void setGuiView(View guiView);
 
-  //void setMidiView(GuiViewFrame guiView);
+  void setMidiView(View midiView);
 
   void addNewMouseListener(MouseListener listener);
 
