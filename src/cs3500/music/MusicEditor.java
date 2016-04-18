@@ -8,11 +8,16 @@ import cs3500.music.model2.INote;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConsoleViewImpl;
+import cs3500.music.view.ControllerCompositeAdapter;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
+import cs3500.music.view.View;
 import cs3500.music.view.ViewCreator;
+import cs3500.music.view2.CombinedView;
+import cs3500.music.view2.ICompositeView;
 import cs3500.music.view2.IGuiView;
 import cs3500.music.view2.IMidiImpl;
+import cs3500.music.view2.IView;
 import cs3500.music.view2.TextView;
 
 import java.io.IOException;
@@ -48,14 +53,37 @@ public class MusicEditor {
 
     PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
 
+
+    //CONSOLE VIEW
     TextView newTextView = new TextView(PlayerModelAdapted);
     //newTextView.outputView();
 
-
+    //GUI VIEW
     IGuiView newGuiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
 
-    //IMidiImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
+    //MIDI VIEW
+    IMidiImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
     //newMidiView.outputView();
+
+
+
+    //TODO Delete this after the update and put as a interface, also chang combined view to COmposite
+    cs3500.music.view2.MidiViewImpl newMidiView2 = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
+
+    //COMPOSITE VIEW
+    IGuiView newCompositeView = new CombinedView(newGuiView, newMidiView2);
+
+
+    GuiViewFrame mockGuiView = new GuiViewFrame(inputSong);
+    MidiViewImpl mockMidiView = new MidiViewImpl(inputSong);
+    CompositeView newControllerCompositeAdapter = new ControllerCompositeAdapter(mockGuiView, mockMidiView);
+
+
+    //Controller
+    MusicEditorController controller = new MusicEditorController(PlayerModelAdapted.getPlayerModelFromSongList(),
+            newControllerCompositeAdapter);
+
+
 
     /*
     if(Objects.equals(args[1], "composite")){
