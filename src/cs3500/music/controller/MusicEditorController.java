@@ -10,8 +10,6 @@ import javax.sound.midi.InvalidMidiDataException;
 import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
-import cs3500.music.view.CompositeView;
-import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.ICompositeView;
 import cs3500.music.view.NoteAdderView;
 

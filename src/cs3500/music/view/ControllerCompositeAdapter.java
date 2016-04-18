@@ -6,15 +6,18 @@ import java.awt.event.MouseListener;
 
 import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
-import cs3500.music.view2.IGuiView;
 
 
 public class ControllerCompositeAdapter implements cs3500.music.view.ICompositeView {
 
-  public ControllerCompositeAdapter(GuiViewFrame guiViewFrame, MidiViewImpl midiView) {
+  cs3500.music.view2.IGuiView GuiView;
+  cs3500.music.view2.IMidiImpl MidiView;
+
+  public ControllerCompositeAdapter(cs3500.music.view2.IGuiView newGuiView, cs3500.music.view2.IMidiImpl newMidiView) {
+    this.GuiView = newGuiView;
+    this.MidiView = newMidiView;
   }
 
   @Override
