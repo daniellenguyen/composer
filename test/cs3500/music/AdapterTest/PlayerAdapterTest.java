@@ -53,10 +53,13 @@ public class PlayerAdapterTest {
 
     PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
 
+    int counter = 0;
     List<String> RangeOfSong = PlayerModelAdapted.outputPitchesOctaves();
     for(int i = 0; i < RangeOfSong.size(); i++){
-      System.out.println(RangeOfSong.get(i) + "\n");
+      counter++;
     }
+
+    assertEquals(16, counter);
 
 
     //System.out.println(PlayerModelAdapted.outputModel());

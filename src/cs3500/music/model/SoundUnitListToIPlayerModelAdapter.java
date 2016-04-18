@@ -263,4 +263,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
   public void setPlayerModelFromSongList(SoundUnitList inputSoundUnitList){
     ObjectAdaptorSongList = inputSoundUnitList;
   }
+  public SoundUnitList getPlayerModelFromSongList(){
+    return ObjectAdaptorSongList;
+  }
 }
