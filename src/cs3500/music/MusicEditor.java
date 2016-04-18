@@ -1,29 +1,14 @@
 package cs3500.music;
 
 import cs3500.music.controller.MusicEditorController;
-import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
-import cs3500.music.model2.INote;
 import cs3500.music.util.MusicReader;
-import cs3500.music.view.CompositeView;
-import cs3500.music.view.ConsoleViewImpl;
-import cs3500.music.view.ControllerCompositeAdapter;
-import cs3500.music.view.GuiViewFrame;
-import cs3500.music.view.MidiViewImpl;
-import cs3500.music.view.View;
-import cs3500.music.view.ViewCreator;
-import cs3500.music.view2.CombinedView;
-import cs3500.music.view2.ICompositeView;
+import cs3500.music.view.CompositeViewAdapter;
 import cs3500.music.view2.IGuiView;
 import cs3500.music.view2.IMidiImpl;
-import cs3500.music.view2.IView;
-import cs3500.music.view2.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -48,14 +33,13 @@ public class MusicEditor {
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
 
-    //Create Adapter
-    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
 
+    //Create Sound Unit Adapter
+    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
     PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
 
-
     //CONSOLE VIEW
-    TextView newTextView = new TextView(PlayerModelAdapted);
+    //TextView newTextView = new TextView(PlayerModelAdapted);
     //newTextView.outputView();
 
     //GUI VIEW
@@ -65,24 +49,11 @@ public class MusicEditor {
     IMidiImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
     //newMidiView.outputView();
 
-
-
-    //TODO Delete this after the update and put as a interface, also chang combined view to COmposite
-    cs3500.music.view2.MidiViewImpl newMidiView2 = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
-
     //COMPOSITE VIEW
-    IGuiView newCompositeView = new CombinedView(newGuiView, newMidiView2);
+    cs3500.music.view.ICompositeView newControllerCompositeAdapter = new CompositeViewAdapter(newGuiView, newMidiView);
 
-
-    GuiViewFrame mockGuiView = new GuiViewFrame(inputSong);
-    MidiViewImpl mockMidiView = new MidiViewImpl(inputSong);
-    CompositeView newControllerCompositeAdapter = new ControllerCompositeAdapter(mockGuiView, mockMidiView);
-
-
-    //Controller
-    MusicEditorController controller = new MusicEditorController(PlayerModelAdapted.getPlayerModelFromSongList(),
-            newControllerCompositeAdapter);
-
+    //Begin Controller with Adapted Composite View
+    MusicEditorController AdaotedInternalsController = new MusicEditorController(inputSong, newControllerCompositeAdapter);
 
 
     /*
@@ -103,13 +74,11 @@ public class MusicEditor {
       ConsoleViewImpl newConsoleView = new ConsoleViewImpl(inputSong);
       newConsoleView.render();
     }
-    */
-    /*
-    CompositeView newCompositeView = (CompositeView)
+
+    CompositeView newCompositeView2 = (CompositeView)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
-     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
-     */
+     MusicEditorController asddd = new MusicEditorController(inputSong, newCompositeView2);*/
 
   }
 }

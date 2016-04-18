@@ -1,8 +1,13 @@
 package cs3500.music.view;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.sound.midi.InvalidMidiDataException;
+
+import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
@@ -11,7 +16,7 @@ import cs3500.music.model.SoundUnitList;
 /**
  * Created by Justin Hynes-Bruell on 4/6/2016.
  */
-public class CompositeView implements View {
+public class CompositeView implements View, ICompositeView{
   GuiViewFrame guiViewFrame;
   MidiViewImpl midiView;
 
@@ -20,6 +25,7 @@ public class CompositeView implements View {
     this.midiView = midiView;
   }
 
+  /*
   public GuiViewFrame getGuiView() {
     return guiViewFrame;
   }
@@ -30,7 +36,7 @@ public class CompositeView implements View {
 
   public MidiViewImpl getMidiView() {
     return midiView;
-  }
+  }*/
 
   public Note NotePressed(Point mousePoint, SoundUnitList model) {
     int moveOverForBeat = model.getCurrentBeat() * 25;
@@ -104,8 +110,55 @@ public class CompositeView implements View {
     return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
   }
 
+  @Override
+  public void addNewMouseListener(MouseListener listener) {
+    guiViewFrame.addMouseListener(listener);
+  }
+
+  @Override
+  public void addActionListener(ActionListener listener) {
+    guiViewFrame.addActionListener(listener);
+  }
+
+  @Override
+  public void refreshGuiViewFromModel(SoundUnitList refreshedModel) {
+    guiViewFrame = new GuiViewFrame(refreshedModel);
+  }
+
+  @Override
+  public void initialize() {
+    guiViewFrame.initialize();
+  }
+
+  @Override
+  public void resetFocus() {
+    guiViewFrame.resetFocus();
+  }
+
+  @Override
+  public void addKeyListener(KeyboardHandler keyHandler) {
+    guiViewFrame.addKeyListener(keyHandler);
+  }
+
+  @Override
+  public void setVisible(boolean state) {
+    guiViewFrame.setVisible(state);
+  }
+
+  @Override
+  public void playBeat(Integer BeatNumber) {
+    try {
+      midiView.playBeat(BeatNumber);
+    } catch (InvalidMidiDataException e) {
+      //arrowRight();
+    }
+  }
+
   public Note SpacePressed(Point mousePoint, SoundUnitList model) {
     int moveOverForBeat = model.getCurrentBeat() * 25;
+
+    //UpdateMousePoint (4/18/16)
+    mousePoint.setLocation(mousePoint.getX(), mousePoint.getY()-45);
 
     int separation = 15;
 
@@ -163,6 +216,6 @@ public class CompositeView implements View {
 
   @Override
   public void render() {
-
+    guiViewFrame.render();
   }
 }

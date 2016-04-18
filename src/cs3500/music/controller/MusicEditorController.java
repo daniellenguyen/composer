@@ -10,14 +10,13 @@ import javax.sound.midi.InvalidMidiDataException;
 import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
-import cs3500.music.view.CompositeView;
-import cs3500.music.view.GuiViewFrame;
+import cs3500.music.view.ICompositeView;
 import cs3500.music.view.NoteAdderView;
 
 public class MusicEditorController implements Controller {
 
   private SoundUnitList model;
-  private CompositeView compositeView;
+  private ICompositeView compositeView;
   private NoteAdderView noteAdderView;
 
   private Timer musicTimer;
@@ -30,13 +29,13 @@ public class MusicEditorController implements Controller {
    * @param model the input song
    * @param compositeView the input composite view
    */
-  public MusicEditorController(SoundUnitList model, CompositeView compositeView) {
+  public MusicEditorController(SoundUnitList model, ICompositeView compositeView) {
     this.model = model;
     this.compositeView = compositeView;
     configureKeyBoardListener();
     configureMouseListener();
-    this.compositeView.getGuiView().addActionListener(this);
-    this.compositeView.getGuiView().initialize();
+    this.compositeView.addActionListener(this);
+    this.compositeView.initialize();
     model.setCurrentBeat(0);
     musicTimer = new Timer();
     songPlaying = false;
@@ -67,7 +66,7 @@ public class MusicEditorController implements Controller {
   @Override
   public void configureMouseListener() {
     MouseHandler listener = new MouseHandler(this);
-    this.compositeView.getGuiView().addNewMouseListener(listener);
+    this.compositeView.addNewMouseListener(listener);
   }
 
   @Override
@@ -125,12 +124,12 @@ public class MusicEditorController implements Controller {
       }
     });
 
-    compositeView.getGuiView().addKeyListener(kbd);
+    compositeView.addKeyListener(kbd);
   }
 
   @Override
   public void noteAdderViewCreator() {
-    this.compositeView.getGuiView().setVisible(false);
+    this.compositeView.setVisible(false);
     noteAdderView = new NoteAdderView(model.getLastNote());
     noteAdderView.resetFocus();
     noteAdderView.addActionListener(this);
@@ -162,24 +161,20 @@ public class MusicEditorController implements Controller {
 
   @Override
   public void RenderNewBeat() {
-    try {
-      this.compositeView.getMidiView().playBeat(this.model.getCurrentBeat());
-      arrowRight();
-    } catch (InvalidMidiDataException e) {
-      //arrowRight();
-    }
+    this.compositeView.playBeat(this.model.getCurrentBeat());
+    arrowRight();
   }
 
   @Override
   public void arrowRight() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() + 1);
-    this.compositeView.getGuiView().render();
+    this.compositeView.render();
   }
 
   @Override
   public void arrowLeft() {
     this.model.setCurrentBeat(this.model.getCurrentBeat() - 1);
-    this.compositeView.getGuiView().render();
+    this.compositeView.render();
   }
 
   @Override
@@ -204,7 +199,7 @@ public class MusicEditorController implements Controller {
         model.delete(newNote);
         System.out.println(newNote.toString() + " Deleted");
         System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
-        this.compositeView.getGuiView().render();
+        this.compositeView.render();
       } catch (IllegalArgumentException e) {
         System.out.println(e.toString());
       }
@@ -245,7 +240,7 @@ public class MusicEditorController implements Controller {
               System.out.println(copyNote.toString() + " Moved!");
               System.out.println("Start: " + copyNote.getStart()
                       + " End: " + copyNote.getEnd());
-              this.compositeView.getGuiView().render();
+              this.compositeView.render();
             }
           }
          catch (IllegalArgumentException e) {
@@ -273,7 +268,7 @@ public class MusicEditorController implements Controller {
           model.add(newNote);
           System.out.println(SpacePressed(Begin).toString() + " Added!");
           System.out.println("Start: " + newNote.getStart() + " End: " + newNote.getEnd());
-          this.compositeView.getGuiView().render();
+          this.compositeView.render();
         }
       } catch (IllegalArgumentException e) {
         System.out.println(e.toString());
@@ -333,10 +328,11 @@ public class MusicEditorController implements Controller {
   @Override
   public void exitFromNoteAdder() {
     noteAdderView.setVisible(false);
-    this.compositeView.setGuiView(new GuiViewFrame(model));
-    this.compositeView.getGuiView().initialize();
-    this.compositeView.getGuiView().resetFocus();
-    this.compositeView.getGuiView().addActionListener(this);
+    this.compositeView.refreshGuiViewFromModel(model);
+    //this.compositeView.setGuiView(new GuiViewFrame(model));
+    this.compositeView.initialize();
+    this.compositeView.resetFocus();
+    this.compositeView.addActionListener(this);
     configureKeyBoardListener();
     configureMouseListener();
   }
@@ -344,13 +340,13 @@ public class MusicEditorController implements Controller {
   @Override
   public void gotoEnd(){
     this.model.setCurrentBeat(this.model.songLength());
-    this.compositeView.getGuiView().render();
+    this.compositeView.render();
   }
 
   @Override
   public void gotoHome(){
     this.model.setCurrentBeat(0);
-    this.compositeView.getGuiView().render();
+    this.compositeView.render();
   }
 
 }

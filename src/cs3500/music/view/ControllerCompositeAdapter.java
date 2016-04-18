@@ -3,7 +3,6 @@ package cs3500.music.view;
 import java.awt.*;
 
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 
@@ -12,18 +11,12 @@ import cs3500.music.model.SoundUnitList;
  */
 public class ControllerCompositeAdapter extends CompositeView {
 
-  GuiViewAdapter GuiAdapter;
-  MidiViewAdapter MidiAdapter;
-
   public ControllerCompositeAdapter(GuiViewFrame guiViewFrame, MidiViewImpl midiView) {
     super(guiViewFrame, midiView);
-
-    GuiAdapter = new GuiViewAdapter(new NoteList());
-    MidiAdapter = new MidiViewAdapter(new NoteList());
   }
 
   public GuiViewFrame getGuiView() {
-    return GuiAdapter;
+    return guiViewFrame;
   }
 
   public MidiViewImpl getMidiView() {
