@@ -9,14 +9,20 @@ import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
+import cs3500.music.model2.IPlayerModel;
+import cs3500.music.view2.*;
+import cs3500.music.view2.GuiViewFrame;
 
 
 public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
 
-  cs3500.music.view2.IGuiView guiView;
-  cs3500.music.view2.IMidiImpl midiView;
+//  cs3500.music.view2.IGuiView guiView;
+//  cs3500.music.view2.IMidiImpl midiView;
+  cs3500.music.view2.GuiViewFrame guiView;
+  cs3500.music.view2.MidiViewImpl midiView;
 
-  public CompositeViewAdapter(cs3500.music.view2.IGuiView newGuiView, cs3500.music.view2.IMidiImpl newMidiView) {
+
+  public CompositeViewAdapter(cs3500.music.view2.GuiViewFrame newGuiView, cs3500.music.view2.MidiViewImpl newMidiView) {
     this.guiView = newGuiView;
     this.midiView = newMidiView;
   }
@@ -53,14 +59,13 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
 
   @Override
   public void initialize() {
-    //TODO His model Does Not Require This
+    this.guiView.initialize();
   }
 
   @Override
   public void resetFocus() {
-    //TODO Methods are Private, thus his Model Does not Allow for this Ability
-//    this.guiView.setFocusable(true);
-//    this.guiView.requestFocus();
+    this.guiView.setFocusable(true);
+    this.guiView.requestFocus();
   }
 
   @Override
@@ -70,12 +75,17 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
 
   @Override
   public void setVisible(boolean state) {
-    //TODO this is somehow also not in his model
-//    this.guiView.setVisible(state);
+    this.guiView.setVisible(state);
   }
 
   @Override
   public void playBeat(Integer BeatNumber) {
+    guiView.getModel().setCurrentBeat(BeatNumber);
+    guiView.initialize();
+    /*
+    IPlayerModel modelToUpdate = guiView.getModel();
+    modelToUpdate.setCurrentBeat(BeatNumber);
+    this.guiView = new GuiViewFrame(modelToUpdate);*/
     this.guiView.updateScroll("x", BeatNumber);
     this.midiView.playNote();
     /*try {

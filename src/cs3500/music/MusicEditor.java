@@ -43,10 +43,10 @@ public class MusicEditor {
     //newTextView.outputView();
 
     //GUI VIEW
-    IGuiView newGuiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
+    cs3500.music.view2.GuiViewFrame newGuiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
 
     //MIDI VIEW
-    IMidiImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
+    cs3500.music.view2.MidiViewImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
     //newMidiView.outputView();
 
     //COMPOSITE VIEW
