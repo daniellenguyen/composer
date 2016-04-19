@@ -21,6 +21,9 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
   cs3500.music.view2.GuiViewFrame guiView;
   cs3500.music.view2.MidiViewImpl midiView;
 
+  SoundUnitList model;
+  IPlayerModel adaptedModel;
+
 
   public CompositeViewAdapter(cs3500.music.view2.GuiViewFrame newGuiView, cs3500.music.view2.MidiViewImpl newMidiView) {
     this.guiView = newGuiView;
@@ -55,6 +58,7 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
     SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
     PlayerModelAdapted.setPlayerModelFromSongList(refreshedModel);
     this.guiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
+    this.adaptedModel = PlayerModelAdapted;
   }
 
   @Override
@@ -81,13 +85,13 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
   @Override
   public void playBeat(Integer BeatNumber) {
     guiView.getModel().setCurrentBeat(BeatNumber);
-    guiView.initialize();
+    guiView.outputView();
     /*
     IPlayerModel modelToUpdate = guiView.getModel();
     modelToUpdate.setCurrentBeat(BeatNumber);
     this.guiView = new GuiViewFrame(modelToUpdate);*/
     this.guiView.updateScroll("x", BeatNumber);
-    this.midiView.playNote();
+    //this.midiView.playNote();
     /*try {
       midiView.playBeat(BeatNumber);
     } catch (InvalidMidiDataException e) {
@@ -96,7 +100,12 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
   }
 
   public void render(){
-
+//    guiView.pack();
+//    guiView.initialize();
+    guiView.outputView();
+//    displayPanel = new ConcreteGuiViewPanel(soundUnitList);
+//    this.add(displayPanel);
+//    this.pack();
   }
 
 }
