@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+import javax.sound.midi.InvalidMidiDataException;
+
 import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnit;
@@ -49,9 +51,7 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
 
 
   @Override
-  public void addActionListener(ActionListener listener) {
-    //TODO Consider Removing, does Nothing
-  }
+  public void addActionListener(ActionListener listener) { }
 
   @Override
   public void refreshGuiViewFromModel(SoundUnitList refreshedModel) {
@@ -86,17 +86,14 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
   public void playBeat(Integer BeatNumber) {
     guiView.getModel().setCurrentBeat(BeatNumber);
     guiView.outputView();
-    /*
-    IPlayerModel modelToUpdate = guiView.getModel();
-    modelToUpdate.setCurrentBeat(BeatNumber);
-    this.guiView = new GuiViewFrame(modelToUpdate);*/
     this.guiView.updateScroll("x", BeatNumber);
-    //this.midiView.playNote();
-    /*try {
-      midiView.playBeat(BeatNumber);
+    try {
+      this.midiView.playBeat(BeatNumber); //TODO UNCOMMENT THIS TO PLAY SONG
     } catch (InvalidMidiDataException e) {
-      //arrowRight();
-    }*/
+      e.printStackTrace();
+    }
+    //this.midiView.outputView();
+    System.out.println("PlayBeatCalled\n");
   }
 
   public void render(){

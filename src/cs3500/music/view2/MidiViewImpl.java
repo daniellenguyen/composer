@@ -1,8 +1,11 @@
 package cs3500.music.view2;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.sound.midi.*;
 
@@ -162,4 +165,91 @@ public class MidiViewImpl implements IMidiImpl {
       currB = inputModel.getCurrentBeat();
     }
   }
+  //Delete Starting Here
+  public void playBeat(Integer BeatNumber) throws InvalidMidiDataException {
+
+    List<INote> allNotesAtBeat = inputModel.outputModelAsMap().get(BeatNumber);
+
+    List<INote> alreadyPlayed = new ArrayList<>();
+
+    for(int i = 0; i < allNotesAtBeat.size(); i++){
+      //Get the Note from the set
+      INote n = allNotesAtBeat.get(i);
+
+      //Determine if note has already been played at this beat
+      boolean dontStopNote = false;
+      for (int j = 0; j < alreadyPlayed.size(); j++) {
+        if (alreadyPlayed.get(j).getPitch().equals(n.getPitch())) {
+          if (alreadyPlayed.get(j).getOctave() == n.getOctave()){
+            dontStopNote = true;
+          }
+        }
+      }
+      alreadyPlayed.add(n);
+
+
+      //Find notes to Start
+      if (n.getStart() == BeatNumber) {
+        ShortMessage myMsg = new ShortMessage();
+        myMsg.setMessage(ShortMessage.NOTE_ON, n.getInstrument() - 1,
+                getMidiPitchFromPitchAndOctave(n), n.getVolume());
+
+        receiver.send(myMsg, -1);
+      }
+      //Find Notes to End
+      else if (n.getEnd() - 1 == BeatNumber && !dontStopNote) {
+
+        ShortMessage myMsg = new ShortMessage();
+        myMsg.setMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1,
+                getMidiPitchFromPitchAndOctave(n), n.getVolume());
+
+        receiver.send(myMsg, -1);
+      }
+    }
+  }
+
+  private int getMidiPitchFromPitchAndOctave(INote inputNote){
+    int newMIDIPitch = (inputNote.getOctave()* 12)+12;
+
+    switch (inputNote.getPitch()) {
+      case C:
+        newMIDIPitch += 0;
+        break;
+      case CS:
+        newMIDIPitch += 1;
+        break;
+      case D:
+        newMIDIPitch += 2;
+        break;
+      case DS:
+        newMIDIPitch += 3;
+        break;
+      case E:
+        newMIDIPitch += 4;
+        break;
+      case F:
+        newMIDIPitch += 5;
+        break;
+      case FS:
+        newMIDIPitch += 6;
+        break;
+      case G:
+        newMIDIPitch += 7;
+        break;
+      case GS:
+        newMIDIPitch += 8;
+        break;
+      case A:
+        newMIDIPitch += 9;
+        break;
+      case AS:
+        newMIDIPitch += 10;
+        break;
+      case B:
+        newMIDIPitch += 11;
+        break;
+    }
+    return newMIDIPitch;
+  }
+  //End Deleting Here
 }
