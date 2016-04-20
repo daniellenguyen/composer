@@ -1,6 +1,7 @@
 package cs3500.music.model;
 import cs3500.music.model2.INote;
 import cs3500.music.model2.IPlayerModel;
+import cs3500.music.model2.Pitch;
 import cs3500.music.view.ConsoleViewImpl;
 
 import java.io.ByteArrayOutputStream;
@@ -50,7 +51,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
   @Override
   public void addNote(INote inputNote) {
-    ObjectAdaptorSongList.add(new SoundUnitToINoteAdapter().ConvertINoteToSoundUnit(inputNote));
+    ObjectAdaptorSongList.add(new SoundUnitToINoteAdapter(inputNote).ConvertINoteToSoundUnit());
   }
 
   /**
@@ -89,7 +90,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
         ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
         ListOfNotesAtBeat.addAll(inputSongList.getAllAtTime(beat));
         for(int i = 0; i < ListOfNotesAtBeat.size(); i++){
-          ListOfINote.add(new SoundUnitToINoteAdapter().ConvertSoundUnitToINote(ListOfNotesAtBeat.get(i)));
+          ListOfINote.add(new SoundUnitToINoteAdapter(ListOfNotesAtBeat.get(i)).ConvertSoundUnitToINote());
         }
       }
     }
@@ -147,8 +148,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
       List<INote> ListOfINotesAtBeat = new ArrayList<>();
       for(int i = 0; i < ListOfSoundUnitsAtBeat.size(); i++){
-        SoundUnitToINoteAdapter ADAPT = new SoundUnitToINoteAdapter();
-        ListOfINotesAtBeat.add(ADAPT.ConvertSoundUnitToINote(ListOfSoundUnitsAtBeat.get(i)));
+        ListOfINotesAtBeat.add(new SoundUnitToINoteAdapter(ListOfSoundUnitsAtBeat.get(i)).ConvertSoundUnitToINote());
       }
       map.put(BeatNumber, ListOfINotesAtBeat);
     }
@@ -162,7 +162,7 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
    */
 
   public void removeNote(INote inputNote) {
-    ObjectAdaptorSongList.delete(new SoundUnitToINoteAdapter().ConvertINoteToSoundUnit(inputNote));
+    ObjectAdaptorSongList.delete(new SoundUnitToINoteAdapter(inputNote).ConvertINoteToSoundUnit());
   }
 
 

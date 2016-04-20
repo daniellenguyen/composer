@@ -18,6 +18,18 @@ public class SoundUnitToINoteAdapter implements INote {
     ObjectAdaptorNote.setInstrument(instrumenti);
   }
 
+  public SoundUnitToINoteAdapter(INote inputNote) {
+    ObjectAdaptorNote = new Note(convertPitchINoteToSoundUnit(inputNote.getPitch()),
+            intToOctave(inputNote.getOctave()), inputNote.getStart(), inputNote.getStart() + inputNote.getDuration());
+    ObjectAdaptorNote.setVolume(inputNote.getVolume());
+    ObjectAdaptorNote.setInstrument(inputNote.getInstrument());
+  }
+
+  public SoundUnitToINoteAdapter(SoundUnit inputNote) {
+    ObjectAdaptorNote = (Note)inputNote;
+  }
+
+
   @Override
   public int getInstrument() {
     return ObjectAdaptorNote.getInstrument();
@@ -116,18 +128,17 @@ public class SoundUnitToINoteAdapter implements INote {
 
   public SoundUnit ConvertINoteToSoundUnit() {
     SoundUnit newNote = new Note(convertPitchINoteToSoundUnit(this.getPitch()),
-            intToOctave(this.getOctave()), this.getStart(),
-            this.getStart() + this.getEnd());
+            intToOctave(this.getOctave()), this.getStart(), this.getEnd());
     newNote.setVolume(this.getVolume());
     newNote.setInstrument(this.getInstrument());
     return newNote;
   }
 
-  public INote ConvertSoundUnitToINote(SoundUnit inputNote) {
-    INote newNote = new SoundUnitToINoteAdapter(convertOctaveSoundUnitToINote(inputNote.getOctave()),
-            convertPitchSoundUnitToINote(inputNote.getPitch()),
-            (inputNote.getEnd() - inputNote.getStart()),
-            inputNote.getStart(), inputNote.getInstrument(), inputNote.getVolume());
+  public INote ConvertSoundUnitToINote() {
+    INote newNote = new SoundUnitToINoteAdapter(convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave()),
+            convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch()),
+            (ObjectAdaptorNote.getEnd() - ObjectAdaptorNote.getStart()),
+            ObjectAdaptorNote.getStart(), ObjectAdaptorNote.getInstrument(), ObjectAdaptorNote.getVolume());
     return newNote;
   }
 
