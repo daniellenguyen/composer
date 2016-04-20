@@ -103,7 +103,8 @@ public class Note implements INote{ //implements Comparable<Note>{
    */
 
   public String getNoteAsString() {
-    return this.pitch.convertPitchToString() + Integer.toString(this.getOctave());
+    return this.pitch.convertPitchToString()
+            + Integer.toString(this.getOctave());
   }
 
 

@@ -1,25 +1,22 @@
 package cs3500.music.model;
 
 import static cs3500.music.model.Note.*;
+
 import cs3500.music.model2.INote;
 
 /**
- * Created by Justin Hynes-Bruell on 4/14/2016.
+ * An adapter from the SoundUnit interface to the INote interface
  */
 public class SoundUnitToINoteAdapter implements INote {
-
   Note ObjectAdaptorNote;
 
-  public SoundUnitToINoteAdapter(int ioctave, cs3500.music.model2.Pitch ipitch, int iduration, int istart, int instrumenti, int volumei) {
-    ObjectAdaptorNote = new Note(convertPitchINoteToSoundUnit(ipitch), intToOctave(ioctave), istart, istart+iduration);
+  public SoundUnitToINoteAdapter(int ioctave, cs3500.music.model2.Pitch ipitch,
+                                 int iduration, int istart, int instrumenti, int volumei) {
+    ObjectAdaptorNote = new Note(convertPitchINoteToSoundUnit(ipitch),
+            intToOctave(ioctave), istart, istart + iduration);
     ObjectAdaptorNote.setVolume(volumei);
     ObjectAdaptorNote.setInstrument(instrumenti);
   }
-
-  public SoundUnitToINoteAdapter(){
-
-  }
-
 
   @Override
   public int getInstrument() {
@@ -28,6 +25,7 @@ public class SoundUnitToINoteAdapter implements INote {
 
   @Override
   public cs3500.music.model2.Pitch getPitch() {
+
     return convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch());
   }
 
@@ -98,38 +96,37 @@ public class SoundUnitToINoteAdapter implements INote {
 
   @Override
   public int pitchOctaveComparator(INote o) {
-    if (convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave()) < o.getOctave()) {
-
+    if (convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave()) < o.getOctave() ||
+            convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch())
+                    .compareTo(o.getPitch()) < 0) {
       return -1;
-    } else if (convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave()) > o.getOctave()) {
+    } else if (convertOctaveSoundUnitToINote(ObjectAdaptorNote.getOctave()) > o.getOctave() ||
+            convertPitchSoundUnitToINote(ObjectAdaptorNote
+                    .getPitch()).compareTo(o.getPitch()) > 0) {
       return 1;
     } else {
-      if (convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch()).compareTo(o.getPitch()) > 0) {
-        return 1;
-      } else if (convertPitchSoundUnitToINote(ObjectAdaptorNote.getPitch()).compareTo(o.getPitch()) < 0) {
-        return -1;
-      }  else {
-        return 0;
-      }
+      return 0;
     }
   }
 
   @Override
   public void setDuration(int iduration) {
-    ObjectAdaptorNote.setEnd(ObjectAdaptorNote.getStart()+iduration);
+    ObjectAdaptorNote.setEnd(ObjectAdaptorNote.getStart() + iduration);
   }
 
-  public SoundUnit ConvertINoteToSoundUnit(INote inputNote){
-    SoundUnit newNote = new Note(convertPitchINoteToSoundUnit(inputNote.getPitch()),
-            intToOctave(inputNote.getOctave()), inputNote.getStart(),
-            inputNote.getStart()+inputNote.getEnd());
-    newNote.setVolume(inputNote.getVolume());
-    newNote.setInstrument(inputNote.getInstrument());
+  public SoundUnit ConvertINoteToSoundUnit() {
+    SoundUnit newNote = new Note(convertPitchINoteToSoundUnit(this.getPitch()),
+            intToOctave(this.getOctave()), this.getStart(),
+            this.getStart() + this.getEnd());
+    newNote.setVolume(this.getVolume());
+    newNote.setInstrument(this.getInstrument());
     return newNote;
   }
-  public INote ConvertSoundUnitToINote(SoundUnit inputNote){
+
+  public INote ConvertSoundUnitToINote(SoundUnit inputNote) {
     INote newNote = new SoundUnitToINoteAdapter(convertOctaveSoundUnitToINote(inputNote.getOctave()),
-            convertPitchSoundUnitToINote(inputNote.getPitch()), (inputNote.getEnd()-inputNote.getStart()),
+            convertPitchSoundUnitToINote(inputNote.getPitch()),
+            (inputNote.getEnd() - inputNote.getStart()),
             inputNote.getStart(), inputNote.getInstrument(), inputNote.getVolume());
     return newNote;
   }
@@ -137,7 +134,7 @@ public class SoundUnitToINoteAdapter implements INote {
 
   /////////////////////CONVERTERS/////////////////////////////
 
-  private SoundUnit.Pitch convertPitchINoteToSoundUnit(cs3500.music.model2.Pitch inputPitch){
+  private SoundUnit.Pitch convertPitchINoteToSoundUnit(cs3500.music.model2.Pitch inputPitch) {
     SoundUnit.Pitch newPitch = Pitch.C;
     switch (inputPitch) {
       case C:
@@ -180,7 +177,7 @@ public class SoundUnitToINoteAdapter implements INote {
     return newPitch;
   }
 
-  private cs3500.music.model2.Pitch convertPitchSoundUnitToINote(SoundUnit.Pitch inputPitch){
+  private cs3500.music.model2.Pitch convertPitchSoundUnitToINote(SoundUnit.Pitch inputPitch) {
     cs3500.music.model2.Pitch newPitch;
     newPitch = cs3500.music.model2.Pitch.C;
     switch (inputPitch) {
@@ -224,7 +221,7 @@ public class SoundUnitToINoteAdapter implements INote {
     return newPitch;
   }
 
-  private int convertOctaveSoundUnitToINote(SoundUnit.Octave inputOctave){
+  private int convertOctaveSoundUnitToINote(SoundUnit.Octave inputOctave) {
     int outputOctave = 4;
     switch (inputOctave) {
       case ONE:
@@ -265,7 +262,7 @@ public class SoundUnitToINoteAdapter implements INote {
   }
 
 
-  private SoundUnit.Octave intToOctave(int ioctave){
+  private SoundUnit.Octave intToOctave(int ioctave) {
     //Determine ENUM for Octave
     Octave a = Octave.FOUR;
     switch (ioctave) {
