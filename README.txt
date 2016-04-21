@@ -8,6 +8,7 @@ To Run from using the command line:
   java -jar MusicEditor.jar mary-little-lamb.txt midi
   java -jar MusicEditor.jar mary-little-lamb.txt gui
   java -jar MusicEditor.jar mary-little-lamb.txt composite
+  java -jar MusicEditor.jar mary-little-lamb.txt controller
 
 Functionality:
 **PLEASE NOTE THAT Cuing Bar is the edge of the screen like Guitar hero**
