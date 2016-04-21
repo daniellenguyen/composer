@@ -13,10 +13,7 @@ import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
-import cs3500.music.model.SoundUnitToINoteAdapter;
 import cs3500.music.model2.IPlayerModel;
-import cs3500.music.view2.*;
-import cs3500.music.view2.GuiViewFrame;
 
 
 public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
