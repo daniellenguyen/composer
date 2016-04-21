@@ -13,6 +13,7 @@ import cs3500.music.model.NoteList;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
+import cs3500.music.model.SoundUnitToINoteAdapter;
 import cs3500.music.model2.IPlayerModel;
 import cs3500.music.view2.*;
 import cs3500.music.view2.GuiViewFrame;
@@ -34,24 +35,102 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
     this.midiView = newMidiView;
   }
 
-  //TODO This is gonna be tricky
+
   @Override
   public Note NotePressed(Point mousePoint, SoundUnitList model) {
-    System.out.println("NOTE PRESS ATTEMPTED");
-    return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 998, 1000);
+    int moveOverForBeat = model.getCurrentBeat() * 25;
+
+    //int scrollOffset = guiView.getScroller().getHorizontalScrollBar().getValue();
+    int scrollOffset = model.getCurrentBeat() * 25;
+
+    System.out.println("X: " + mousePoint.getX() + " Y: " + mousePoint.getY());
+
+
+
+
+    int separation = 20;
+
+    int rangeOfSong = model.getHighestNote().getMIDIPitch() -
+            model.getLowestNote().getMIDIPitch();
+    //For each Beat in the song Draws the Notes
+    for (int BeatNumber = 0; BeatNumber < model.songLength(); BeatNumber++) {
+      ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
+      ListOfNotesAtBeat.addAll(model.getAllAtTime(BeatNumber));
+
+      //Create a Column of Notes
+      for (int i = rangeOfSong; i >= 0; i--) {
+        SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1);
+        rangeNote.setPitchAndOctaveFromMIDI(model.getHighestNote().getMIDIPitch() - i);
+
+        boolean noteStarts = false;
+        boolean noteContinues = false;
+
+        SoundUnitList PossibleSaveNote = new NoteList();
+
+
+        //Check if a note is Starting or Continuing
+        for (int j = 0; j < ListOfNotesAtBeat.size(); j++) {
+          if (rangeNote.getMIDIPitch() == ListOfNotesAtBeat.get(j).getMIDIPitch()) {
+
+            if (ListOfNotesAtBeat.get(j).getStart() == BeatNumber) {
+              noteStarts = true;
+              PossibleSaveNote.add(ListOfNotesAtBeat.get(j));
+            } else {
+              noteContinues = true;
+              PossibleSaveNote.add(ListOfNotesAtBeat.get(j));
+            }
+          }
+        }
+
+
+        noteStarts = true;
+        rangeNote.setEnd(BeatNumber + 1);
+        rangeNote.setStart(BeatNumber);
+        PossibleSaveNote.add(rangeNote);
+
+        /*
+        //rangeNote.setStart();*/
+
+        //If a Note is Starting then Fill it! This takes Priority over the Continue
+        if (noteStarts) {
+          if (mousePoint.getX() > 40 + (20 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX() - scrollOffset < 40
+                  + (20 * BeatNumber) - moveOverForBeat + 20) {
+            if (mousePoint.getY() > ((separation * i))
+                    + 20 && mousePoint.getY() < ((separation * i)) + 20 + 20) {
+              System.out.println("Note Attempted to Delete: " + PossibleSaveNote.getHighestNote().toString());
+              return PossibleSaveNote.getHighestNote();
+            }
+          }
+        } else if (noteContinues) {
+          if (mousePoint.getX() > 40 + (20 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX() - scrollOffset < 40 + (20 * BeatNumber)
+                  - moveOverForBeat + 20) {
+            if (mousePoint.getY() > ((separation * i))
+                    + 20 && mousePoint.getY() < ((separation * i)) + 20 + 20) {
+              System.out.println("Note Attempted to Delete: " + PossibleSaveNote.getHighestNote().toString());
+              return PossibleSaveNote.getHighestNote();
+            }
+          }
+        }
+      }
+    }
+    return new Note(SoundUnit.Pitch.D, SoundUnit.Octave.FOUR, 999, 1001);
   }
 
-  //TODO This is gonna be tricky
   @Override
   public Note SpacePressed(Point mousePoint, SoundUnitList model) {
     int moveOverForBeat = model.getCurrentBeat() * 25;
 
+    //int scrollOffset = guiView.getScroller().getHorizontalScrollBar().getValue();
+    int scrollOffset = model.getCurrentBeat() * 25;
+
     System.out.println("X: " + mousePoint.getX() + " Y: " + mousePoint.getY());
 
-    //UpdateMousePoint (4/18/16)
-    //mousePoint.setLocation(mousePoint.getX(), mousePoint.getY()-45);
 
-    int separation = 15;
+
+
+    int separation = 20;
 
     int rangeOfSong = model.getHighestNote().getMIDIPitch() -
             model.getLowestNote().getMIDIPitch();
@@ -82,27 +161,27 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
 
         //If a Note is Starting then Fill it! This takes Priority over the Continue
         if (noteStarts) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber)
-                  - moveOverForBeat && mousePoint.getX() < 40
-                  + (25 * BeatNumber) - moveOverForBeat + 25) {
+          if (mousePoint.getX() > 40 + (20 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX() - scrollOffset < 40
+                  + (20 * BeatNumber) - moveOverForBeat + 20) {
             if (mousePoint.getY() > ((separation * i))
-                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+                    + 20 && mousePoint.getY() < ((separation * i)) + 20 + 20) {
               return PossibleSaveNote.getHighestNote();
             }
           }
         } else if (noteContinues) {
-          if (mousePoint.getX() > 40 + (25 * BeatNumber)
-                  - moveOverForBeat && mousePoint.getX() < 40 + (25 * BeatNumber)
-                  - moveOverForBeat + 25) {
+          if (mousePoint.getX() > 40 + (20 * BeatNumber)
+                  - moveOverForBeat && mousePoint.getX() - scrollOffset < 40 + (20 * BeatNumber)
+                  - moveOverForBeat + 20) {
             if (mousePoint.getY() > ((separation * i))
-                    + 15 && mousePoint.getY() < ((separation * i)) + 15 + 15) {
+                    + 20 && mousePoint.getY() < ((separation * i)) + 20 + 20) {
               return PossibleSaveNote.getHighestNote();
             }
           }
         }
       }
     }
-    return new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 999, 1000);
+    throw new IllegalArgumentException("Invalid Space");
   }
 
   @Override
@@ -124,6 +203,7 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
 
   @Override
   public void initialize() {
+    this.guiView.setPreferredSize(new Dimension(800, 1600));
     this.guiView.initialize();
   }
 
@@ -147,6 +227,7 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
   public void playBeat(Integer BeatNumber) {
     guiView.getModel().setCurrentBeat(BeatNumber);
     guiView.outputView();
+    guiView.getPanel().updateUI();
     this.guiView.updateScroll("x", BeatNumber);
     try {
       this.midiView.playBeat(BeatNumber);
@@ -158,12 +239,7 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
   }
 
   public void render(){
-//    guiView.pack();
-//    guiView.initialize();
     guiView.outputView();
-//    displayPanel = new ConcreteGuiViewPanel(soundUnitList);
-//    this.add(displayPanel);
-//    this.pack();
   }
 
 }

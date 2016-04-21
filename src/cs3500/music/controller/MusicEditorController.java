@@ -183,10 +183,8 @@ public class MusicEditorController implements Controller {
     int rangeOfSong = model.getHighestNote().getMIDIPitch() -
             model.getLowestNote().getMIDIPitch();
     // If before, after, above, or below the grid, return false
-    return !(mousePoint.getX() > 40 + (25 * model.songLength()) - model.getCurrentBeat() * 25 ||
-            mousePoint.getX() < 40 ||
-            mousePoint.getY() < 15 ||
-            mousePoint.getY() > separation * rangeOfSong + 30);
+    return !(mousePoint.getX() < 40 ||
+            mousePoint.getY() < 15);
   }
 
   @Override
