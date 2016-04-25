@@ -1,7 +1,9 @@
 package cs3500.music.model;
 import cs3500.music.model2.IPlayerModel;
 
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * To represent a collection of sound units ordered by timestamp
@@ -96,4 +98,8 @@ public interface SoundUnitList<T> {
   Integer getCurrentBeat();
 
   Note getLastNote();
+
+  List<IRepeat> getRepeatSet();
+
+  void addRepeat(IRepeat inputRepeat);
 }

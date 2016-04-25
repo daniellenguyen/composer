@@ -54,6 +54,24 @@ public class MusicReader {
             throw new IllegalArgumentException("Malformed note line: " + scanner.nextLine());
           }
           break;
+        case "repeat":
+          try {
+            int direction = scanner.nextInt();
+            int location = scanner.nextInt();
+            int RepeatID = scanner.nextInt();
+            int altEnding = scanner.nextInt();
+            IRepeat.RepeatType newRepeatType;
+            if(direction == 1){
+              newRepeatType = IRepeat.RepeatType.Forward;
+            }
+            else {
+              newRepeatType = IRepeat.RepeatType.Backward;
+            }
+            piece.addRepeat(newRepeatType, location, RepeatID, altEnding);
+          } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException("Malformed note line: " + scanner.nextLine());
+          }
+          break;
         default:
           throw new IllegalArgumentException("Bad line type: " + lineType);
       }

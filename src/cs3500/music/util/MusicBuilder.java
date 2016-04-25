@@ -1,7 +1,9 @@
 package cs3500.music.util;
 
+import cs3500.music.model.IRepeat;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteList;
+import cs3500.music.model.Repeat;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 
@@ -43,6 +45,13 @@ public class MusicBuilder implements CompositionBuilder<SoundUnitList> {
     newNote.setVolume(volume);
     newNote.setInstrument(instrument);
     listOfNotes.add(newNote);
+    return null;
+  }
+
+  @Override
+  public CompositionBuilder<SoundUnitList> addRepeat(IRepeat.RepeatType inputRepeatType, Integer inputRepeatBeat, Integer inputRepeatNumber, Integer inputAltEnding) {
+    Repeat newRepeat = new Repeat(inputRepeatType, inputRepeatBeat, inputRepeatNumber, inputAltEnding);
+    listOfNotes.addRepeat(newRepeat);
     return null;
   }
 }

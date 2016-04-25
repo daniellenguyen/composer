@@ -1,10 +1,12 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 import javax.swing.*;
 
+import cs3500.music.model.IRepeat;
 import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
@@ -123,6 +125,44 @@ public class ConcreteGuiViewPanel extends JPanel {
       };
       rangeNote.setPitchAndOctaveFromMIDI(noteList.getHighestNote().getMIDIPitch() - i);
       g.drawString(rangeNote.toString(), 15, separation * i + 30);
+    }
+
+    //Draw Repeat Markings
+    List<IRepeat> repeats = noteList.getRepeatSet();
+    for (Integer j = 0; j <= noteList.songLength(); j++) {
+      for(int repeatNum = 0; repeatNum < repeats.size(); repeatNum++){
+        if(j == repeats.get(repeatNum).getLocation()){
+
+          //Forward Repeat
+          if(repeats.get(repeatNum).getType().equals(IRepeat.RepeatType.Forward)){
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(40 + (25 * j) - moveOverForBeat, 15, 3, 15*(rangeOfSong+1));
+            g.setColor(Color.BLACK);
+          }
+
+          //Backward Repeat
+          else if(repeats.get(repeatNum).getType().equals(IRepeat.RepeatType.Backward)){
+            g.setColor(Color.BLUE);
+            g.fillRect(40 + (25 * j) - moveOverForBeat, 15, 3, 15*(rangeOfSong+1));
+            g.setColor(Color.BLACK);
+
+            if(repeats.get(repeatNum).getAlternativeEndingLength() > 0){
+              int altEndingLength = 25 * repeats.get(repeatNum).getAlternativeEndingLength();
+
+              Graphics2D g2d = (Graphics2D)g;
+              g2d.setColor(Color.BLUE);
+              g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 4 * 0.1f));
+              g2d.fillRect(40 + (25 * j) - moveOverForBeat - altEndingLength, ((separation * 0)) + 15, altEndingLength, 15 * (rangeOfSong+1));
+
+
+              Graphics2D g2d2 = (Graphics2D)g;
+              g2d2.setColor(Color.YELLOW);
+              g2d2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 4 * 0.1f));
+              g2d2.fillRect(40 + (25 * j) - moveOverForBeat, ((separation * 0)) + 15, altEndingLength, 15 * (rangeOfSong+1));
+            }
+          }
+        }
+      }
     }
 
   }

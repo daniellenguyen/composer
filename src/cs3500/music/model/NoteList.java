@@ -9,6 +9,7 @@ public class NoteList implements SoundUnitList<Note> {
   private TreeMap<Integer, HashSet<Note>> map;
   private TreeSet<Note> set;
   private int tempo;
+  private List<IRepeat> repeatSet;
 
   private Note lastNote;
 
@@ -17,6 +18,7 @@ public class NoteList implements SoundUnitList<Note> {
   public NoteList() {
     this.map = new TreeMap<>();
     this.set = new TreeSet<>();
+    this.repeatSet = new ArrayList<>();
     this.tempo = 0;
 
     lastNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR,0,1);
@@ -144,4 +146,13 @@ public class NoteList implements SoundUnitList<Note> {
     return this.currentBeat;
   }
 
+  @Override
+  public void addRepeat(IRepeat inputRepeat){
+    repeatSet.add(inputRepeat);
+  }
+
+  @Override
+  public List<IRepeat> getRepeatSet() {
+    return this.repeatSet;
+  }
 }

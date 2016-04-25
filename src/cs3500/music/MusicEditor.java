@@ -1,6 +1,7 @@
 package cs3500.music;
 
 import cs3500.music.controller.MusicEditorController;
+import cs3500.music.controller.MusicEditorControllerDsCoda;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
 import cs3500.music.util.MusicReader;
@@ -17,9 +18,9 @@ public class MusicEditor {
 
     MusicReader ReaderOfText = new MusicReader();
 
-    //args = new String[2];
-    //args[0] = "mary-little-lamb.txt";
-    //args[1] = "console";
+    args = new String[2];
+    args[0] = "mary-little-lamb-Repeats.txt";
+    args[1] = "controllerCoda";
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
 
@@ -101,6 +102,18 @@ public class MusicEditor {
               new cs3500.music.view.CompositeViewAdapter(newGuiView, newMidiView);
       MusicEditorController AdaotedInternalsController =
               new MusicEditorController(inputSong, newControllerCompositeAdapter);
+    }
+
+    //Controller with Coda
+    else if(Objects.equals(args[1], "controllerCoda")) {
+      MusicReader ReaderOfTextRepeat = new MusicReader();
+      SoundUnitList inputSongRepeat = ReaderOfText.ReturnNoteListFromFile(args[0]);
+
+      cs3500.music.view.CompositeView newCompositeView2 = (cs3500.music.view.CompositeView)
+              cs3500.music.view.ViewCreator.create(
+                      cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
+
+      MusicEditorControllerDsCoda ControllerRepeat = new MusicEditorControllerDsCoda(inputSong, newCompositeView2);
     }
   }
 }
