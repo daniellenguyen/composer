@@ -25,7 +25,8 @@ public class PlayerAdapterTest {
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
 
     //Create Adapter
-    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
+    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted =
+            new SoundUnitListToIPlayerModelAdapter("SampleSong");
 
     //Add Notes from Sound Unit to a List of INotes
     List<INote> inputListOfINote = new ArrayList<>();
@@ -49,7 +50,8 @@ public class PlayerAdapterTest {
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
 
     //Create Adapter
-    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
+    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted =
+            new SoundUnitListToIPlayerModelAdapter("SampleSong");
 
     PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
 
@@ -60,8 +62,5 @@ public class PlayerAdapterTest {
     }
 
     assertEquals(16, counter);
-
-
-    //System.out.println(PlayerModelAdapted.outputModel());
   }
 }

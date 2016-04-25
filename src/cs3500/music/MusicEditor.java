@@ -31,13 +31,15 @@ public class MusicEditor {
     //SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
     //Create Sound Unit Adapter
-    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
+    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new
+            SoundUnitListToIPlayerModelAdapter("SampleSong");
     PlayerModelAdapted.setPlayerModelFromSongList(inputSong);
 
     //Old Views and Controller
     if(Objects.equals(args[1], "composite2")){
       cs3500.music.view.CompositeView newCompositeView = (cs3500.music.view.CompositeView)
-              cs3500.music.view.ViewCreator.create(cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
+              cs3500.music.view.ViewCreator.create(
+                      cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
       MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
     }
     else if(Objects.equals(args[1], "gui2")){
@@ -49,44 +51,56 @@ public class MusicEditor {
       newMidiView.playSong();
     }
     else if(Objects.equals(args[1], "console2")){
-      cs3500.music.view.ConsoleViewImpl newConsoleView = new cs3500.music.view.ConsoleViewImpl(inputSong);
+      cs3500.music.view.ConsoleViewImpl newConsoleView =
+              new cs3500.music.view.ConsoleViewImpl(inputSong);
       newConsoleView.render();
     }
     else if(Objects.equals(args[1], "controller2")){
       cs3500.music.view.CompositeView newCompositeView2 = (cs3500.music.view.CompositeView)
-              cs3500.music.view.ViewCreator.create(cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
+              cs3500.music.view.ViewCreator.create(
+                      cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
       MusicEditorController asddd = new MusicEditorController(inputSong, newCompositeView2);
     }
 
     //New Views and Controller
     else if(Objects.equals(args[1], "console")) {
       //CONSOLE VIEW
-      cs3500.music.view2.TextView newTextView = new cs3500.music.view2.TextView(PlayerModelAdapted);
+      cs3500.music.view2.TextView newTextView =
+              new cs3500.music.view2.TextView(PlayerModelAdapted);
       newTextView.outputView();
     }
 
     else if(Objects.equals(args[1], "gui")) {
       //GUI VIEW
-      cs3500.music.view2.GuiViewFrame newGuiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
+      cs3500.music.view2.GuiViewFrame newGuiView =
+              new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
     }
     else if(Objects.equals(args[1], "midi")) {
       //MIDI VIEW
-      cs3500.music.view2.MidiViewImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
+      cs3500.music.view2.MidiViewImpl newMidiView =
+              new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
       newMidiView.outputView();
     }
     else if(Objects.equals(args[1], "composite")) {
       //COMPOSITE VIEW
-      cs3500.music.view2.GuiViewFrame newGuiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
-      cs3500.music.view2.MidiViewImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
-      cs3500.music.view.ICompositeView newControllerCompositeAdapter = new cs3500.music.view.CompositeViewAdapter(newGuiView, newMidiView);
+      cs3500.music.view2.GuiViewFrame newGuiView =
+              new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
+      cs3500.music.view2.MidiViewImpl newMidiView =
+              new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
+      cs3500.music.view.ICompositeView newControllerCompositeAdapter
+              = new cs3500.music.view.CompositeViewAdapter(newGuiView, newMidiView);
     }
 
     else if(Objects.equals(args[1], "controller")) {
       //Begin Controller with Adapted Composite View
-      cs3500.music.view2.GuiViewFrame newGuiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
-      cs3500.music.view2.MidiViewImpl newMidiView = new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
-      cs3500.music.view.ICompositeView newControllerCompositeAdapter = new cs3500.music.view.CompositeViewAdapter(newGuiView, newMidiView);
-      MusicEditorController AdaotedInternalsController = new MusicEditorController(inputSong, newControllerCompositeAdapter);
+      cs3500.music.view2.GuiViewFrame newGuiView =
+              new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
+      cs3500.music.view2.MidiViewImpl newMidiView =
+              new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
+      cs3500.music.view.ICompositeView newControllerCompositeAdapter =
+              new cs3500.music.view.CompositeViewAdapter(newGuiView, newMidiView);
+      MusicEditorController AdaotedInternalsController =
+              new MusicEditorController(inputSong, newControllerCompositeAdapter);
     }
   }
 }

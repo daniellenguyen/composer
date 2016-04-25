@@ -35,7 +35,8 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
     ObjectAdaptorSongList.setTempo(0);
   }
 
-  public SoundUnitListToIPlayerModelAdapter(String inputSongName, List<Note> inputNotes, int tempoi){
+  public SoundUnitListToIPlayerModelAdapter(String inputSongName,
+                                            List<Note> inputNotes, int tempoi){
     songname = inputSongName;
     for(int i=0; i< inputNotes.size(); i++){
       ObjectAdaptorSongList.add(inputNotes.get(i));
@@ -90,7 +91,8 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
         ArrayList<SoundUnit> ListOfNotesAtBeat = new ArrayList<>();
         ListOfNotesAtBeat.addAll(inputSongList.getAllAtTime(beat));
         for(int i = 0; i < ListOfNotesAtBeat.size(); i++){
-          ListOfINote.add(new SoundUnitToINoteAdapter(ListOfNotesAtBeat.get(i)).ConvertSoundUnitToINote());
+          ListOfINote.add(
+                  new SoundUnitToINoteAdapter(ListOfNotesAtBeat.get(i)).ConvertSoundUnitToINote());
         }
       }
     }
@@ -148,7 +150,8 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
 
       List<INote> ListOfINotesAtBeat = new ArrayList<>();
       for(int i = 0; i < ListOfSoundUnitsAtBeat.size(); i++){
-        ListOfINotesAtBeat.add(new SoundUnitToINoteAdapter(ListOfSoundUnitsAtBeat.get(i)).ConvertSoundUnitToINote());
+        ListOfINotesAtBeat.add(new SoundUnitToINoteAdapter(
+                ListOfSoundUnitsAtBeat.get(i)).ConvertSoundUnitToINote());
       }
       map.put(BeatNumber, ListOfINotesAtBeat);
     }
@@ -191,7 +194,8 @@ public class SoundUnitListToIPlayerModelAdapter implements IPlayerModel {
     //Iterate Through the Range to create Side Header with Pitch Values of Range
     for (int i = 0; i <= rangeOfSong; i++) {
       SoundUnit rangeNote = new Note(SoundUnit.Pitch.C, SoundUnit.Octave.FOUR, 0, 1) {};
-      rangeNote.setPitchAndOctaveFromMIDI(ObjectAdaptorSongList.getLowestNote().getMIDIPitch() + i);
+      rangeNote.setPitchAndOctaveFromMIDI(
+              ObjectAdaptorSongList.getLowestNote().getMIDIPitch() + i);
       ListOfNotes.add(rangeNote.toString());
     }
 

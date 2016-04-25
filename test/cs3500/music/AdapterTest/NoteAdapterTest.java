@@ -14,32 +14,6 @@ import static org.junit.Assert.*;
 public class NoteAdapterTest {
 
   /**
-   * Tests the adapter's constructor
-   */
-/*
-  @Test
-  public void TestAdapter() {
-    SoundUnit newSoundUnit = new Note(SoundUnit.Pitch.C2, SoundUnit.Octave.FOUR, 0, 5);
-
-    SoundUnitToINoteAdapter newINote = new SoundUnitToINoteAdapter(5, Pitch.DS, 3, 1, 1, 70);
-
-    assertEquals(Pitch.DS, newINote.getPitch());
-    assertEquals(5, newINote.getOctave());
-    assertEquals(1, newINote.getStart());
-
-    INote adaptedINote = newINote.ConvertSoundUnitToINote(newSoundUnit);
-
-    assertEquals(4, adaptedINote.getOctave());
-    assertEquals(adaptedINote.getPitch(), Pitch.CS);
-    assertEquals(adaptedINote.getStart(), 0);
-    assertEquals(adaptedINote.getEnd(), 5);
-  }*/
-
-  /**
-   * Tests the adapter's methods
-   */
-
-  /**
    * Tests the method getInstrument
    */
 

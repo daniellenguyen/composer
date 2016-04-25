@@ -27,7 +27,8 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
   IPlayerModel adaptedModel;
 
 
-  public CompositeViewAdapter(cs3500.music.view2.GuiViewFrame newGuiView, cs3500.music.view2.MidiViewImpl newMidiView) {
+  public CompositeViewAdapter(cs3500.music.view2.GuiViewFrame newGuiView,
+                              cs3500.music.view2.MidiViewImpl newMidiView) {
     this.guiView = newGuiView;
     this.midiView = newMidiView;
   }
@@ -95,7 +96,8 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
                   + (20 * BeatNumber) - moveOverForBeat + 20) {
             if (mousePoint.getY() > ((separation * i))
                     + 20 && mousePoint.getY() < ((separation * i)) + 20 + 20) {
-              System.out.println("Note Attempted to Delete: " + PossibleSaveNote.getHighestNote().toString());
+              System.out.println("Note Attempted to Delete: " +
+                      PossibleSaveNote.getHighestNote().toString());
               return PossibleSaveNote.getHighestNote();
             }
           }
@@ -105,7 +107,8 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
                   - moveOverForBeat + 20) {
             if (mousePoint.getY() > ((separation * i))
                     + 20 && mousePoint.getY() < ((separation * i)) + 20 + 20) {
-              System.out.println("Note Attempted to Delete: " + PossibleSaveNote.getHighestNote().toString());
+              System.out.println("Note Attempted to Delete: " +
+                      PossibleSaveNote.getHighestNote().toString());
               return PossibleSaveNote.getHighestNote();
             }
           }
@@ -192,7 +195,8 @@ public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
 
   @Override
   public void refreshGuiViewFromModel(SoundUnitList refreshedModel) {
-    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted = new SoundUnitListToIPlayerModelAdapter("SampleSong");
+    SoundUnitListToIPlayerModelAdapter PlayerModelAdapted =
+            new SoundUnitListToIPlayerModelAdapter("SampleSong");
     PlayerModelAdapted.setPlayerModelFromSongList(refreshedModel);
     this.guiView = new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
     this.adaptedModel = PlayerModelAdapted;
