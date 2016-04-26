@@ -16,7 +16,7 @@ import cs3500.music.view.NoteAdderView;
 public class MusicEditorController implements Controller {
 
   protected SoundUnitList model;
-  private ICompositeView compositeView;
+  protected ICompositeView compositeView;
   private NoteAdderView noteAdderView;
 
   private Timer musicTimer;

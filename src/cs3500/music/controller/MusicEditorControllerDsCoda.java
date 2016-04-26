@@ -1,15 +1,21 @@
 package cs3500.music.controller;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 
 import cs3500.music.model.IRepeat;
+import cs3500.music.model.Repeat;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.view.ICompositeView;
+import cs3500.music.view.RepeatAdderView;
 
 /**
  * Created by Justin Hynes-Bruell on 4/24/2016.
  */
 public class MusicEditorControllerDsCoda extends MusicEditorController {
+
+  private RepeatAdderView repeatAdderView;
 
   /**
    * For Editing Repeats in the .txt file:
@@ -27,6 +33,68 @@ public class MusicEditorControllerDsCoda extends MusicEditorController {
    */
   public MusicEditorControllerDsCoda(SoundUnitList model, ICompositeView compositeView) {
     super(model, compositeView);
+    this.configureKeyBoardListenerWithRepeat();
+  }
+
+
+  public void configureKeyBoardListenerWithRepeat() {
+    KeyboardHandler kbd = new KeyboardHandler();
+
+    kbd.getKeyTypedMap().put('r', new Runnable() {
+      public void run() {
+        System.out.println("Add Repeat Window!\n");
+        repeatAdderViewCreator();
+      }
+    });
+    super.compositeView.addKeyListener(kbd);
+  }
+
+
+  public void exitFromRepeatAdder() {
+    repeatAdderView.setVisible(false);
+    super.compositeView.refreshGuiViewFromModel(model);
+    //this.compositeView.setGuiView(new GuiViewFrame(model));
+    super.compositeView.initialize();
+    super.compositeView.resetFocus();
+    super.compositeView.addActionListener(this);
+    super.configureKeyBoardListener();
+    super.configureMouseListener();
+    this.configureKeyBoardListenerWithRepeat();
+  }
+
+  public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+      //read from the input textfield
+      case "Set Repeat Button":
+        System.out.println("Set Repeat Button Pressed");
+        System.out.println("Type: " + repeatAdderView.getInputType());
+        System.out.println("Location: " + repeatAdderView.getInputLocation());
+        System.out.println("Alt Ending Length: " + repeatAdderView.getInputAltEnding());
+
+
+        IRepeat.RepeatType inputType = IRepeat.RepeatType.Backward;
+        if(repeatAdderView.getInputType().equals("Forward")){
+          inputType = IRepeat.RepeatType.Forward;
+        }
+
+        //Add Repeat to Model
+        super.model.addRepeat(new Repeat(inputType, Integer.parseInt(repeatAdderView.getInputLocation()), 1, Integer.parseInt(repeatAdderView.getInputAltEnding())));
+
+        exitFromRepeatAdder();
+        break;
+      case "Exit Button":
+        System.out.println("Exit Button Pressed");
+        exitFromRepeatAdder();
+        break;
+    }
+  }
+
+
+  public void repeatAdderViewCreator(){
+    super.compositeView.setVisible(false);
+    repeatAdderView = new RepeatAdderView();
+    repeatAdderView.resetFocus();
+    repeatAdderView.addActionListener(this);
   }
 
   @Override
