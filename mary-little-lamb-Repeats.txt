@@ -2,7 +2,7 @@ tempo 200000
 repeat 0 20 1 4
 repeat 1 5 1 0
 repeat 1 35 1 0
-repeat 0 35 1 0
+repeat 0 40 1 0
 note 0 2 1 64 72
 note 0 7 1 55 70
 note 2 4 1 62 72
