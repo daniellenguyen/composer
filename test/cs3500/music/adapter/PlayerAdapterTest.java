@@ -1,4 +1,4 @@
-package cs3500.music.AdapterTest;
+package cs3500.music.adapter;
 
 
 import org.junit.Test;

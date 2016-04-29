@@ -1,7 +1,6 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Enumeration;
@@ -9,7 +8,7 @@ import java.util.Enumeration;
 import javax.swing.*;
 
 /**
- * Created by Justin Hynes-Bruell on 4/25/2016.
+ * A view allowing for repeats at different intervals
  */
 public class RepeatAdderView extends JFrame {
   private JPanel panelSouth, panelNorth, panelCenter;

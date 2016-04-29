@@ -1,9 +1,8 @@
-package cs3500.music.AdapterTest;
+package cs3500.music.adapter;
 
 import org.junit.Test;
 import cs3500.music.model.SoundUnitToINoteAdapter;
 import cs3500.music.model.SoundUnit;
-import cs3500.music.model.Note;
 import cs3500.music.model2.INote;
 import cs3500.music.model2.Pitch;
 import static org.junit.Assert.*;
