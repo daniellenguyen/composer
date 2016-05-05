@@ -1,13 +1,12 @@
 package cs3500.music.controller;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
 import cs3500.music.model.IRepeat;
 import cs3500.music.model.Repeat;
 import cs3500.music.model.SoundUnitList;
-import cs3500.music.view.ICompositeView;
+import cs3500.music.view.CompositeView;
 import cs3500.music.view.RepeatAdderView;
 
 /**
@@ -31,7 +30,7 @@ public class MusicEditorControllerDsCoda extends MusicEditorController {
    * @param model         the input song
    * @param compositeView the input composite view
    */
-  public MusicEditorControllerDsCoda(SoundUnitList model, ICompositeView compositeView) {
+  public MusicEditorControllerDsCoda(SoundUnitList model, CompositeView compositeView) {
     super(model, compositeView);
     this.configureKeyBoardListenerWithRepeat();
   }

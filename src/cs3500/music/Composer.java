@@ -5,6 +5,8 @@ import cs3500.music.controller.MusicEditorControllerDsCoda;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
 import cs3500.music.util.MusicReader;
+import cs3500.music.view.CompositeView;
+import cs3500.music.view.CompositeViewImpl;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -12,15 +14,17 @@ import java.util.Objects;
 import javax.sound.midi.InvalidMidiDataException;
 
 
-public class MusicEditor {
+public class Composer {
   public static void main(String[] args) throws IOException,
           InvalidMidiDataException, InterruptedException {
 
     MusicReader ReaderOfText = new MusicReader();
 
     args = new String[2];
-    args[0] = "mary-little-lamb-Repeats.txt";
-    args[1] = "controllerCoda";
+    args[0] = "mystery-3.txt";
+    args[1] = "controller";
+//    args[0] = "mary-little-lamb-Repeats.txt";
+//    args[1] = "controllerCoda";
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile(args[0]);
 
@@ -38,7 +42,7 @@ public class MusicEditor {
 
     //Old Views and Controller
     if(Objects.equals(args[1], "composite2")){
-      cs3500.music.view.CompositeView newCompositeView = (cs3500.music.view.CompositeView)
+      CompositeViewImpl newCompositeView = (CompositeViewImpl)
               cs3500.music.view.ViewCreator.create(
                       cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
       MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -57,7 +61,7 @@ public class MusicEditor {
       newConsoleView.render();
     }
     else if(Objects.equals(args[1], "controller2")){
-      cs3500.music.view.CompositeView newCompositeView2 = (cs3500.music.view.CompositeView)
+      CompositeViewImpl newCompositeView2 = (CompositeViewImpl)
               cs3500.music.view.ViewCreator.create(
                       cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
       MusicEditorController asddd = new MusicEditorController(inputSong, newCompositeView2);
@@ -88,7 +92,7 @@ public class MusicEditor {
               new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
       cs3500.music.view2.MidiViewImpl newMidiView =
               new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
-      cs3500.music.view.ICompositeView newControllerCompositeAdapter
+      CompositeView newControllerCompositeAdapter
               = new cs3500.music.view.CompositeViewAdapter(newGuiView, newMidiView);
     }
 
@@ -98,9 +102,9 @@ public class MusicEditor {
               new cs3500.music.view2.GuiViewFrame(PlayerModelAdapted);
       cs3500.music.view2.MidiViewImpl newMidiView =
               new cs3500.music.view2.MidiViewImpl(PlayerModelAdapted);
-      cs3500.music.view.ICompositeView newControllerCompositeAdapter =
+      CompositeView newControllerCompositeAdapter =
               new cs3500.music.view.CompositeViewAdapter(newGuiView, newMidiView);
-      MusicEditorController AdaotedInternalsController =
+      MusicEditorController AdaptedInternalsController =
               new MusicEditorController(inputSong, newControllerCompositeAdapter);
     }
 
@@ -109,7 +113,7 @@ public class MusicEditor {
       MusicReader ReaderOfTextRepeat = new MusicReader();
       SoundUnitList inputSongRepeat = ReaderOfText.ReturnNoteListFromFile(args[0]);
 
-      cs3500.music.view.CompositeView newCompositeView2 = (cs3500.music.view.CompositeView)
+      CompositeViewImpl newCompositeView2 = (CompositeViewImpl)
               cs3500.music.view.ViewCreator.create(
                       cs3500.music.view.ViewCreator.ViewType.COMPOSITE, inputSong);
 

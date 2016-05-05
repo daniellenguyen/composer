@@ -16,9 +16,9 @@ import cs3500.music.model.SoundUnitListToIPlayerModelAdapter;
 import cs3500.music.model2.IPlayerModel;
 
 
-public class CompositeViewAdapter implements cs3500.music.view.ICompositeView {
+public class CompositeViewAdapter implements CompositeView {
 
-//  cs3500.music.view2.IGuiView guiView;
+//  cs3500.music.view2.GuiView guiView;
 //  cs3500.music.view2.IMidiImpl midiView;
   cs3500.music.view2.GuiViewFrame guiView;
   cs3500.music.view2.MidiViewImpl midiView;

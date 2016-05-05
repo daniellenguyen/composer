@@ -8,7 +8,7 @@ import cs3500.music.controller.MouseHandler;
 /**
  * Created by Justin Hynes-Bruell on 4/18/2016.
  */
-public interface IGuiView {
+public interface GuiView {
 
   void initialize();
 

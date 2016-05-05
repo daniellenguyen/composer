@@ -5,18 +5,16 @@ import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.sound.midi.InvalidMidiDataException;
-
 import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
-import cs3500.music.view.ICompositeView;
+import cs3500.music.view.CompositeView;
 import cs3500.music.view.NoteAdderView;
 
 public class MusicEditorController implements Controller {
 
   protected SoundUnitList model;
-  protected ICompositeView compositeView;
+  protected CompositeView compositeView;
   private NoteAdderView noteAdderView;
 
   private Timer musicTimer;
@@ -29,7 +27,7 @@ public class MusicEditorController implements Controller {
    * @param model the input song
    * @param compositeView the input composite view
    */
-  public MusicEditorController(SoundUnitList model, ICompositeView compositeView) {
+  public MusicEditorController(SoundUnitList model, CompositeView compositeView) {
     this.model = model;
     this.compositeView = compositeView;
     configureKeyBoardListener();

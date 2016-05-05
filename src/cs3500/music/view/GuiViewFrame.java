@@ -6,13 +6,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import cs3500.music.controller.MouseHandler;
-import cs3500.music.model.SoundUnit;
 import cs3500.music.model.SoundUnitList;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends javax.swing.JFrame implements View, IGuiView {
+public class GuiViewFrame extends javax.swing.JFrame implements View, GuiView {
   SoundUnitList soundUnitList;
 
   private JPanel displayPanel;

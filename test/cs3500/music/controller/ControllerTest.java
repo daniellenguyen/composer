@@ -7,7 +7,7 @@ import java.awt.*;
 import cs3500.music.model.Note;
 import cs3500.music.model.SoundUnitList;
 import cs3500.music.util.MusicReader;
-import cs3500.music.view.CompositeView;
+import cs3500.music.view.CompositeViewImpl;
 import cs3500.music.view.ViewCreator;
 
 /**
@@ -21,7 +21,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -33,7 +33,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-1.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -45,7 +45,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("ChromaticScale.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -56,7 +56,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("BugTestSong.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -68,7 +68,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-2.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -80,7 +80,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mystery-3.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -92,7 +92,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -106,7 +106,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
@@ -132,7 +132,7 @@ public class ControllerTest {
 
     SoundUnitList inputSong = ReaderOfText.ReturnNoteListFromFile("mary-little-lamb.txt");
 
-    CompositeView newCompositeView = (CompositeView)
+    CompositeViewImpl newCompositeView = (CompositeViewImpl)
             ViewCreator.create(ViewCreator.ViewType.COMPOSITE, inputSong);
 
     MusicEditorController asd = new MusicEditorController(inputSong, newCompositeView);
