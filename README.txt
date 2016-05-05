@@ -9,8 +9,8 @@ To run using the command line, use any of the five commands below:
 
 Controls:
  - Press "left mouse button" where you would like to create a note.
- - To create a longer note, after pressing the "left mouse button", drag the mouse to the right for
-   the desired length
+ - To create a longer note, after pressing the "left mouse button", 
+   drag the mouse to the right for the desired length
  - Press "Right Mouse button" on a note to delete it
  - Press "Middle mouse button" on a Note and Drag it to move a note.
  - Press "Space Bar" to Play the Song from Where you are Currently
